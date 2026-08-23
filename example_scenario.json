@@ -1,0 +1,11 @@
+{
+  "forecast_horizon_days": 7,
+  "fatalities": 12,
+  "civilian_fatalities": 3,
+  "violence_type": 1,
+  "source_count": 5,
+  "reliefweb_activity": 8,
+  "reliefweb_attack": 4,
+  "reliefweb_harm": 3,
+  "reliefweb_displacement": 2
+}

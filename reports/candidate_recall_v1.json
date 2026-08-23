@@ -1,0 +1,52 @@
+{
+  "interpretation": "Retrospective candidate recall only; not forecast performance",
+  "validation": {
+    "conflict_history": {
+      "samples": 23690,
+      "mean_error_km": 10.299437109211611,
+      "mean_error_95ci_km": [
+        9.674992584675934,
+        10.941961639991122
+      ],
+      "median_error_km": 0.0,
+      "p90_error_km": 21.89752812956585,
+      "within_25km": 0.9098775854791051
+    },
+    "country_history": {
+      "samples": 23690,
+      "mean_error_km": 3.654500105758262,
+      "mean_error_95ci_km": [
+        3.3320343215768142,
+        4.147778662419936
+      ],
+      "median_error_km": 0.0,
+      "p90_error_km": 8.840141094531669,
+      "within_25km": 0.9672013507809202
+    }
+  },
+  "untouched_test": {
+    "conflict_history": {
+      "samples": 23690,
+      "mean_error_km": 10.25870618849112,
+      "mean_error_95ci_km": [
+        9.348991133648775,
+        11.37626211923664
+      ],
+      "median_error_km": 0.0,
+      "p90_error_km": 20.81445832663533,
+      "within_25km": 0.9154073448712537
+    },
+    "country_history": {
+      "samples": 23690,
+      "mean_error_km": 3.066511045428318,
+      "mean_error_95ci_km": [
+        2.7747820293280685,
+        3.4864527694530536
+      ],
+      "median_error_km": 0.0,
+      "p90_error_km": 7.5621423670247445,
+      "within_25km": 0.9736175601519629
+    }
+  },
+  "cutoff_policy": "Banks update only after every event on a target date is scored"
+}

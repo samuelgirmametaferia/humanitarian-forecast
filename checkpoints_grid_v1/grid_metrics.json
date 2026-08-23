@@ -1,0 +1,23 @@
+{
+  "resolution_degrees": 0.5,
+  "classes": 5734,
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 312.4719543457031,
+    "median_error_km": 143.04820251464844,
+    "p90_error_km": 665.4226684570312,
+    "within_25km": 0.14955677092075348
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 494.1139831542969,
+    "median_error_km": 190.81483459472656,
+    "p90_error_km": 991.7657470703125,
+    "within_25km": 0.11882650852203369
+  },
+  "unknown_target_cell_rate": {
+    "validation": 0.11485859006643295,
+    "test": 0.18623891472816467
+  },
+  "data_policy": "training-vocabulary cells only; Telegram excluded"
+}

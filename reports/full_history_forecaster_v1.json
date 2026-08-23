@@ -1,0 +1,224 @@
+{
+  "selection": "minimum validation mean error; test evaluated once",
+  "selected_config": {
+    "neighbors": 16,
+    "bandwidth_km": 100.0,
+    "recency": 64,
+    "persistence_weight": 0.25
+  },
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 270.84547548064774,
+    "mean_error_95ci_km": [
+      263.512639391606,
+      278.2704209974757
+    ],
+    "median_error_km": 105.00026639376694,
+    "p90_error_km": 589.3631395666531,
+    "within_25km": 0.1771211481637822
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 247.8469918878326,
+    "mean_error_95ci_km": [
+      241.59198179588023,
+      254.47680078597782
+    ],
+    "median_error_km": 101.9046762600558,
+    "p90_error_km": 524.2096846849151,
+    "within_25km": 0.21135500211059519
+  },
+  "top_validation_trials": [
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 100.0,
+        "recency": 64,
+        "persistence_weight": 0.25
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 270.84547548064774,
+        "mean_error_95ci_km": [
+          263.512639391606,
+          278.2704209974757
+        ],
+        "median_error_km": 105.00026639376694,
+        "p90_error_km": 589.3631395666531,
+        "within_25km": 0.1771211481637822
+      }
+    },
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 100.0,
+        "recency": 64,
+        "persistence_weight": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 274.67365597975834,
+        "mean_error_95ci_km": [
+          267.3118971030174,
+          282.00115434318576
+        ],
+        "median_error_km": 107.74441090261348,
+        "p90_error_km": 601.9731242112805,
+        "within_25km": 0.16956521739130434
+      }
+    },
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 25.0,
+        "recency": 64,
+        "persistence_weight": 0.25
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 277.8685910704175,
+        "mean_error_95ci_km": [
+          270.5743390907675,
+          285.4395678796018
+        ],
+        "median_error_km": 104.91626660280556,
+        "p90_error_km": 604.1526632885922,
+        "within_25km": 0.1799071338117349
+      }
+    },
+    {
+      "config": {
+        "neighbors": 4,
+        "bandwidth_km": 100.0,
+        "recency": 64,
+        "persistence_weight": 0.25
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 279.59328246537945,
+        "mean_error_95ci_km": [
+          272.28479902941035,
+          287.1601886043193
+        ],
+        "median_error_km": 107.58492282083063,
+        "p90_error_km": 604.4714299800315,
+        "within_25km": 0.18644997889404813
+      }
+    },
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 100.0,
+        "recency": 4096,
+        "persistence_weight": 0.25
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 280.56821776713156,
+        "mean_error_95ci_km": [
+          273.01850661346344,
+          288.3006433526539
+        ],
+        "median_error_km": 112.2660918530987,
+        "p90_error_km": 577.679592157741,
+        "within_25km": 0.16850991979738286
+      }
+    },
+    {
+      "config": {
+        "neighbors": 4,
+        "bandwidth_km": 25.0,
+        "recency": 64,
+        "persistence_weight": 0.25
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 283.6263114041911,
+        "mean_error_95ci_km": [
+          276.2526648747652,
+          291.2557686145853
+        ],
+        "median_error_km": 106.93630260750245,
+        "p90_error_km": 625.652439758259,
+        "within_25km": 0.18805403123680878
+      }
+    },
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 25.0,
+        "recency": 4096,
+        "persistence_weight": 0.25
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 283.99910508652493,
+        "mean_error_95ci_km": [
+          276.39900520126486,
+          292.039350211753
+        ],
+        "median_error_km": 112.5938620511607,
+        "p90_error_km": 588.6404019763727,
+        "within_25km": 0.16914309835373575
+      }
+    },
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 25.0,
+        "recency": 64,
+        "persistence_weight": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 285.2364336588927,
+        "mean_error_95ci_km": [
+          277.51306605232134,
+          293.1042722542719
+        ],
+        "median_error_km": 107.14608255090943,
+        "p90_error_km": 644.2502696687712,
+        "within_25km": 0.17661460531869988
+      }
+    },
+    {
+      "config": {
+        "neighbors": 16,
+        "bandwidth_km": 100.0,
+        "recency": 4096,
+        "persistence_weight": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 285.4991342470564,
+        "mean_error_95ci_km": [
+          277.84893153580697,
+          293.2367363491679
+        ],
+        "median_error_km": 116.66563507633143,
+        "p90_error_km": 602.3175710223571,
+        "within_25km": 0.16070071760236387
+      }
+    },
+    {
+      "config": {
+        "neighbors": 4,
+        "bandwidth_km": 100.0,
+        "recency": 64,
+        "persistence_weight": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 288.12741263640817,
+        "mean_error_95ci_km": [
+          280.5277579254309,
+          295.96448732277895
+        ],
+        "median_error_km": 109.3434965181141,
+        "p90_error_km": 612.22707458719,
+        "within_25km": 0.18518362178134234
+      }
+    }
+  ],
+  "data_policy": "UCDP only; full history is updated after each forecast date; Telegram excluded"
+}

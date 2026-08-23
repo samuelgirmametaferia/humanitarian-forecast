@@ -1,0 +1,197 @@
+{
+  "selection": "query and candidate bank selected by validation mean error",
+  "selected": {
+    "query": "top1_history_blend_0.80",
+    "bank": "country"
+  },
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 231.1631560252707,
+    "mean_error_95ci_km": [
+      224.58882316462694,
+      238.05084362254647
+    ],
+    "median_error_km": 77.98872656148028,
+    "p90_error_km": 492.16724981658115,
+    "within_25km": 0.2409033347403968
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 220.56194443583453,
+    "mean_error_95ci_km": [
+      214.52485632260223,
+      226.29243715194164
+    ],
+    "median_error_km": 77.05255505981742,
+    "p90_error_km": 494.40359300790453,
+    "within_25km": 0.2641620937104263
+  },
+  "validation_trials": [
+    {
+      "query": "top1_history_blend_0.80",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.1631560252707,
+        "mean_error_95ci_km": [
+          224.58882316462694,
+          238.05084362254647
+        ],
+        "median_error_km": 77.98872656148028,
+        "p90_error_km": 492.16724981658115,
+        "within_25km": 0.2409033347403968
+      }
+    },
+    {
+      "query": "top1_history_blend_0.70",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.2998188736308,
+        "mean_error_95ci_km": [
+          224.9438525422027,
+          238.30787008151037
+        ],
+        "median_error_km": 80.3473902187204,
+        "p90_error_km": 478.9759053322013,
+        "within_25km": 0.23018151118615449
+      }
+    },
+    {
+      "query": "top1_history_blend_0.85",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.30670068276416,
+        "mean_error_95ci_km": [
+          224.88290782949935,
+          238.15593198128863
+        ],
+        "median_error_km": 76.7147873416452,
+        "p90_error_km": 497.4463641707083,
+        "within_25km": 0.24786829886027859
+      }
+    },
+    {
+      "query": "top1_history_blend_0.75",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.37805746680314,
+        "mean_error_95ci_km": [
+          224.868966861867,
+          238.4196905755774
+        ],
+        "median_error_km": 79.8781004430974,
+        "p90_error_km": 485.74623661313075,
+        "within_25km": 0.23469818488813846
+      }
+    },
+    {
+      "query": "top1_history_blend_0.90",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.38358663916517,
+        "mean_error_95ci_km": [
+          224.8661405374553,
+          238.04980205240622
+        ],
+        "median_error_km": 74.88285650520731,
+        "p90_error_km": 503.152251784148,
+        "within_25km": 0.2575770367243563
+      }
+    },
+    {
+      "query": "top1_history_blend_0.55",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.6584929885982,
+        "mean_error_95ci_km": [
+          225.24056746990092,
+          238.52500991867822
+        ],
+        "median_error_km": 84.74772302568198,
+        "p90_error_km": 474.8454181994194,
+        "within_25km": 0.21941747572815534
+      }
+    },
+    {
+      "query": "top1_history_blend_0.65",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.687496525442,
+        "mean_error_95ci_km": [
+          225.2032481588644,
+          238.61291225798058
+        ],
+        "median_error_km": 80.79591211003799,
+        "p90_error_km": 477.65433419710797,
+        "within_25km": 0.22494723512030393
+      }
+    },
+    {
+      "query": "top1_history_blend_0.60",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 231.9046965392873,
+        "mean_error_95ci_km": [
+          225.65992018450763,
+          238.7828380344776
+        ],
+        "median_error_km": 82.97921435969562,
+        "p90_error_km": 475.28617426339827,
+        "within_25km": 0.22249894470240608
+      }
+    },
+    {
+      "query": "top1_history_blend_0.95",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 232.1384781108653,
+        "mean_error_95ci_km": [
+          225.58804752910515,
+          238.7865668816433
+        ],
+        "median_error_km": 73.42048281352629,
+        "p90_error_km": 509.25364545853836,
+        "within_25km": 0.26673701983959475
+      }
+    },
+    {
+      "query": "top1_history_blend_0.50",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 232.4651969691711,
+        "mean_error_95ci_km": [
+          226.09966526835015,
+          239.49634094977554
+        ],
+        "median_error_km": 87.14285455677545,
+        "p90_error_km": 475.2960820313848,
+        "within_25km": 0.21566061629379485
+      }
+    },
+    {
+      "query": "mixture_top1",
+      "bank": "country",
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 233.03884791965191,
+        "mean_error_95ci_km": [
+          226.436711642873,
+          239.72108510006174
+        ],
+        "median_error_km": 73.88641003362832,
+        "p90_error_km": 514.9958357547663,
+        "within_25km": 0.27539046010975093
+      }
+    }
+  ],
+  "cutoff_policy": "candidate banks update after all forecasts on each target date"
+}

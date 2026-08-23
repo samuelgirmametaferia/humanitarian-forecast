@@ -1,0 +1,8 @@
+{
+  "best_validation_loss": 1.364355070516467,
+  "intensity_mae": 0.16931140422821045,
+  "escalation_accuracy": 0.5854570865631104,
+  "escalation_recall": 0.6819637139807898,
+  "average_precision": 0.11563966928195038,
+  "positive_rate": 0.05940154567360878
+}

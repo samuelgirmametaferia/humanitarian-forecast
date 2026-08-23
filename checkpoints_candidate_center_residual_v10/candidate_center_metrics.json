@@ -1,0 +1,8 @@
+{
+  "decision": "rejected_before_test",
+  "best_validation_mean_km": 208.1126708984375,
+  "validation_gate_km": 205.6698455810547,
+  "selected_epochs": 13,
+  "protocol": "phase1 train70/validate15 only; test remained unread because validation gate failed",
+  "data_policy": "cutoff-safe candidates and features; Telegram excluded"
+}

@@ -1,0 +1,20 @@
+{
+  "mode": "retrospective post-cutoff assisted; not deployable for real future forecasts",
+  "selected_on_validation": {
+    "future_window_days": 30,
+    "boost": 1.0,
+    "mean_error_km": 190.7132568359375,
+    "median_error_km": 75.99285888671875,
+    "p90_error_km": 399.8637390136719,
+    "within_25km": 0.25213170051574707
+  },
+  "untouched_test": {
+    "future_window_days": 30,
+    "boost": 1.0,
+    "mean_error_km": 195.64096069335938,
+    "median_error_km": 75.23808288574219,
+    "p90_error_km": 436.1272888183594,
+    "within_25km": 0.27750104665756226
+  },
+  "future_information": "same-conflict location occurrences strictly after target date; target-day record excluded"
+}

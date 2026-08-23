@@ -1,0 +1,27 @@
+{
+  "components": 5,
+  "calibration_multiplier": 0.445595383644104,
+  "target_coverage": 0.8,
+  "radius_floor_km": 50,
+  "validation": {
+    "samples": 23690,
+    "top1_mean_error_km": 272.5471496582031,
+    "top1_median_error_km": 95.93819427490234,
+    "top1_p90_error_km": 584.1429443359375,
+    "best_of_k_median_error_km": 43.76669692993164,
+    "best_of_k_p90_error_km": 259.19384765625,
+    "union_circle_coverage": 0.8261291980743408,
+    "median_component_radius_km": 52.46299362182617
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "top1_mean_error_km": 250.14854431152344,
+    "top1_median_error_km": 92.208740234375,
+    "top1_p90_error_km": 567.3972778320312,
+    "best_of_k_median_error_km": 42.70175552368164,
+    "best_of_k_p90_error_km": 240.1595916748047,
+    "union_circle_coverage": 0.8308569192886353,
+    "median_component_radius_km": 51.83767318725586
+  },
+  "data_policy": "UCDP georeferenced events + ReliefWeb context; no Telegram"
+}

@@ -1,0 +1,225 @@
+{
+  "selection": "ranking weights selected by chronological validation mean error",
+  "query": "80% mixture top-1 + 20% shrunk history mean",
+  "selected_config": {
+    "anchor_weight": 0.0,
+    "country_frequency_bonus_km": 7.5,
+    "conflict_frequency_bonus_km": 0.0,
+    "recency_penalty_km": 0.0
+  },
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 230.82946116764936,
+    "mean_error_95ci_km": [
+      224.2555518012209,
+      237.8214226542809
+    ],
+    "median_error_km": 79.62249314835097,
+    "p90_error_km": 491.45595717443,
+    "within_25km": 0.25365132967496834
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 219.87533225442735,
+    "mean_error_95ci_km": [
+      213.86653908145553,
+      225.7542302444492
+    ],
+    "median_error_km": 77.69355087612908,
+    "p90_error_km": 495.5769809800521,
+    "within_25km": 0.27864077669902915
+  },
+  "top_validation_trials": [
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 7.5,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.82946116764936,
+        "mean_error_95ci_km": [
+          224.2555518012209,
+          237.8214226542809
+        ],
+        "median_error_km": 79.62249314835097,
+        "p90_error_km": 491.45595717443,
+        "within_25km": 0.25365132967496834
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 5.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 2.5
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.85321281178335,
+        "mean_error_95ci_km": [
+          224.16296403676208,
+          237.81631564736458
+        ],
+        "median_error_km": 79.21500540892924,
+        "p90_error_km": 492.2084806704416,
+        "within_25km": 0.25647952722667794
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 20.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.89045412408908,
+        "mean_error_95ci_km": [
+          224.27278459239292,
+          237.7980510039794
+        ],
+        "median_error_km": 78.29445168469202,
+        "p90_error_km": 488.6342303956887,
+        "within_25km": 0.28256648374841703
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 10.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.9116636352502,
+        "mean_error_95ci_km": [
+          224.33617952407457,
+          237.89588402056856
+        ],
+        "median_error_km": 79.62249314835097,
+        "p90_error_km": 491.6189253970414,
+        "within_25km": 0.25854791051076403
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 7.5,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 2.5
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.94023977749728,
+        "mean_error_95ci_km": [
+          224.3081812522157,
+          237.91555535513683
+        ],
+        "median_error_km": 79.60043435738656,
+        "p90_error_km": 492.9821940508748,
+        "within_25km": 0.26238919375263825
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 10.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 5.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.948976901956,
+        "mean_error_95ci_km": [
+          224.33033469763518,
+          237.930514264395
+        ],
+        "median_error_km": 79.3393680294473,
+        "p90_error_km": 492.9821940508748,
+        "within_25km": 0.27568594343604896
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 5.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 0.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.95821069961465,
+        "mean_error_95ci_km": [
+          224.3630789680857,
+          237.91243559433326
+        ],
+        "median_error_km": 79.34381845938759,
+        "p90_error_km": 492.16724981658115,
+        "within_25km": 0.2456732798649219
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 5.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 5.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.96753909059012,
+        "mean_error_95ci_km": [
+          224.31894089316495,
+          237.89963846286983
+        ],
+        "median_error_km": 79.4950582945757,
+        "p90_error_km": 493.3647972509073,
+        "within_25km": 0.26340227944280287
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 10.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 2.5
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.96856351424918,
+        "mean_error_95ci_km": [
+          224.30651469434144,
+          237.96891118962085
+        ],
+        "median_error_km": 79.62249314835097,
+        "p90_error_km": 492.9821940508748,
+        "within_25km": 0.2687209793161672
+      }
+    },
+    {
+      "config": {
+        "anchor_weight": 0.0,
+        "country_frequency_bonus_km": 20.0,
+        "conflict_frequency_bonus_km": 0.0,
+        "recency_penalty_km": 5.0
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 230.9945853104501,
+        "mean_error_95ci_km": [
+          224.3571185991743,
+          237.99886050076103
+        ],
+        "median_error_km": 77.25308986419039,
+        "p90_error_km": 489.48753055136024,
+        "within_25km": 0.2899957788096243
+      }
+    }
+  ],
+  "cutoff_policy": "candidate counts update after all forecasts on each target date"
+}

@@ -1,0 +1,223 @@
+{
+  "selection_protocol": "train70/validate15; select epoch and calibration on validation only; frozen train85 checkpoint evaluated once on test15",
+  "selected_epoch": 12,
+  "selected_calibration": {
+    "aggregation": "weighted_geometric_median",
+    "temperature": 1.0
+  },
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 205.6698455810547,
+    "median_error_km": 66.93018341064453,
+    "p90_error_km": 436.5502624511719,
+    "within_25km": 0.3099620044231415
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 194.35647583007812,
+    "median_error_km": 61.01002883911133,
+    "p90_error_km": 435.0920104980469,
+    "within_25km": 0.3439425826072693
+  },
+  "validation_trials": [
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 0.25,
+      "samples": 23690,
+      "mean_error_km": 211.80487060546875,
+      "median_error_km": 68.28509521484375,
+      "p90_error_km": 474.7684020996094,
+      "within_25km": 0.3119037449359894
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 0.35,
+      "samples": 23690,
+      "mean_error_km": 209.42921447753906,
+      "median_error_km": 69.03421020507812,
+      "p90_error_km": 463.3475341796875,
+      "within_25km": 0.30282819271087646
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 0.5,
+      "samples": 23690,
+      "mean_error_km": 207.64739990234375,
+      "median_error_km": 71.60145568847656,
+      "p90_error_km": 448.37200927734375,
+      "within_25km": 0.28552132844924927
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 0.65,
+      "samples": 23690,
+      "mean_error_km": 207.4898681640625,
+      "median_error_km": 75.18246459960938,
+      "p90_error_km": 436.9464111328125,
+      "within_25km": 0.26753905415534973
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 0.8,
+      "samples": 23690,
+      "mean_error_km": 208.48480224609375,
+      "median_error_km": 79.59679412841797,
+      "p90_error_km": 432.5858154296875,
+      "within_25km": 0.2504432201385498
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 1.0,
+      "samples": 23690,
+      "mean_error_km": 211.296142578125,
+      "median_error_km": 84.59879302978516,
+      "p90_error_km": 427.1145324707031,
+      "within_25km": 0.23334740102291107
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 1.25,
+      "samples": 23690,
+      "mean_error_km": 217.6851043701172,
+      "median_error_km": 91.09651947021484,
+      "p90_error_km": 440.2311706542969,
+      "within_25km": 0.2118193358182907
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 1.5,
+      "samples": 23690,
+      "mean_error_km": 226.3839569091797,
+      "median_error_km": 96.49150085449219,
+      "p90_error_km": 474.3106994628906,
+      "within_25km": 0.1907978057861328
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 2.0,
+      "samples": 23690,
+      "mean_error_km": 246.11903381347656,
+      "median_error_km": 105.045166015625,
+      "p90_error_km": 525.5650634765625,
+      "within_25km": 0.1548754721879959
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 3.0,
+      "samples": 23690,
+      "mean_error_km": 278.15985107421875,
+      "median_error_km": 118.31243133544922,
+      "p90_error_km": 608.7160034179688,
+      "within_25km": 0.13697762787342072
+    },
+    {
+      "aggregation": "weighted_mean",
+      "temperature": 4.0,
+      "samples": 23690,
+      "mean_error_km": 296.9059143066406,
+      "median_error_km": 123.08084869384766,
+      "p90_error_km": 630.9916381835938,
+      "within_25km": 0.12853524088859558
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.25,
+      "samples": 23690,
+      "mean_error_km": 216.0315399169922,
+      "median_error_km": 67.21500396728516,
+      "p90_error_km": 488.4160461425781,
+      "within_25km": 0.3274799585342407
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.35,
+      "samples": 23690,
+      "mean_error_km": 213.51873779296875,
+      "median_error_km": 65.59374237060547,
+      "p90_error_km": 480.5555725097656,
+      "within_25km": 0.32807090878486633
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.5,
+      "samples": 23690,
+      "mean_error_km": 212.50375366210938,
+      "median_error_km": 64.86133575439453,
+      "p90_error_km": 464.6724548339844,
+      "within_25km": 0.3262980282306671
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.65,
+      "samples": 23690,
+      "mean_error_km": 210.31869506835938,
+      "median_error_km": 64.70271301269531,
+      "p90_error_km": 455.9880676269531,
+      "within_25km": 0.3218235671520233
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.8,
+      "samples": 23690,
+      "mean_error_km": 207.81561279296875,
+      "median_error_km": 65.04100799560547,
+      "p90_error_km": 448.28607177734375,
+      "within_25km": 0.3169269859790802
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 1.0,
+      "samples": 23690,
+      "mean_error_km": 205.6698455810547,
+      "median_error_km": 66.93018341064453,
+      "p90_error_km": 436.5502624511719,
+      "within_25km": 0.3099620044231415
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 1.25,
+      "samples": 23690,
+      "mean_error_km": 207.18243408203125,
+      "median_error_km": 68.10272979736328,
+      "p90_error_km": 426.8743896484375,
+      "within_25km": 0.2986070215702057
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 1.5,
+      "samples": 23690,
+      "mean_error_km": 210.02748107910156,
+      "median_error_km": 70.67366790771484,
+      "p90_error_km": 425.7628479003906,
+      "within_25km": 0.2893203794956207
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 2.0,
+      "samples": 23690,
+      "mean_error_km": 218.84786987304688,
+      "median_error_km": 75.10469818115234,
+      "p90_error_km": 439.437744140625,
+      "within_25km": 0.27125370502471924
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 3.0,
+      "samples": 23690,
+      "mean_error_km": 263.5635070800781,
+      "median_error_km": 85.40412139892578,
+      "p90_error_km": 499.0671691894531,
+      "within_25km": 0.22899958491325378
+    },
+    {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 4.0,
+      "samples": 23690,
+      "mean_error_km": 314.3343200683594,
+      "median_error_km": 94.50119018554688,
+      "p90_error_km": 557.6568603515625,
+      "within_25km": 0.19987335801124573
+    }
+  ],
+  "data_policy": "cutoff-safe candidates and features; Telegram excluded"
+}

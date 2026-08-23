@@ -1,0 +1,22 @@
+{
+  "model": "conflict_candidate_transformer_spatial_rings_geometric_median_v9",
+  "checkpoint": "checkpoints_candidate_ranker_spatial_v9/candidate_ranker_calibrated.pt",
+  "fixed_test_samples": 23690,
+  "prospective_top1_center": {
+    "mean_error_km": 194.35647583007812,
+    "median_error_km": 61.01002883911133,
+    "p90_error_km": 435.0920104980469,
+    "within_25km": 0.3439425826072693,
+    "aggregation": "weighted_geometric_median",
+    "temperature": 1.0
+  },
+  "high_recall_32_candidate_set": {
+    "best_of_set_mean_error_km": 35.99437713623047,
+    "warning": "Best-of-32 candidate coverage, not top-1 accuracy"
+  },
+  "retrospective_reconstructed_center": {
+    "mean_error_km": 35.99437713623047,
+    "warning": "Uses the target-day UCDP record after cutoff to select the nearest generated candidate; not a future forecast"
+  },
+  "data_policy": "Telegram excluded; fixed chronological test retained"
+}

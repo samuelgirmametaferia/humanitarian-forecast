@@ -1,0 +1,225 @@
+{
+  "selection": "transition scope/resolution/support selected on validation mean error",
+  "selected_config": {
+    "scope": "conflict",
+    "source_resolution_degrees": 1e-05,
+    "minimum_count": 8
+  },
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 232.0879142206222,
+    "mean_error_95ci_km": [
+      225.37727615499531,
+      238.66246828927535
+    ],
+    "median_error_km": 76.38751899509349,
+    "p90_error_km": 490.18483742708196,
+    "within_25km": 0.27252005065428453,
+    "transition_use_rate": 0.20025327142254115
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 221.44431181295852,
+    "mean_error_95ci_km": [
+      215.46168357409132,
+      227.52084597555498
+    ],
+    "median_error_km": 74.58720560642246,
+    "p90_error_km": 502.14252017788425,
+    "within_25km": 0.2940481215702828,
+    "transition_use_rate": 0.23499366821443646
+  },
+  "top_validation_trials": [
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 1e-05,
+        "minimum_count": 8
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 232.0879142206222,
+        "mean_error_95ci_km": [
+          225.37727615499531,
+          238.66246828927535
+        ],
+        "median_error_km": 76.38751899509349,
+        "p90_error_km": 490.18483742708196,
+        "within_25km": 0.27252005065428453,
+        "transition_use_rate": 0.20025327142254115
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 1e-05,
+        "minimum_count": 16
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 232.23008777649497,
+        "mean_error_95ci_km": [
+          225.46543614112414,
+          238.9368229197586
+        ],
+        "median_error_km": 76.50945596136916,
+        "p90_error_km": 490.7129575522727,
+        "within_25km": 0.27125369354157874,
+        "transition_use_rate": 0.15673279864921907
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 0.1,
+        "minimum_count": 16
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 232.30229670947693,
+        "mean_error_95ci_km": [
+          225.51564333281962,
+          239.00698474029136
+        ],
+        "median_error_km": 76.62727509024185,
+        "p90_error_km": 490.7129575522727,
+        "within_25km": 0.27112705783030816,
+        "transition_use_rate": 0.1632756437315323
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 0.1,
+        "minimum_count": 8
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 232.31790214994015,
+        "mean_error_95ci_km": [
+          225.60341143284285,
+          238.89226836200706
+        ],
+        "median_error_km": 76.7147873416452,
+        "p90_error_km": 490.216316857173,
+        "within_25km": 0.27184466019417475,
+        "transition_use_rate": 0.21418319966230476
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 0.25,
+        "minimum_count": 16
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 233.01343191495042,
+        "mean_error_95ci_km": [
+          226.21025299797583,
+          239.7259461939131
+        ],
+        "median_error_km": 77.6153323135027,
+        "p90_error_km": 491.0911995656738,
+        "within_25km": 0.2700295483326298,
+        "transition_use_rate": 0.19130434782608696
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 1e-05,
+        "minimum_count": 4
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 233.49197633902995,
+        "mean_error_95ci_km": [
+          226.62533951423615,
+          240.05344982862607
+        ],
+        "median_error_km": 77.05321122899842,
+        "p90_error_km": 490.216316857173,
+        "within_25km": 0.27479949345715493,
+        "transition_use_rate": 0.2639932460953989
+      }
+    },
+    {
+      "config": {
+        "scope": "country",
+        "source_resolution_degrees": 1e-05,
+        "minimum_count": 16
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 233.6693704954115,
+        "mean_error_95ci_km": [
+          226.5470567769962,
+          240.54119064074362
+        ],
+        "median_error_km": 76.55145194394586,
+        "p90_error_km": 494.41930930317193,
+        "within_25km": 0.27298438159560995,
+        "transition_use_rate": 0.19193752638243985
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 0.25,
+        "minimum_count": 8
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 233.7683343759948,
+        "mean_error_95ci_km": [
+          226.98861870353872,
+          240.35274002015888
+        ],
+        "median_error_km": 78.39012570189199,
+        "p90_error_km": 491.24876703443186,
+        "within_25km": 0.27112705783030816,
+        "transition_use_rate": 0.26914309835373573
+      }
+    },
+    {
+      "config": {
+        "scope": "country",
+        "source_resolution_degrees": 0.1,
+        "minimum_count": 16
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 233.98872742776885,
+        "mean_error_95ci_km": [
+          226.9458401341523,
+          240.9172768197263
+        ],
+        "median_error_km": 76.72088996582158,
+        "p90_error_km": 494.8046196476584,
+        "within_25km": 0.27247783875052767,
+        "transition_use_rate": 0.20523427606585057
+      }
+    },
+    {
+      "config": {
+        "scope": "conflict",
+        "source_resolution_degrees": 0.5,
+        "minimum_count": 16
+      },
+      "metrics": {
+        "samples": 23690,
+        "mean_error_km": 234.00744390373737,
+        "mean_error_95ci_km": [
+          227.22005525271666,
+          240.66384511206593
+        ],
+        "median_error_km": 78.58536267124522,
+        "p90_error_km": 491.45595717443,
+        "within_25km": 0.26876319121992404,
+        "transition_use_rate": 0.24508231321232588
+      }
+    }
+  ],
+  "cutoff_policy": "transitions and candidates update after all forecasts on each target date"
+}

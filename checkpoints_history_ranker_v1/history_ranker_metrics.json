@@ -1,0 +1,19 @@
+{
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 300.92852783203125,
+    "median_error_km": 91.91179656982422,
+    "p90_error_km": 606.3031005859375,
+    "within_25km": 0.2654706537723541,
+    "candidate_oracle_mean_km": 48.23472595214844
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 277.2818603515625,
+    "median_error_km": 86.4863510131836,
+    "p90_error_km": 617.3018798828125,
+    "within_25km": 0.28733643889427185,
+    "candidate_oracle_mean_km": 49.47466278076172
+  },
+  "data_policy": "UCDP+ReliefWeb only; Telegram excluded"
+}

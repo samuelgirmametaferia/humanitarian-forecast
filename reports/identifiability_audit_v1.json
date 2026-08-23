@@ -1,0 +1,61 @@
+{
+  "warning": "Uses test targets to fit centers; deliberately optimistic diagnostic, never a forecast",
+  "test_hindsight_risk": {
+    "conflict": {
+      "samples": 23690,
+      "mean_error_km": 223.7008391097196,
+      "mean_error_95ci_km": [
+        217.30503028518189,
+        230.06530800396845
+      ],
+      "median_error_km": 67.2090307643455,
+      "p90_error_km": 492.03980038982473,
+      "within_25km": 0.30869565217391304,
+      "groups": 305,
+      "singleton_rate": 0.001055297593921486,
+      "mean_group_size": 308.1458843393837
+    },
+    "conflict_anchor_1deg": {
+      "samples": 23690,
+      "mean_error_km": 183.26995937079553,
+      "mean_error_95ci_km": [
+        177.70999101047465,
+        189.03733167194497
+      ],
+      "median_error_km": 47.93709002855381,
+      "p90_error_km": 376.8476361153872,
+      "within_25km": 0.3889826931194597,
+      "groups": 2763,
+      "singleton_rate": 0.045588856057408186,
+      "mean_group_size": 90.24533558463487
+    },
+    "conflict_anchor_exact": {
+      "samples": 23690,
+      "mean_error_km": 109.11351580135694,
+      "mean_error_95ci_km": [
+        104.66907007455653,
+        113.79534749437668
+      ],
+      "median_error_km": 0.6201758099310984,
+      "p90_error_km": 243.38507526624392,
+      "within_25km": 0.6371464753060363,
+      "groups": 10859,
+      "singleton_rate": 0.33241874208526806,
+      "mean_group_size": 38.986492190797804
+    },
+    "conflict_anchor_exact_horizon_bucket": {
+      "samples": 23690,
+      "mean_error_km": 79.57059388846045,
+      "mean_error_95ci_km": [
+        75.84760473499968,
+        83.74191594916215
+      ],
+      "median_error_km": 0.0,
+      "p90_error_km": 164.83950543357952,
+      "within_25km": 0.7432249894470241,
+      "groups": 14105,
+      "singleton_rate": 0.48982693119459686,
+      "mean_group_size": 19.844913465597298
+    }
+  }
+}

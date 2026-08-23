@@ -1,0 +1,16 @@
+{
+  "test_samples": 23690,
+  "multi_event_conflict_day_rate": 0.33575348248205994,
+  "events_per_labeled_day": {
+    "mean": 2.760911777121148,
+    "median": 1.0,
+    "p90": 4.0
+  },
+  "first_record_to_other_event_spread_km": {
+    "mean": 117.5780647559576,
+    "median": 0.0,
+    "p90": 333.29872418347543,
+    "over_40km_rate": 0.21667370198395947
+  },
+  "interpretation": "Dataset retains only the first ID-ordered event when a conflict has multiple events on the next active day."
+}

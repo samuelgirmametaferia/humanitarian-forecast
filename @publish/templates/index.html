@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Humanitarian Forecast - Live Prediction Globe</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wghtt@400;500;600&display=swap">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --fg: #e8e8e8;
+            --muted: #7a7a8a;
+            --accent: #00d4aa;
+            --card: #1a1a24;
+            --border: #2a2a3a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            overflow: hidden;
+        }
+
+        #map { width: 100vw; height: 100vh; }
+
+        .sidebar {
+            width: 320px;
+            background: var(--card);
+            border-left: 1px solid var(--border);
+            height: 100vh;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .header {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            color: var(--fg);
+            font-size: 0.875rem;
+            width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 4px;
+            padding: 0.6rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+        }
+
+        .warning {
+            background: rgba(200, 50, 50, 0.1);
+            border: 1px solid rgba(200, 50, 50, 0.3);
+            border-radius 4px;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            color: #ff5f57;
+            margin-top: 0.5rem;
+        }
+
+        .panel {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .panel h3 {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 0 0.75rem 0;
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prediction {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prediction .rank {
+            background: var(--accent);
+            color: var(--bg);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.7rem;
+        }
+
+        .prediction .details {
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .prediction .probability {
+            font-family: 'Inter', monospace;
+            font-size: 0.65rem;
+            background: var(--bg);
+            padding: 0.2rem 0.4rem;
+            border-radius 3px;
+        }
+
+        .prediction .radius {
+            color: var(--muted);
+            font-size: 0.7rem;
+        }
+
+        .loading {
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-left: none;
+                border-top: 1px solid var(--border);
+                flex-direction: column;
+            }
+
+            #map {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="sidebar">
+        <div class="header">
+            <div class="logo">Humanitarian Forecast</div>
+            <div class="subtitle">Research-only predictions</div>
+        </div>
+
+        <div class="warning">
+            ⚠ Research-only predictions. Not verified front lines, safe routes, or evacuation orders.
+        </div>
+
+        <div class="card">
+            <h3>Prediction Parameters</h3>
+            <form id="predForm">
+                <div class="form-group">
+                    <label>Horizon (days)</label>
+                    <input type="number" name="horizon" min="1" max="90" value="7" required>
+                </div>
+                <div class="form-group">
+                    <label>Fatalities</label>
+                    <input type="number" name="fatalities" min="0" step="1" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Civilian fatalities</label>
+                    <input type="number" name="civilian_fatalities" min="0" step="1" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Violence type</label>
+                    <select name="violence_type">
+                        <option value="">Select type</option>
+                        <option value="0">Type 0</option>
+                        <option value="1">Type 1</option>
+                        <option value="2">Type 2</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Source count</label>
+                    <input type="number" name="source_count" min="0" step="1" value="0">
+                </div>
+                <button type="submit" class="btn">Generate Prediction</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Model Versions</h3>
+            <p class="subtitle">v1: Base hierarchical</p>
+            <p class="subtitle">v2: + Grid features</p>
+            <p class="subtitle">v3: + RL marker</p>
+            <p class="subtitle">v4: + Horizon embedding</p>
+        </div>
+
+        <div class="panel">
+            <h3>Prediction Results</h3>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize map
+        const map = L.map('map', {
+            center: [0, 0],
+            zoom: 2,
+            dragging: false,
+            boxZoom: false,
+            doubleClickZoom: false,
+            scrollWheelZoom: false
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 19,
+            subdomains: ['a', 'b', 'c']
+        }).addTo(map);
+
+        // Disable map dragging on sidebar area
+        const sidebar = document.querySelector('.sidebar');
+        let mouseX, mouseY;
+
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+
+        // Update map on resize
+        window.addEventListener('resize', () => {
+            const bounds = map.getBounds();
+            map.setBounds(bounds);
+        });
+
+        // Form submission
+        document.getElementById('predForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Predicting...';
+
+            const formData = new FormData(e.target);
+            const params = {};
+            formData.forEach((v, k) => params[k] = v);
+
+            try {
+                const res = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(params)
+                });
+
+                if (!res.ok) {
+                    throw new Error('API error');
+                }
+                const result = await res.json();
+
+                displayResults(result);
+                addPredictionsToMap(result.predictions);
+
+            } catch (err) {
+                document.getElementById('results').innerHTML = `
+                    <div class="warning">Error: ${err.message || 'Unknown error'}</div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Generate Prediction';
+            }
+        });
+
+        function displayResults(result) {
+            const container = document.getElementById('results');
+            container.innerHTML = '';
+
+            if (result.warning) {
+                container.innerHTML = `<div class="warning">${result.warning}</div>`;
+                return;
+            }
+
+            const p = document.createElement('p');
+            p.textContent = `Forecast horizon: ${result.forecast_horizon_days} days`;
+            container.appendChild(p);
+
+            result.predictions.forEach(pr => {
+                const div = document.createElement('div');
+                div.className = 'prediction';
+                div.innerHTML = `
+                    <div class="rank">#${pr.rank}</div>
+                    <div class="details">
+                        <div>Lat: ${pr.center_latitude_coarse !== undefined ? pr.center_latitude_coordinate || pr.center_latitude_coarse : '?'}</div>
+                        <div>Lon: ${pr.center_longitude_coordinate !== undefined ? pr.center_longitude_coordinate : '?'}</div>
+                    </div>
+                    <div class="probability">${(pr.probability * 100).toFixed(1)}%</div>
+                    <div class="radius">Radius: ${pr.uncertainty_radius_km} km</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addPredictionsToMap(predictions) {
+            // Clear previous markers
+            L.geoJson(null).addTo(map);
+
+            predictions.forEach(pr => {
+                const lat = parseFloat(pr.center_latitude_coordinate || pr.center_latitude_coarse || 0);
+                const lon = parseFloat(pr.center_longitude_coordinate || 0);
+
+                if (lat && lon) {
+                    L.circleMarker([lat, lon], {
+                        radius: pr.uncertainty_radius_km / 2,
+                        fillColor: '#00d4aa',
+                        color: '#00d4aa',
+                        weight: 2,
+                        opacity: 0.8,
+                        fillOpacity: 0.2
+                    }).bindPopup(`
+                        <b>#${pr.rank}</b><br>
+                        Probability: ${(pr.probability * 100).toFixed(1)}%<br>
+                        Radius: ${pr.uncertainty_radius_km} km
+                    `).addTo(map);
+
+                    // Fly to the prediction
+                    map.flyTo([lat, lon], 5, { duration: 1 });
+                }
+            });
+        }
+
+        // Initial load - show first example
+        window.addEventListener('load', () => {
+            // Auto-submit with default params
+            const form = document.getElementById('predForm');
+            const data = new FormData(form);
+            const params = Object.fromEntries(data.entries());
+            fetch('/api/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(params)
+            }).then(res => res.json()).then(result => {
+                displayResults(result);
+                addPredictionsToMap(result.predictions);
+            });
+        });
+    </script>
+</body>
+</html>
