@@ -1,0 +1,54 @@
+{
+  "schema": "humanitarian-forecast-geo-sources/v1",
+  "created": "2026-08-23",
+  "sources": {
+    "copernicus_dem_glo90": {
+      "role": "terrain",
+      "resolution": "90 m",
+      "format": "Cloud Optimized GeoTIFF",
+      "access": "public AWS Open Data, unsigned",
+      "bucket": "https://copernicus-dem-90m.s3.amazonaws.com",
+      "tile_template": "Copernicus_DSM_COG_30_{lat}_{lon}_DEM/Copernicus_DSM_COG_30_{lat}_{lon}_DEM.tif",
+      "release": "Copernicus DEM 2021",
+      "license": "Copernicus DEM free/open public terms",
+      "citation_url": "https://registry.opendata.aws/copernicus-dem/"
+    },
+    "openstreetmap_ethiopia": {
+      "role": "roads_settlements_accessibility",
+      "format": "OSM PBF",
+      "snapshot": "2026-08-01",
+      "url": "https://download.geofabrik.de/africa/ethiopia-260801.osm.pbf",
+      "provider": "Geofabrik / OpenStreetMap",
+      "license": "ODbL",
+      "citation_url": "https://download.geofabrik.de/"
+    },
+    "worldpop_ethiopia_2026": {
+      "role": "population",
+      "resolution": "3 arc-second (~100 m)",
+      "format": "GeoTIFF",
+      "release": "R2025A v1, 2026 constrained estimate",
+      "url": "https://data.worldpop.org/GIS/Population/Global_2015_2030/R2025A/2026/ETH/v1/100m/constrained/eth_pop_2026_CN_100m_R2025A_v1.tif",
+      "license": "CC BY 4.0",
+      "doi": "10.5258/SOTON/WP00839",
+      "citation_url": "https://hub.worldpop.org/geodata/summary?id=73280"
+    },
+    "esa_worldcover_2021": {
+      "role": "land_cover",
+      "resolution": "10 m",
+      "format": "Cloud Optimized GeoTIFF",
+      "release": "2021 v200",
+      "bucket": "s3://esa-worldcover/v200/2021/map",
+      "access": "public AWS Open Data, unsigned",
+      "license": "CC BY 4.0",
+      "citation_url": "https://esa-worldcover.org/en/data-access"
+    },
+    "viirs_monthly": {
+      "role": "night_lights_optional_dynamic",
+      "resolution": "463.83 m",
+      "cadence": "monthly",
+      "earth_engine_asset": "NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG",
+      "availability_note": "Use only images available before each forecast cutoff and include cf_cvg observation coverage.",
+      "citation_url": "https://developers.google.com/earth-engine/datasets/catalog/NOAA_VIIRS_DNB_MONTHLY_V1_VCMSLCFG"
+    }
+  }
+}

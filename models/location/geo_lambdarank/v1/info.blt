@@ -1,0 +1,77 @@
+{
+  "artifacts": [
+    "ensemble_config.json",
+    "geo_lambdarank.txt",
+    "geo_lambdarank_metrics.json"
+  ],
+  "calibration": {
+    "selection": "validation broad_area_score",
+    "temperature": 0.2
+  },
+  "created_at": "2026-08-23T19:43:35.539489+00:00",
+  "description": "Distance-graded LightGBM LambdaRank expert with explicit recent-motion candidate geometry.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "baseline": "models/location/candidate_ranker/v9",
+    "dataset": "data/location/conflict_candidates_32_motion_geo_v6.npz",
+    "restore_tag": "geo-supercharge-preflight-2026-08-23"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.6211403796901802,
+      "candidate_oracle_mean_km": 35.99437713623047,
+      "mean_entropy": 1.7973784593935087,
+      "mean_error_km": 238.73971557617188,
+      "median_error_km": 61.64197540283203,
+      "p90_error_km": 531.972412109375,
+      "probability_mass_within_100km": 0.58222399263835,
+      "probability_mass_within_200km": 0.7205525712914705,
+      "probability_mass_within_25km": 0.33906779915915497,
+      "probability_mass_within_50km": 0.4493892682682019,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6809202195018995,
+      "top3_within_200km": 0.8024905023216548,
+      "top5_within_100km": 0.7295905445335584,
+      "top5_within_200km": 0.8433938370620515,
+      "within_100km": 0.5914309835373576,
+      "within_200km": 0.7259603208104686,
+      "within_25km": 0.3556775010552976,
+      "within_50km": 0.46091177712114817
+    },
+    "validation": {
+      "broad_area_score": 0.6114527672610472,
+      "candidate_oracle_mean_km": 36.495914459228516,
+      "mean_entropy": 1.6715886381119314,
+      "mean_error_km": 258.2008972167969,
+      "median_error_km": 67.50657653808594,
+      "p90_error_km": 541.1658935546875,
+      "probability_mass_within_100km": 0.5716326590328528,
+      "probability_mass_within_200km": 0.7114348513182044,
+      "probability_mass_within_25km": 0.31002457991249593,
+      "probability_mass_within_50km": 0.4292727415952848,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6749683410721824,
+      "top3_within_200km": 0.7944280287040946,
+      "top5_within_100km": 0.7335584634867033,
+      "top5_within_200km": 0.8441114394259182,
+      "within_100km": 0.5818066694807936,
+      "within_200km": 0.7179400590966653,
+      "within_25km": 0.3275643731532292,
+      "within_50km": 0.4419164204305614
+    }
+  },
+  "notes": [
+    "Promoted v9 remains untouched.",
+    "This expert is intended for heterogeneous ensembling with neural geo models."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/geo_lambdarank",
+  "training": {
+    "estimators_requested": 300,
+    "learning_rate": 0.03,
+    "num_leaves": 31,
+    "seed": 20260823,
+    "selected_iteration": 300
+  },
+  "version": "v1"
+}

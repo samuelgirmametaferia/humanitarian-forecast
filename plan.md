@@ -2,6 +2,296 @@
 
 ## Objective
 
+## 2026-08-23 Geo Supercharge Program — ACTIVE
+
+### Immutable restore point / non-destruction rule
+
+Before this program began, the repository was pinned at:
+
+```text
+git tag: geo-supercharge-preflight-2026-08-23
+commit:  1adf232
+branch:  main
+```
+
+This tag is the emergency restore point for all pre-supercharge work. **Do not move or delete it.**
+
+From this point forward:
+
+- [x] Keep `models/location/candidate_ranker/v9/` untouched as the promoted geographical baseline.
+- [x] Keep the temporal-risk v5/v6 artifacts; they may become auxiliary context experts.
+- [ ] Never overwrite or delete a trained model version merely because a newer experiment wins.
+- [ ] Never use `git reset --hard`, destructive cleanup, or in-place model replacement as part of model research.
+- [ ] Every new dataset/model is additive and gets a schema/version plus lineage back to the source data and commit.
+- [ ] Failed experiments may be marked rejected in metadata, but artifacts produced with compute are preserved unless the project owner explicitly asks for removal.
+
+### Primary modeling objective
+
+The research target is now explicitly **broad-area geographical early warning**: estimate the probability distribution over the next coarse geographic zones where organized conflict is likely to emerge, persist, or intensify. The system should learn geographic propagation rather than emit only one scalar risk value.
+
+The public/humanitarian product should expose coarse zones/admin areas and calibrated uncertainty. Internal training may use continuous coordinates and finer cells as latent supervision, but production interfaces must not become a unit-tracking, tactical-routing, or exact strike-coordinate system.
+
+### Why v9 is the baseline, not the endpoint
+
+The promoted v9 candidate ranker has approximately:
+
+```text
+median error              61.01 km
+mean error               194.36 km
+p90 error                435.09 km
+within 25 km              34.39%
+candidate-oracle mean      35.99 km
+```
+
+The large gap between candidate-oracle error and final prediction error shows two distinct bottlenecks:
+
+1. **Ranking/representation bottleneck:** the model often has a useful candidate available but assigns probability poorly.
+2. **Candidate-coverage bottleneck:** a historical-location-only candidate bank cannot represent every new geographic expansion.
+
+The supercharge program therefore improves both the representation/ranker and the spatial support of the forecast.
+
+### Research findings that directly change the architecture
+
+Current high-quality conflict forecasting systems suggest the following design choices:
+
+- **ACLED CAST:** strong tree-based forecasting with conflict lags/trends, neighboring-area spillover, population/development covariates, and rolling-origin validation. Treat this as evidence that static geography + explicit lag features + rigorous temporal validation matter as much as model size.
+- **VIEWS:** ensembles of specialized random-forest/gradient-boosting/Markov/hurdle models are more robust than a single learner; high-resolution systems also use spatial convolutions/recurrent or graph models.
+- **VIEWS prediction challenge:** uncertainty-aware, zero-inflated/hurdle and global/local ensemble approaches are competitive; news-derived semantic topics can add predictive information.
+
+Implementation consequence: build a **heterogeneous ensemble** whose neural geo model, tabular/tree model, v9 expert, and persistence/hotspot experts make different errors. Do not use model size as a substitute for feature quality.
+
+### GeoBrain data contract
+
+All geographical context is compiled into a reusable, cutoff-safe feature store before training. Raw rasters/vectors are never read inside the neural training loop. The canonical coarse-cell feature families are:
+
+#### Dynamic conflict state
+
+- event counts and fatalities over 1d / 3d / 7d / 30d / 90d / 365d
+- time since last event
+- active-day density
+- historical recurrence
+- event-type mixture
+- local acceleration/deceleration
+- transition counts between areas
+- source diversity / confidence
+
+#### Direction and momentum
+
+- last-step east/north displacement
+- elapsed time and speed
+- bearing sin/cos
+- EWMA velocity over multiple recent-event windows
+- acceleration
+- directional concentration / entropy
+- hotspot centroid motion
+- spread / contraction of the active area
+
+**Immediate existing-data win:** `data/location/next_location_motion_v3.npz` already contains six motion channels that promoted v9 does not consume. The first challenger must use them.
+
+#### Neighbor / spillover state
+
+For each candidate/coarse cell:
+
+- ring counts and fatalities at multiple radii
+- neighboring-cell activity and recency
+- distance-decayed event intensity
+- adjacent-cell acceleration
+- cross-border spillover where applicable
+- source/report velocity nearby
+
+#### Terrain and hydrology
+
+Primary source: **Copernicus DEM GLO-30/GLO-90**, obtainable as open Cloud-Optimized GeoTIFFs from the public AWS registry. Aggregate to the forecasting cell rather than preserving 30 m tactical detail.
+
+Features:
+
+- elevation mean / std / p10 / p50 / p90
+- slope mean / p90
+- ruggedness / local relief
+- elevation gradient
+- fraction of steep terrain
+- optional Height Above Nearest Drainage (HAND) and coarse drainage accessibility
+
+#### Roads / accessibility / settlements
+
+Primary source: **OpenStreetMap**, with versioned Ethiopia extracts from Geofabrik. A dated snapshot is mandatory for historical reproducibility.
+
+Aggregate features:
+
+- road length by broad class
+- intersection density
+- settlement/place counts
+- building density when available
+- distance/travel-access proxy to major settlements
+- border proximity
+- health/humanitarian POI density only as coarse accessibility context
+
+Do not encode or expose inferred military routes or unit positions.
+
+#### Population / built environment
+
+Primary source: **WorldPop** Ethiopia gridded population; pin the exact release/year used in each experiment.
+
+Features:
+
+- total population
+- log population
+- population density
+- urban concentration
+- population-weighted settlement accessibility
+
+#### Land cover
+
+Primary source: **ESA WorldCover** 10 m global product, aggregated to coarse cells.
+
+Features:
+
+- built-up share
+- cropland share
+- forest/shrub/grass shares
+- water/wetland share
+- bare/sparse share
+- land-cover entropy
+
+#### Optional dynamic Earth-observation context
+
+Only add a source after a causal ablation demonstrates value. Candidates:
+
+- CHIRPS precipitation / rainfall anomaly
+- VIIRS monthly night-light radiance and change, with observation-coverage mask
+- coarse vegetation/drought indicators
+
+Never use imagery acquired after an example's forecast cutoff.
+
+#### Humanitarian / semantic context
+
+- ReliefWeb localized report intensity and semantic embeddings
+- displacement/access/infrastructure/civilian-impact signals
+- eventually structured public/Telegram event semantics with publication-time provenance
+- source reliability and contradiction features
+
+### GeoBrain storage layout
+
+```text
+data/geo/raw/<source>/<snapshot>/...
+data/geo/derived/<schema>/cells.parquet|npz
+data/geo/manifests/<snapshot>.json
+data/location/<dataset-version>.npz
+models/location/<model-family>/<version>/
+reports/location/experiments/<experiment-id>/
+```
+
+Every geo manifest records source URL/provider, license/citation, acquisition timestamp, release date, checksum, spatial resolution, temporal coverage, and transformation code version.
+
+### Model architecture: GeoFusion challenger
+
+The first large neural challenger should not simply enlarge v9. Use a factorized architecture:
+
+```text
+recent event sequence (motion-aware) ──► temporal Transformer + local temporal conv
+                                               │
+static/dynamic candidate-cell features ─► candidate encoder
+                                               │
+country/conflict context embeddings ───────────┤
+                                               ▼
+                              candidate → history cross-attention
+                                               │
+                              candidate self-attention / competition
+                                               │
+                      ┌────────────────────────┴──────────────────────┐
+                      ▼                                               ▼
+             broad-area probability head                    uncertainty/radius head
+```
+
+Required properties:
+
+- candidate queries attend directly to the entire event sequence instead of only one pooled vector;
+- candidate self-attention lets plausible areas compete in context;
+- magnitude-preserving featurewise normalization for sparse count channels;
+- motion-v3 history is consumed from the first experiment onward;
+- static geography is encoded separately from rapidly changing conflict signals;
+- coarse-cell probability is the primary product; continuous point estimates remain diagnostic only;
+- model size is increased only after representation and leakage tests pass.
+
+### Spatial support / candidate expansion
+
+v9 only ranks historically observed locations. Add an expanded broad-area candidate bank consisting of:
+
+- historically active cells,
+- neighboring coarse cells around recent activity,
+- directionally projected coarse cells derived from momentum,
+- persistent historical hotspots,
+- admin-region centroids / populated coarse cells where appropriate.
+
+All candidate generation must use only pre-cutoff information. Store a `candidate_source` bitmask so ablations can identify whether a gain came from history, neighbors, momentum projection, or static hotspot coverage.
+
+### Losses
+
+Do not supervise only the single nearest candidate. Train a spatial distribution:
+
+```text
+L = hard_target_CE
+  + λ_soft * distance_soft_label_CE
+  + λ_dist * expected_geodesic_distance
+  + λ_area * multiresolution_area_CE
+  + λ_cal * probability_calibration_term
+```
+
+Distance-soft labels assign partial probability to nearby coarse zones instead of declaring a 1 km boundary crossing totally wrong. Multi-resolution heads predict the same target at coarse and medium scales, forcing the representation to learn the general war-zone geometry before precise ranking.
+
+### Ensemble
+
+Keep all of these as independently measurable experts:
+
+1. frozen v9 ranker;
+2. GeoFusion neural model;
+3. gradient-boosted tabular geo expert;
+4. historical hotspot/persistence expert;
+5. optional temporal-risk v6 coarse escalation context.
+
+Fit simple ensemble weights on rolling validation forecasts. Prefer simple averaging/regularized weights over fragile high-dimensional stacking unless rolling-origin evidence clearly favors it.
+
+### Evaluation protocol — mandatory before promotion
+
+A single 70/15/15 split is no longer enough for architecture search. Add expanding-window rolling origins modeled after current operational forecasting practice. At minimum report:
+
+```text
+mean / median / p90 geodesic error (diagnostic)
+within 50 / 100 / 200 km
+coarse-cell top-1 hit
+coarse-cell recall@3 / recall@5
+ADMIN1 hit rate where labels permit
+negative log likelihood / Brier-style area score
+expected calibration error
+50 / 80 / 90% region empirical coverage
+performance by year, geography, conflict, and event-gap bucket
+```
+
+The 2023–2025 block used during repeated historical research is a **development benchmark**, not a pristine future test. Final promotion claims require a genuinely later prospective window or a newly frozen untouched period.
+
+### Immediate execution queue
+
+- [x] Create immutable git restore tag `geo-supercharge-preflight-2026-08-23` at `1adf232`.
+- [x] Audit promoted v9 and identify the candidate-oracle/ranking gap.
+- [x] Confirm motion-v3 history exists but is not consumed by v9.
+- [ ] Register GeoBrain static-context compiler and manifest schema.
+- [ ] Add Copernicus DEM adapter and coarse terrain aggregation.
+- [ ] Add OSM/Geofabrik adapter for road/settlement aggregates.
+- [ ] Add WorldPop population adapter.
+- [ ] Add WorldCover land-cover adapter.
+- [ ] Build motion-aware candidate dataset with the exact v9 examples/labels for apples-to-apples evaluation.
+- [ ] Add expanded neighbor/momentum candidates without changing evaluation targets.
+- [ ] Implement `GeoFusionCandidateRanker`.
+- [ ] Implement distance-soft + multiresolution training objective.
+- [ ] Add rolling-origin evaluator and experiment ledger.
+- [ ] Train first GeoFusion challenger on existing data before external-geo augmentation.
+- [ ] Add terrain/access/population/land-cover features one family at a time and run ablations.
+- [ ] Train tree diversity expert on the compiled GeoBrain table.
+- [ ] Ensemble only after individual expert rolling-origin predictions are frozen.
+- [ ] Preserve every trained version and produce `info.blt` with lineage, metrics, and rejection/promotion reason.
+
+---
+
 Build **The Humanitarian Forecast** into an autonomous, self-evaluating humanitarian conflict-risk forecasting system that continuously ingests public information, converts it into structured spatiotemporal state, produces prospective forecasts for Ethiopia, scores those forecasts against later verified outcomes, trains challengers on recent data, and promotes only models that demonstrate measurable prospective improvement.
 
 Primary internal modeling target:
