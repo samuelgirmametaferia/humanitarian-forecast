@@ -639,6 +639,27 @@ Useful ReliefWeb signal families:
 
 ## 2.3 Public corroboration sources
 
+Web/public-search corroboration is a first-class sensor and **must not be removed from the architecture**. It should be selective rather than performed at maximum depth for every trivial event, because the autonomous call-allocation policy should learn where extra searches create forecast value.
+
+The web layer should support both fixed adapters and open-ended public search. Maintain connectors/adapters for high-value structured sources where available, then allow the research/corroboration agent to search beyond those sources when novelty, contradiction, or uncertainty warrants it. Every retrieved item must carry retrieval time, publication time when available, URL/source identity, content hash, and the forecast cutoff under which it was legally observable.
+
+Candidate web/public families to evaluate include:
+
+```text
+ReliefWeb and OCHA products
+UCDP / ACLED-style public conflict datasets where licensing permits
+UNHCR / IOM displacement reporting
+WFP / FEWS NET food-security context
+HDX humanitarian datasets
+public government / regional statements
+reputable local and international news
+public humanitarian situation reports
+weather / rainfall / drought products
+road/access/infrastructure disruption notices
+public geospatial/environmental datasets
+search-engine discovery for novel local reports
+```
+
 Web/public-search corroboration should be **selective**, not performed for every trivial event.
 
 Trigger deeper corroboration when one or more applies:
@@ -1211,6 +1232,208 @@ C: conservative low-LR fine-tune
 D: same weights + uncertainty recalibration only
 E: ensemble-weight/gating update only
 ```
+
+## 12.1 Autonomous outcome-scored self-improvement controller
+
+The weekly loop above is only the outer cadence. The intended research system is an **automatic reward-driven improvement engine** that continuously proposes, trains, scores, preserves, and selects new forecasting/labeling variants as verified future outcomes arrive. Do not reduce this to a hand-operated training script.
+
+This is deliberately broader than ordinary gradient descent. Treat it as an AutoML / evolutionary / bandit / RL-style meta-optimization layer over the entire forecasting stack. The core predictor may still train with supervised/probabilistic losses because those are the statistically appropriate inner objectives; the **outer controller is outcome-reward driven**. Generic policy-gradient RL is not mandatory, but automatic reward-based search is a required capability.
+
+Three nested learning loops must exist.
+
+### Loop A — web/AI supervision improvement
+
+Every provisional event produced by the web/Telegram/ReliefWeb + Groq pipeline is later compared against slower verified outcomes. Feed those corrections back into the labeling system.
+
+The controller may automatically vary and evaluate:
+
+```text
+agent prompts / system instructions
+agent role decomposition
+translation strategy
+geocoder candidate-generation strategy
+number of reasoning/refinement passes
+Groq model choice
+temperature / sampling diversity
+consensus/reconciliation policy
+source-reliability weights
+contradiction-handling rules
+web-corroboration depth
+web-search query templates
+call budget per event
+confidence-calibration mapping
+```
+
+Reward each configuration against later verified labels using proper metrics rather than human vibes:
+
+```text
+event-type log loss
+spatial distance-soft cross-entropy
+time-distribution log score
+entity/actor extraction F1
+deduplication precision/recall
+confidence calibration error
+correction rate
+false-corroboration penalty
+latency / API-cost penalty
+```
+
+Store every agent configuration as a versioned artifact with prompt hash, model name, sampling parameters, source set, cost, and retrospective score. A later correction must never erase the original provisional output.
+
+### Loop B — forecasting-model self-improvement
+
+When an official forecast matures and its outcome becomes observable, score the frozen forecast and add the result to the experiment/replay ledger. The controller then proposes new challengers automatically.
+
+Search dimensions may include:
+
+```text
+feature families and interactions
+history length / temporal windows
+spatial neighborhood scales
+actor-transfer features
+propagation-kernel scales
+H3/PRIO resolution
+static-context encoders
+semantic embeddings
+model width/depth/heads
+Transformer/CNN/tree/point-process experts
+loss mixtures
+distance-soft target radius
+class weighting
+replay composition
+learning rate / weight decay
+calibration temperatures
+ensemble members / weights
+gating policies
+uncertainty heads
+abstention thresholds
+```
+
+The outer reward must be multi-objective and calculated only from frozen chronological/prospective forecasts. Initial reward vector:
+
+```text
++ proper broad-area probability score (primary)
++ distance-soft cross-entropy improvement
++ median/mean-error improvement
++ within-50/100/200 km coverage improvement
++ calibration improvement
++ unseen-conflict / cold-start improvement
++ rolling-origin stability
+- p90/tail regression
+- calibration regression
+- geographic subgroup regression
+- leakage/integrity failure (hard reject)
+- excessive latency/compute when gains are negligible
+```
+
+Do **not** collapse all of these into a single opaque number at first. Maintain a Pareto frontier of challengers. Promotion can use hard non-regression constraints plus a primary proper-score objective.
+
+### Loop C — adaptive source/search/call allocation
+
+The information-acquisition layer is sequential and is a legitimate place for contextual-bandit/RL-style optimization. Given the current world state and an ambiguous report, the controller should learn whether another web search, another agent pass, another map/geocoder lookup, or no further call is worth the cost.
+
+State may contain:
+
+```text
+current event uncertainty
+source reliability
+novelty
+geographic ambiguity
+forecast sensitivity to the event
+contradiction count
+time remaining before cutoff
+current call/API spend
+```
+
+Actions may contain:
+
+```text
+stop and accept current event distribution
+query another public source
+run a targeted web search
+ask another extraction/reconciliation agent
+run map/geocoder resolution
+request a higher-cost model
+expand candidate places
+```
+
+Reward is the later improvement in verified event quality and downstream forecast proper score minus latency/API cost. This lets the system learn where 3 calls are enough and where 30–60 calls are justified.
+
+### Automatic experiment lifecycle
+
+Every cycle should behave approximately as:
+
+```text
+1. ingest new web / Telegram / ReliefWeb observations
+2. update provisional canonical events and world state
+3. freeze official forecast at cutoff
+4. when outcome matures, attach verified/corrected label
+5. compute forecast + labeling reward vectors
+6. append experience to replay/experiment ledger
+7. propose N challenger configurations automatically
+8. train/evaluate challengers in isolated versioned directories
+9. run rolling-origin + recent shadow + subgroup gates
+10. update Pareto frontier / ensemble candidates
+11. promote only challengers that pass all hard gates
+12. retain champion if nothing wins
+13. preserve every trained artifact, failed run, prompt version, and score
+14. feed winning/losing experiment history back into the proposal policy
+```
+
+Candidate proposal algorithms to benchmark:
+
+```text
+random + successive halving baseline
+Optuna/Bayesian optimization
+ASHA/Hyperband
+population-based training
+evolutionary architecture/feature search
+contextual bandits for source/call allocation
+LLM research agent proposing experiments from the experiment ledger
+learned surrogate model predicting which experiments are worth running
+```
+
+The experiment-proposal agent must never be allowed to rewrite historical scores or delete losing artifacts. It proposes new immutable experiments only. Compute already spent on a model is preserved even when the model loses.
+
+### Reward integrity / anti-reward-hacking rules
+
+The autonomous controller is allowed to optimize aggressively, but only against causal evaluation. Hard rules:
+
+- [ ] Official forecasts are immutable once their cutoff passes.
+- [ ] No post-outcome information may enter the corresponding feature snapshot.
+- [ ] Hyperparameter/architecture search may inspect training + designated validation windows only.
+- [ ] Repeatedly inspected historical final blocks are development data, not pristine test data.
+- [ ] Promotion requires rolling-origin stability and ultimately prospective frozen forecasts.
+- [ ] A model cannot win solely by improving one easy geography while collapsing Ethiopia or cold-start regimes.
+- [ ] Proper scoring/calibration metrics must accompany hit-rate/distance metrics.
+- [ ] Source-acquisition reward must include API/latency cost so the policy cannot win by making unlimited calls.
+- [ ] The controller may archive/deprecate an experiment but must not delete its artifacts or overwrite the champion in place.
+
+### Persistent memory for the autonomous researcher
+
+Maintain a machine-readable experiment database. At minimum record:
+
+```text
+experiment_id
+parent_experiment_ids
+code_commit
+data_snapshot_hash
+feature_schema
+model_config
+agent/prompt versions
+web/source configuration
+training window
+validation/rolling windows
+prospective forecast IDs used for reward
+full metric vector
+compute time
+API cost
+status: failed / dominated / pareto / challenger / champion
+reason for rejection or promotion
+artifact paths
+```
+
+The proposal policy reads this history before generating the next batch. Repeating a previously failed configuration is allowed only when a relevant data/code regime has changed and the reason is recorded.
 
 ---
 
@@ -1904,7 +2127,10 @@ Execute this order:
 11. [ ] Ensemble it with v9 and persistence.
 12. [ ] Run rolling-origin Ethiopia evaluation.
 13. [ ] Perform ablations until the largest remaining error sources are identified.
-14. [ ] Only after the offline architecture is strong, activate the realtime autonomous loop.
-15. [ ] Finally deploy weekly challenger/promotion automation.
+14. [ ] Implement the experiment ledger + outcome reward vector + automatic challenger proposal engine offline.
+15. [ ] Implement adaptive web/agent call allocation and evaluate it retrospectively against verified outcomes.
+16. [ ] Run the autonomous researcher in shadow mode: propose/train/score challengers without production promotion.
+17. [ ] Only after the offline architecture and reward-integrity checks are strong, activate the realtime autonomous loop.
+18. [ ] Finally enable automatic weekly challenger/promotion decisions under the fixed gates.
 
 The goal is not simply to make the system autonomous. The goal is to make autonomy operate on top of a forecasting process that is **causal, measurable, reversible, calibrated, and demonstrably improving**.
