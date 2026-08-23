@@ -1,44 +1,43 @@
-# Humanitarian Location Forecast — Hackathon Build
+# Humanitarian Location Forecast — Validated v9 Reference
 
-## Recommended demo
+## Recommended historical/demo inference
 
-```bash
-.venv/bin/python predict_hackathon.py --index -1 --top 32
+The validated reference checkpoint now lives at:
+
+```text
+models/location/candidate_ranker/v9/candidate_ranker_calibrated.pt
 ```
 
-For a retrospective demonstration that explicitly uses observations after the
-forecast target, add `--post-cutoff-assist`. That mode is not deployable for a
-real future date and the output labels this limitation.
-
-To demonstrate the candidate generator as a historical reconstruction with one
-selected center below 40 km, run:
+Run it through the unified controller:
 
 ```bash
-.venv/bin/python predict_hackathon.py --index -1 --retrospective-reconstruction
+.venv/bin/python main.py run location.predict -- --index -1 --top 32
 ```
 
-This mode uses the target-day UCDP record after the cutoff. It is a reconstruction,
-not a forecast of an unknown future event.
+For the explicitly retrospective reconstruction mode:
+
+```bash
+.venv/bin/python main.py run location.predict -- --index -1 --retrospective-reconstruction
+```
+
+That mode uses the target-day UCDP record and is a reconstruction, not a forecast of an unknown future event.
 
 ## Verified fixed-test results
 
-| Output | Mean error | Meaning |
-|---|---:|---|
-| Prospective calibrated geometric-median center | **194.36 km** | One deployable center; strict cutoff |
-| 32-location high-recall set | **35.99 km** | Distance to closest issued candidate |
-| Retrospective reconstructed center | **35.99 km** | Target-day-assisted candidate selection |
+All 23,690 examples in the chronological June 2023–December 2025 test interval remain included.
 
-The 32-location result clears 40 km as a high-recall set metric. It must not be
-presented as top-1 accuracy. All 23,690 fixed test examples remain included.
+| Output | Result | Meaning |
+|---|---:|---|
+| Prospective calibrated center, median error | **61.01 km** | One strict-cutoff center |
+| Prospective calibrated center, mean error | **194.36 km** | One strict-cutoff center |
+| Prospective calibrated center, p90 | **435.09 km** | One strict-cutoff center |
+| Prospective within 25 km | **34.39%** | One strict-cutoff center |
+| 32-location candidate oracle mean | **35.99 km** | Distance to closest issued candidate; diagnostic only |
+
+The 35.99 km result is a high-recall candidate-set diagnostic and must not be presented as top-1 accuracy.
 
 ## Model
 
-The model combines a Transformer event-history encoder, country and conflict
-embeddings, 32 cutoff-safe conflict-location candidates, candidate frequency,
-recency, transition, 7/30/90/365-day activity, fatalities, horizon, geographic
-features, and candidate-centered 25/50/100/250 km activity/fatality rings. It
-predicts candidate probabilities and converts them into a validation-selected
-weighted geometric median while also publishing the ranked candidate set.
+The v9 model combines a 3-layer Transformer event-history encoder, country and conflict embeddings, 32 cutoff-safe conflict-location candidates, candidate frequency/recency/transition features, 7/30/90/365-day activity, candidate-centered activity/fatality rings at 25/50/100/250 km scales, and a probability-weighted center objective. Its validation-selected output aggregation is a weighted geometric median at temperature 1.0.
 
-Telegram is excluded. Predictions are research signals, not safe routes,
-front-line intelligence, evacuation orders, or verified incident locations.
+The production workflow retrains this validated recipe on all available labels and then fine-tunes an embedding-compatible copy on Ethiopia. Those all-data artifacts are intentionally marked as having no fresh holdout evaluation; use v9's `info.blt` for the measured reference performance.

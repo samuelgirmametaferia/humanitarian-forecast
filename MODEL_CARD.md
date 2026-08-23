@@ -1,139 +1,102 @@
-# Model card: humanitarian temporal area-risk forecaster
+# Model Card: Humanitarian Forecast
 
 ## Status
 
-**Research prototype — not approved for operational evacuation decisions.**
+**Research system. Not approved for autonomous operational decisions.**
 
-The recommended current checkpoint is
-`checkpoints_mixture_geo_v2/mixture_best.pt`.
-It excludes all Telegram-derived data and uses UCDP georeferenced events plus
-ReliefWeb country/day context.
+The repository now distinguishes validated reference models from all-data production retrains. A production retrain consumes every available label and therefore does not receive a fabricated new holdout score; its `info.blt` points back to the validated ancestor used to select the recipe.
 
-## Telegram-free next-location model
+## Validated next-location reference
 
-- 157,932 sequences from 1,517 loaded UCDP conflicts
-- 120 countries represented in usable sequences
-- 16 prior events per input sequence
-- Probabilistic center plus isotropic uncertainty radius
-- Validation-calibrated for 80% circle containment
-- Untouched test period: June 2023 through December 2025
+Model directory:
 
-Untouched-test results:
+```text
+models/location/candidate_ranker/v9/
+```
 
-| Metric | Result |
-|---|---:|
-| Samples | 23,690 |
-| Median center error | 105.8 km |
-| Mean center error | 255.3 km |
-| 90th-percentile center error | 510.7 km |
-| Circle coverage | 80.8% |
-| Median radius | 192.7 km |
-| Mean radius | 332.8 km |
+Promoted checkpoint:
 
-The last-observed-location baseline has lower median error (89.3 km), but worse
-mean error (285.1 km) and worse p90 error (634.8 km). The learned model therefore
-improves large misses but does not dominate the simple baseline on every metric.
+```text
+models/location/candidate_ranker/v9/candidate_ranker_calibrated.pt
+```
 
-## Five-circle mixture checkpoint
+Recipe: `conflict_candidate_transformer_spatial_rings_geometric_median_v9`.
 
-`checkpoints_mixture/mixture_best.pt` returns five alternative centers with learned
-probabilities and per-component uncertainty. On the untouched test period:
-
-| Metric | Result |
-|---|---:|
-| Top-1 median error | 91.1 km |
-| Top-1 mean error | 250.2 km |
-| Top-1 p90 error | 555.5 km |
-| Best-of-five median error | 42.3 km |
-| Best-of-five p90 error | 244.8 km |
-| Union circle coverage | 82.3% |
-| Median component radius | 57.2 km |
-
-## Geography-aware five-circle checkpoint
-
-`checkpoints_mixture_geo_v2/mixture_best.pt` adds absolute anchor coordinates and
-cyclical season features. On the same 23,690-example untouched test split:
-
-| Metric | Result |
-|---|---:|
-| Top-1 median error | 90.6 km |
-| Top-1 mean error | 245.3 km |
-| Top-1 p90 error | 524.3 km |
-| Best-of-five median error | 42.5 km |
-| Best-of-five p90 error | 239.4 km |
-| Union circle coverage | 83.9% |
-| Median component radius | 50.2 km |
-
-The explicit stretch target is 25 km top-1 mean error. It has not been achieved.
-Two later experiments were rejected: explicit per-step movement features produced
-250.1 km mean error, and a first ranking-loss experiment produced 267.1 km. Their
-artifacts remain for reproducibility but are not recommended.
-
-Best-of-five error measures whether at least one proposed center is close; it does
-not imply the model knows in advance which component will be correct. Component
-probabilities and circle coverage must be shown together.
-
-The model estimates whether documented conflict activity in a coarse area is
-likely to increase during the next seven days based on a 28-day history. It does
-not estimate exact front lines, troop locations, safe routes, or individual risk.
-
-## Architecture
-
-- Entity-agnostic temporal Transformer
-- 4 encoder layers, width 128, 8 attention heads
-- Eight daily aggregate features
-- Two outputs: future log activity and escalation logit
-- Approximately 2.6 MB per saved checkpoint
-
-## Data
-
-International base checkpoint:
+### Data
 
 - UCDP GED 26.1 georeferenced events
-- ReliefWeb reports retrieved with appname `HMA-research-W5F2P`
-- 3,664,981 sequences across 5,056 geographic entities
-- Coverage: 1989–2026
-- Holdout cutoff: 2021-08-21
+- ReliefWeb country/day context
+- Telegram excluded from this location pipeline
+- 157,932 chronologically ordered next-event examples
+- 1,517 loaded UCDP conflicts; 120 countries represented in usable sequences
+- 16 historical events per example
+- 19 event-history features (`geo-v2`)
+- up to 32 cutoff-safe conflict-history candidate locations
+- 28 features per candidate, including spatial activity/fatality rings
 
-Ethiopia checkpoint:
+### Fixed chronological protocol
 
-- Starts from the saved international base checkpoint
-- 78,866 sequences across 226 geographic entities
-- Historical UCDP Ethiopia events plus filtered named-area Telegram events
-- Coverage: 1989-01-30 through 2025-12-22
-- Training ends: 2023-10-18
-- Validation: 2023-10-18 through 2024-12-22
-- Untouched test: 2024-12-22 through 2025-12-22
-- Direct-Amharic Nemotron rows without machine translation are excluded because
-  manual audits found severe hallucination and number interpretation failures.
+- first 70%: phase-1 training
+- next 15%: model/calibration selection
+- first 85%: fresh phase-2 retraining for the validation-selected epoch count
+- final 15%: untouched test evaluation
+- fixed test size: 23,690 examples
+- test interval: June 2023 through December 2025
 
-## Current evaluation
+### Architecture and objective
 
-| Checkpoint | Holdout positive rate | Average precision | Recall at 0.5 | Intensity MAE |
-|---|---:|---:|---:|---:|
-| International base | 0.062 | 0.122 | 0.740 | 0.200 |
-| Ethiopia historical fine-tune | 0.066 | 0.123 | 0.426 | 0.173 |
+- 3-layer Transformer history encoder
+- width 128, 4 attention heads, FFN width 384, dropout 0.1
+- learned country and conflict embeddings
+- candidate encoder + learned candidate bias
+- 677,599 parameters
+- training loss: candidate cross-entropy + `50 ×` probability-weighted center distance
+- expected-candidate-distance weight: `0`
+- selected epoch: 12
+- output calibration: temperature `1.0`, weighted geometric median
 
-At the validation-selected threshold of 0.66, the untouched Ethiopia test has
-81.4% ordinary accuracy, 63.4% balanced accuracy, 16.0% precision, 42.6% recall,
-and F1 0.233. Ordinary accuracy remains misleading because a model that always
-predicts no escalation would score 93.4% while detecting zero escalations.
-Average precision and balanced accuracy are more informative for this rare event.
+### Untouched-test performance
 
-## Required before operational use
+| Metric | Result |
+|---|---:|
+| Median center error | **61.01 km** |
+| Mean center error | **194.36 km** |
+| P90 center error | **435.09 km** |
+| Within 25 km | **34.39%** |
+| Candidate oracle mean | **35.99 km** |
 
-1. Expand and manually audit Ethiopia area labels through 2026.
-2. Deduplicate reports and prevent source copying from inflating evidence.
-3. Add rolling-origin backtests across several time periods.
-4. Calibrate probabilities on a separate validation interval.
-5. Compare against persistence, seasonal, and count-based baselines.
-6. Evaluate false negatives separately for civilian-harm events.
-7. Require independent-source corroboration and human review.
-8. Publish only delayed, coarse administrative-area outputs with uncertainty.
+The candidate-oracle metric asks how close the best of 32 generated candidates was after seeing the target. It is a diagnostic of candidate coverage, not top-1 forecasting accuracy.
 
-## Prohibited use
+## Temporal risk references
 
-- Exact or real-time force tracking
-- Target selection or military operational planning
-- Identification of individuals or units
-- Representing predictions as verified facts or official evacuation orders
+Historical global and Ethiopia risk artifacts have been migrated to:
+
+```text
+models/risk/base/vN/
+models/risk/ethiopia/vN/
+```
+
+Their legacy metrics are preserved in each version's `info.blt`. The validated reference versions used by the new production workflow are `models/risk/base/v2/` and `models/risk/ethiopia/v4/`.
+
+## Production all-data policy
+
+`main.py workflow full` trains global models on all currently available labels, then fine-tunes Ethiopia-specialized copies. The default new version destinations are:
+
+```text
+models/risk/base/v3/
+models/location/candidate_ranker/v10/
+models/risk/ethiopia/v5/
+models/location/candidate_ranker_ethiopia/v1/
+```
+
+These directories are created when the workflow is actually run. Production training includes data that formerly belonged to the evaluation period, but each historical training example remains causal: its features and candidate bank use only observations available by that example's own cutoff.
+
+Because no data is withheld from an all-data production artifact, its `info.blt` contains `held_out_evaluation: false`. Generalization claims continue to come from the corresponding validated reference until a later-period evaluation becomes available.
+
+## Required interpretation
+
+- Forecasts are probabilistic research signals, not verified incidents.
+- Candidate-set oracle metrics are not top-1 accuracy.
+- Training loss is not a substitute for held-out geographic error.
+- Exact model performance claims must identify the model version and evaluation protocol.
+- Public/operational humanitarian decisions require independent corroboration and human review.

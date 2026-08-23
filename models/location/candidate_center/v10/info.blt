@@ -1,0 +1,30 @@
+{
+  "artifacts": [
+    "candidate_center_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.678328+00:00",
+  "description": "Migrated legacy model artifact: candidate-conditioned-residual-center.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "candidate-conditioned-residual-center",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "raw": {
+      "candidate_center_metrics.json": {
+        "best_validation_mean_km": 208.1126708984375,
+        "data_policy": "cutoff-safe candidates and features; Telegram excluded",
+        "decision": "rejected_before_test",
+        "protocol": "phase1 train70/validate15 only; test remained unread because validation gate failed",
+        "selected_epochs": 13,
+        "validation_gate_km": 205.6698455810547
+      }
+    }
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "location/candidate_center",
+  "training": {},
+  "version": "v10"
+}

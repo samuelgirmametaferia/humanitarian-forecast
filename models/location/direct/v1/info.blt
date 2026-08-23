@@ -1,0 +1,68 @@
+{
+  "artifacts": [
+    "location_best.pt",
+    "location_calibration.json",
+    "location_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.689595+00:00",
+  "description": "Migrated legacy model artifact: direct-probabilistic-center.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "direct-probabilistic-center",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "headline": {
+      "circle_coverage": 0.8083579540252686,
+      "mean_error_km": 255.28652954101562,
+      "mean_radius_km": 332.780517578125,
+      "median_error_km": 105.75755310058594,
+      "median_radius_km": 192.71351623535156,
+      "p90_error_km": 510.7079772949219,
+      "samples": 23690
+    },
+    "raw": {
+      "location_calibration.json": {
+        "minimum_publishable_radius_km": 50.0,
+        "multiplier": 1.5129204988479614,
+        "target_coverage": 0.8
+      },
+      "location_metrics.json": {
+        "calibration_multiplier": 1.5129204988479614,
+        "data_policy": "UCDP georeferenced events + ReliefWeb context; no Telegram",
+        "radius_floor_km": 50.0,
+        "split": {
+          "test": 0.15,
+          "train": 0.7,
+          "validation": 0.15
+        },
+        "target_coverage": 0.8,
+        "untouched_test": {
+          "circle_coverage": 0.8083579540252686,
+          "mean_error_km": 255.28652954101562,
+          "mean_radius_km": 332.780517578125,
+          "median_error_km": 105.75755310058594,
+          "median_radius_km": 192.71351623535156,
+          "p90_error_km": 510.7079772949219,
+          "samples": 23690
+        },
+        "validation": {
+          "circle_coverage": 0.8002532720565796,
+          "mean_error_km": 280.0508117675781,
+          "mean_radius_km": 360.8205261230469,
+          "median_error_km": 109.55875396728516,
+          "median_radius_km": 196.57180786132812,
+          "p90_error_km": 534.152099609375,
+          "samples": 23690
+        },
+        "validation_nll": -2.81640887260437
+      }
+    }
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "location/direct",
+  "training": {},
+  "version": "v1"
+}

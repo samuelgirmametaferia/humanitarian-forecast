@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    "model.pt"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.690544+00:00",
+  "description": "Migrated legacy model artifact: location-hierarchical-v4.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "location-hierarchical-v4",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "raw": {}
+  },
+  "notes": [
+    "No colocated metrics file was present in the legacy publish directory."
+  ],
+  "status": "historical-publish-artifact",
+  "subsystem": "location/hierarchical",
+  "training": {},
+  "version": "v4"
+}

@@ -1,0 +1,39 @@
+{
+  "artifacts": [
+    "ethiopia_best.pt",
+    "ethiopia_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.695852+00:00",
+  "description": "Migrated legacy model artifact: ethiopia-v3.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "ethiopia-v3",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "headline": {
+      "average_precision": 0.11563966928195038,
+      "best_validation_loss": 1.364355070516467,
+      "escalation_accuracy": 0.5854570865631104,
+      "escalation_recall": 0.6819637139807898,
+      "intensity_mae": 0.16931140422821045,
+      "positive_rate": 0.05940154567360878
+    },
+    "raw": {
+      "ethiopia_metrics.json": {
+        "average_precision": 0.11563966928195038,
+        "best_validation_loss": 1.364355070516467,
+        "escalation_accuracy": 0.5854570865631104,
+        "escalation_recall": 0.6819637139807898,
+        "intensity_mae": 0.16931140422821045,
+        "positive_rate": 0.05940154567360878
+      }
+    }
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "risk/ethiopia",
+  "training": {},
+  "version": "v3"
+}

@@ -1,0 +1,39 @@
+{
+  "artifacts": [
+    "base_best.pt",
+    "base_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.694636+00:00",
+  "description": "Migrated legacy model artifact: international-base-legacy.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "international-base-legacy",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "headline": {
+      "average_precision": 0.1211461324898684,
+      "best_validation_loss": 1.3172356635332108,
+      "escalation_accuracy": 0.22853247821331024,
+      "escalation_recall": 0.9526627218934911,
+      "intensity_mae": 0.08619872480630875,
+      "positive_rate": 0.03839163854718208
+    },
+    "raw": {
+      "base_metrics.json": {
+        "average_precision": 0.1211461324898684,
+        "best_validation_loss": 1.3172356635332108,
+        "escalation_accuracy": 0.22853247821331024,
+        "escalation_recall": 0.9526627218934911,
+        "intensity_mae": 0.08619872480630875,
+        "positive_rate": 0.03839163854718208
+      }
+    }
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "risk/base",
+  "training": {},
+  "version": "v1"
+}

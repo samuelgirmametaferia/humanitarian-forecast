@@ -1,0 +1,21 @@
+{
+  "artifacts": [
+    "center_best.pt"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.689090+00:00",
+  "description": "Migrated legacy model artifact: direct-center-distance.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "direct-center-distance",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "raw": {}
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "location/center_distance",
+  "training": {},
+  "version": "v1"
+}

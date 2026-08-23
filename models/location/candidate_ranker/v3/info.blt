@@ -1,0 +1,53 @@
+{
+  "artifacts": [
+    "candidate_ranker_best.pt",
+    "candidate_ranker_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.680021+00:00",
+  "description": "Migrated legacy model artifact: identity-aware-distance-weight-10.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "identity-aware-distance-weight-10",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "headline": {
+      "candidate_oracle_mean_km": 35.99437713623047,
+      "mean_error_km": 210.0452117919922,
+      "median_error_km": 69.69011688232422,
+      "p90_error_km": 480.7163391113281,
+      "samples": 23690,
+      "within_25km": 0.33144786953926086
+    },
+    "raw": {
+      "candidate_ranker_metrics.json": {
+        "data_policy": "cutoff-safe candidates; Telegram excluded",
+        "distance_weight": 10.0,
+        "protocol": "phase1 train70/validate15; phase2 fresh train85/test15",
+        "selected_epochs": 11,
+        "untouched_test": {
+          "candidate_oracle_mean_km": 35.99437713623047,
+          "mean_error_km": 210.0452117919922,
+          "median_error_km": 69.69011688232422,
+          "p90_error_km": 480.7163391113281,
+          "samples": 23690,
+          "within_25km": 0.33144786953926086
+        },
+        "validation": {
+          "candidate_oracle_mean_km": 36.495914459228516,
+          "mean_error_km": 236.70680236816406,
+          "median_error_km": 74.73716735839844,
+          "p90_error_km": 492.0218200683594,
+          "samples": 23690,
+          "within_25km": 0.3140565752983093
+        }
+      }
+    }
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "location/candidate_ranker",
+  "training": {},
+  "version": "v3"
+}

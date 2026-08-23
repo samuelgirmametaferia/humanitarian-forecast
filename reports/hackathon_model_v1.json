@@ -1,6 +1,6 @@
 {
   "model": "conflict_candidate_transformer_spatial_rings_geometric_median_v9",
-  "checkpoint": "checkpoints_candidate_ranker_spatial_v9/candidate_ranker_calibrated.pt",
+  "checkpoint": "models/location/candidate_ranker/v9/candidate_ranker_calibrated.pt",
   "fixed_test_samples": 23690,
   "prospective_top1_center": {
     "mean_error_km": 194.35647583007812,

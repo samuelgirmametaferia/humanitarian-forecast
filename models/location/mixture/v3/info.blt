@@ -1,0 +1,66 @@
+{
+  "artifacts": [
+    "mixture_best.pt",
+    "mixture_calibration.json",
+    "mixture_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T07:52:13.692098+00:00",
+  "description": "Migrated legacy model artifact: movement-features.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "legacy_variant": "movement-features",
+    "migration": "pre-refactor checkpoint tree"
+  },
+  "metrics": {
+    "headline": {
+      "best_of_k_median_error_km": 42.70175552368164,
+      "best_of_k_p90_error_km": 240.1595916748047,
+      "median_component_radius_km": 51.83767318725586,
+      "samples": 23690,
+      "top1_mean_error_km": 250.14854431152344,
+      "top1_median_error_km": 92.208740234375,
+      "top1_p90_error_km": 567.3972778320312,
+      "union_circle_coverage": 0.8308569192886353
+    },
+    "raw": {
+      "mixture_calibration.json": {
+        "minimum_radius_km": 50,
+        "multiplier": 0.445595383644104,
+        "target_coverage": 0.8
+      },
+      "mixture_metrics.json": {
+        "calibration_multiplier": 0.445595383644104,
+        "components": 5,
+        "data_policy": "UCDP georeferenced events + ReliefWeb context; no Telegram",
+        "radius_floor_km": 50,
+        "target_coverage": 0.8,
+        "untouched_test": {
+          "best_of_k_median_error_km": 42.70175552368164,
+          "best_of_k_p90_error_km": 240.1595916748047,
+          "median_component_radius_km": 51.83767318725586,
+          "samples": 23690,
+          "top1_mean_error_km": 250.14854431152344,
+          "top1_median_error_km": 92.208740234375,
+          "top1_p90_error_km": 567.3972778320312,
+          "union_circle_coverage": 0.8308569192886353
+        },
+        "validation": {
+          "best_of_k_median_error_km": 43.76669692993164,
+          "best_of_k_p90_error_km": 259.19384765625,
+          "median_component_radius_km": 52.46299362182617,
+          "samples": 23690,
+          "top1_mean_error_km": 272.5471496582031,
+          "top1_median_error_km": 95.93819427490234,
+          "top1_p90_error_km": 584.1429443359375,
+          "union_circle_coverage": 0.8261291980743408
+        }
+      }
+    }
+  },
+  "notes": [],
+  "status": "historical",
+  "subsystem": "location/mixture",
+  "training": {},
+  "version": "v3"
+}

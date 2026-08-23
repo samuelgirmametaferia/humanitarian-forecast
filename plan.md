@@ -32,7 +32,7 @@ front lines, safe routes, evacuation orders, or real-time force tracking.
 Recommended checkpoint:
 
 ```text
-checkpoints_candidate_ranker_spatial_v9/candidate_ranker_calibrated.pt
+models/location/candidate_ranker/v9/candidate_ranker_calibrated.pt
 ```
 
 Training corpus:
@@ -46,7 +46,7 @@ Data and model summary:
 - 157,932 examples from 1,517 UCDP conflicts
 - 120 countries represented in usable sequences
 - 16 previous events per example
-- 25 features per historical event
+- 19 features per historical event in the promoted `geo-v2` representation
 - 32 cutoff-safe conflict-location candidates
 - 28 features per candidate, including candidate-centered activity and fatality rings
 - Transformer ranking followed by a validation-selected weighted geometric median
@@ -374,33 +374,30 @@ The 25 km goal is achieved only when the final untouched chronological test has:
 
 ## Current commands
 
-Build the promoted 19-feature dataset:
+The refactored project is controlled through `main.py` rather than loose root scripts.
+
+Inspect the production sequence:
 
 ```bash
-.venv/bin/python build_next_location_dataset.py \
-  --ucdp data/raw/ged261-csv.zip \
-  --reliefweb data/reliefweb_balanced.jsonl.gz \
-  --output data/location/next_location_geo_v2.npz
+.venv/bin/python main.py workflow plan
 ```
 
-Train the five-circle model on Apple MPS:
+Run global all-data training followed by Ethiopia specialization:
 
 ```bash
-PYTORCH_ENABLE_MPS_FALLBACK=1 .venv/bin/python train_mixture_location.py \
-  --data data/location/next_location_geo_v2.npz \
-  --output-dir checkpoints_mixture_geo_v2 \
-  --epochs 10 --batch-size 384 --components 5
+.venv/bin/python main.py workflow full
 ```
 
-Produce a seven-day scenario forecast:
+Run the validated v9 predictor directly:
 
 ```bash
-.venv/bin/python predict_mixture.py \
-  --data data/location/next_location_geo_v2.npz \
-  --checkpoint checkpoints_mixture_geo_v2/mixture_best.pt \
-  --calibration checkpoints_mixture_geo_v2/mixture_calibration.json \
-  --scenario example_scenario.json \
-  --index -1
+.venv/bin/python main.py run location.predict -- --index -1 --top 32
+```
+
+Inspect its versioned performance metadata:
+
+```bash
+.venv/bin/python main.py models info location/candidate_ranker v9
 ```
 
 ## Final principle
