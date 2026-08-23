@@ -1,0 +1,30 @@
+{
+  "base_model_dir": "models/risk/ethiopia/v5",
+  "probability_weights": {
+    "base_v5": 0.95,
+    "transfer": 0.05
+  },
+  "weight_selection": {
+    "partition": "chronological validation only",
+    "metric": "average_precision",
+    "selected_validation_ap": 0.12852658533596228
+  },
+  "affine_logit_calibration": {
+    "scale": 1.0788158085152209,
+    "temperature": 0.9269422936769017,
+    "bias": 0.06283221841465371
+  },
+  "threshold": 0.06562270520464969,
+  "classifier": "transfer_classifier.pt",
+  "intensity_model": "transfer_intensity.pt",
+  "intensity_conformal_absolute_radii_log1p": {
+    "p80": 0.26183021068573,
+    "p90": 0.5138373374938965,
+    "p95": 0.5218791961669922
+  },
+  "transfer_objective": {
+    "local_dim": 8,
+    "mask_probability": 0.25,
+    "loss_weight": 0.35
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "data": "data/location/conflict_candidates_32_spatial_v5.npz",
+  "train_end": 110552,
+  "validation_end": 134242,
+  "samples": 157932,
+  "epochs": 12,
+  "seed": 20260816,
+  "loss": "candidate CE + 50*probability-weighted center distance; v9 frozen recipe reproduction",
+  "note": "This phase-1 reproduction is for validation-only broad-area ensembling. It does not replace v9."
+}

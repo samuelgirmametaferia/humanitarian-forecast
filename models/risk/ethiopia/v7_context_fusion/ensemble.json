@@ -1,0 +1,26 @@
+{
+  "base_v6_model": "models/risk/ethiopia/v6",
+  "probability_weights": {
+    "v6": 1.0,
+    "context_fusion": 0.0
+  },
+  "probability_selection": "validation binary log loss after expert-only affine calibration",
+  "expert_affine_logit_calibration": {
+    "scale": 0.5272757411003113,
+    "temperature": 1.8965408837380129,
+    "bias": -2.2836754322052
+  },
+  "ensemble_affine_logit_calibration": {
+    "scale": 0.9996846219598393,
+    "temperature": 1.0003154775348473,
+    "bias": -0.0007698541050332765
+  },
+  "selected_validation_log_loss": 0.1699295663925531,
+  "threshold": 0.06858889839011217,
+  "intensity_weights": {
+    "v6": 1.0,
+    "context_fusion": 0.0
+  },
+  "selected_validation_intensity_mae": 0.09263695576814707,
+  "dynamic_dim": 26
+}

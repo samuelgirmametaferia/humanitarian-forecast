@@ -20,10 +20,10 @@ From this point forward:
 
 - [x] Keep `models/location/candidate_ranker/v9/` untouched as the promoted geographical baseline.
 - [x] Keep the temporal-risk v5/v6 artifacts; they may become auxiliary context experts.
-- [ ] Never overwrite or delete a trained model version merely because a newer experiment wins.
-- [ ] Never use `git reset --hard`, destructive cleanup, or in-place model replacement as part of model research.
-- [ ] Every new dataset/model is additive and gets a schema/version plus lineage back to the source data and commit.
-- [ ] Failed experiments may be marked rejected in metadata, but artifacts produced with compute are preserved unless the project owner explicitly asks for removal.
+- [x] Never overwrite or delete a trained model version merely because a newer experiment wins.
+- [x] Never use `git reset --hard`, destructive cleanup, or in-place model replacement as part of model research.
+- [x] Every new dataset/model is additive and gets a schema/version plus lineage back to the source data and commit.
+- [x] Failed experiments may be marked rejected in metadata, but artifacts produced with compute are preserved unless the project owner explicitly asks for removal.
 
 ### Primary modeling objective
 
@@ -269,26 +269,163 @@ performance by year, geography, conflict, and event-gap bucket
 
 The 2023–2025 block used during repeated historical research is a **development benchmark**, not a pristine future test. Final promotion claims require a genuinely later prospective window or a newly frozen untouched period.
 
+### 2026-08-23 Phase 2 findings — static humanitarian context and robustness gates
+
+The second supercharge pass added a coarse PRIO-grid humanitarian context path rather than feeding raw fine-resolution rasters directly into training. The source snapshots currently pinned are:
+
+```text
+Copernicus DEM GLO-90      173/173 required Ethiopia tiles cached locally
+OpenStreetMap/Geofabrik   Ethiopia monthly snapshot 2026-08-01
+WorldPop R2025A            Ethiopia 2026 constrained 1 km product
+```
+
+The OSM compiler aggregated 442,899 road geometries and 10,507 settlements into 208 PRIO cells. WorldPop was aggregated to the same 208 cells. The intentionally incomplete 100 m WorldPop transfer is preserved as a raw failed-transfer artifact; the production experiment uses the much smaller 1 km product because the forecasting scale is tens of kilometres.
+
+#### Rolling-origin acceptance gate
+
+A feature family is no longer accepted because it looks good on the historical 70/15/15 split. `evaluation.risk.rolling` runs expanding chronological origins and separately scores PRIO cells absent from the fold's training history. This gate caught two false-looking wins:
+
+```text
+Accessibility alone
+  matched neural development AP              0.16760
+  rolling mean AP delta                     +0.00165
+  rolling cold-start AP delta               -0.06081
+  decision                                  REJECT standalone
+
+Population alone
+  matched neural development AP              0.15436
+  matched neural development intensity MAE   0.13398
+  rolling mean AP delta                     -0.00176
+  rolling cold-start AP delta               -0.09768
+  decision                                  REJECT standalone
+
+Population + accessibility interaction
+  rolling mean AP delta                     +0.00191
+  rolling mean intensity-MAE delta          -0.00048
+  rolling cold-start AP delta               +0.08366
+  rolling cold-start intensity-MAE delta    -0.00319
+  decision                                  ACCEPT representation for further research
+```
+
+This is the intended promotion behavior: a spectacular later-block number does not override temporal instability or cold-start regression.
+
+#### Proper-score ensemble result
+
+A validation-only ensemble using binary log loss for escalation and MAE for intensity refused to chase the static-context AP gains:
+
+```text
+escalation probability weights
+  v6              1.00
+  accessibility   0.00
+  population      0.00
+
+intensity weights
+  v6              0.50
+  population      0.50
+
+validation intensity MAE     0.09127   (v6: 0.09264)
+development intensity MAE    0.13498   (v6: 0.13684)
+```
+
+Therefore v6 remains the calibrated escalation reference. Static context is currently useful as a magnitude/cold-start support signal, not as a universally trusted escalation prior.
+
+#### Explicit transfer objective
+
+Two transfer formulations were tested and preserved:
+
+1. A shared neural masked-local objective randomly removed the target cell's eight local channels during training. It damaged the primary representation (best ordinary validation AP about 0.106) and is preserved under `v7_transfer_accessibility_failed/` as a negative result. The trainer was patched to persist selected checkpoints before any later packaging step so future completed compute cannot be lost to bookkeeping errors.
+2. A separate non-local LightGBM specialist excludes all local target-cell history and selects hyperparameters on chronologically later PRIO entities deliberately held out from fit. It reached transfer-selection AP 0.09239 on 1,441 unseen-area rows / 101 positives, proving the objective is learnable, but ordinary validation/development AP (~0.048/~0.066) is too weak for promotion.
+3. A second masked-local neural run on the stable 26-channel spatial tensor (without static context) confirmed the same failure mode: validation AP 0.12853, development AP 0.14737, validation intensity MAE 0.12542, and synthetic masked-local AP only 0.05280/0.07025. It is preserved under `models/risk/ethiopia/v7_transfer/` with status `research-rejected-transfer`.
+4. Gating the non-local tree on generic low-local-activity rows does not help: validation selects only 5% specialist probability weight, and that weight slightly worsens the later low-activity AP/log loss. A held-out-entity-only 5% blend nudges development held-out AP 0.14303 -> 0.14527, but this is too small/brittle for production.
+
+The lesson is to keep transfer as a specialist/gating research problem instead of forcing the main temporal encoder to sacrifice ordinary accuracy. The strongest current cold-start signal is the **combined population + accessibility representation** in rolling evaluation, not the standalone transfer specialist.
+
+#### Static/dynamic neural fusion
+
+`ContextFusionRiskModel` now encodes the 26 dynamic channels temporally and static population/accessibility once through a bounded FiLM-style branch. The first seed was not competitive and validation-only proper-score ensembling assigned it zero weight. Preserve it as an architecture ablation rather than promoting it.
+
+#### Proper-score broad-area geographical ensemble
+
+The frozen location experts are now combined using a fixed **100 km Gaussian distance-soft target** rather than an exact-candidate label. To avoid validation leakage, v9's 70%-trained phase-1 recipe was reproduced specifically for validation export instead of using its 85%-trained production checkpoint. Torch and LightGBM exports run in separate processes to avoid the macOS OpenMP runtime collision discovered during research.
+
+Validation-only temperature calibration and convex weight selection produced:
+
+```text
+expert validation distance-soft CE
+  v9 phase-1 reproduction    3.07405
+  actor transfer             3.06941
+  propagation kernel         3.06853
+
+global proper-score ensemble
+  v9                         42.5%
+  actor transfer             15.0%
+  propagation kernel         42.5%
+  validation CE              3.05931
+  development CE             3.11181
+  development median         60.56 km       diagnostic
+  development within 100 km  59.31%
+  development top3 <=100 km  68.95%
+```
+
+The later-block CE improves over the best individual expert (kernel 3.12161) without using that block for temperature or weight selection. For Ethiopia, the globally optimal mixture does not transfer: a validation proper-score selector with a 0.5% global-nonregression guard chooses **100% propagation kernel**. This local override is intentional and prevents a global ensemble from degrading the target geography.
+
+Artifact: `models/location/broad_area_ensemble/v1/`. Registered system: `location.broad_area.ensemble`.
+
+#### Rolling-origin Ethiopia location gate
+
+A fixed 75-tree LambdaRank probe now evaluates aligned geographic feature families at three expanding origins. This prevents a later-regime gain from silently becoming a universal claim.
+
+```text
+Actor-transfer vs motion baseline
+  mean rolling broad-score delta    +0.00274
+  fold deltas                        0.00000, +0.00987, -0.00166
+  mean <=100 km delta               +0.00405
+  stable_accept                      false
+  decision                           KEEP AS ENSEMBLE/DIVERSITY SIGNAL, NOT STANDALONE CHAMPION
+
+Terrain vs actor-transfer
+  mean rolling broad-score delta    -0.00160
+  fold deltas                       +0.00208, -0.00011, -0.00678
+  stable_accept                      false
+  decision                           REJECT STANDALONE
+```
+
+The actor-transfer feature family remains useful because it improves the unseen Government–Fano subgroup and contributes non-zero weight to the proper-score global ensemble, but it does not satisfy the stricter standalone rolling-origin promotion rule. Terrain remains a preserved negative ablation.
+
+#### Evaluation status
+
+The historical final 15% has been repeatedly observed. It is a **development benchmark**, never an untouched-test claim. New promotion decisions require rolling-origin stability and then prospective frozen forecasts.
+
+### Immutable Phase 2 restore point
+
+After the population/OSM materialization, rolling-origin gates, proper-score broad-area ensemble, actor/terrain rolling evaluation, and transfer-objective ablations are recorded, create and preserve the annotated git tag:
+
+```text
+geo-supercharge-phase2-2026-08-24
+```
+
+This tag must remain immutable. Do not rewrite it or delete model artifacts produced before it. Raw/processed geospatial caches remain outside git under `/data/`, but their source/version manifests and the model/report artifacts needed to reproduce decisions are checkpointed.
+
 ### Immediate execution queue
 
 - [x] Create immutable git restore tag `geo-supercharge-preflight-2026-08-23` at `1adf232`.
 - [x] Audit promoted v9 and identify the candidate-oracle/ranking gap.
 - [x] Confirm motion-v3 history exists but is not consumed by v9.
-- [ ] Register GeoBrain static-context compiler and manifest schema.
-- [ ] Add Copernicus DEM adapter and coarse terrain aggregation.
-- [ ] Add OSM/Geofabrik adapter for road/settlement aggregates.
-- [ ] Add WorldPop population adapter.
+- [x] Register GeoBrain static-context compiler and manifest schema.
+- [x] Add Copernicus DEM adapter and coarse terrain aggregation.
+- [x] Add OSM/Geofabrik adapter for road/settlement aggregates.
+- [x] Add WorldPop population adapter.
 - [ ] Add WorldCover land-cover adapter.
-- [ ] Build motion-aware candidate dataset with the exact v9 examples/labels for apples-to-apples evaluation.
+- [x] Build motion-aware candidate dataset with the exact v9 examples/labels for apples-to-apples evaluation.
 - [ ] Add expanded neighbor/momentum candidates without changing evaluation targets.
-- [ ] Implement `GeoFusionCandidateRanker`.
+- [x] Implement `GeoFusionCandidateRanker` (v1/v2 research challengers; neither promoted).
 - [ ] Implement distance-soft + multiresolution training objective.
-- [ ] Add rolling-origin evaluator and experiment ledger.
-- [ ] Train first GeoFusion challenger on existing data before external-geo augmentation.
-- [ ] Add terrain/access/population/land-cover features one family at a time and run ablations.
-- [ ] Train tree diversity expert on the compiled GeoBrain table.
-- [ ] Ensemble only after individual expert rolling-origin predictions are frozen.
-- [ ] Preserve every trained version and produce `info.blt` with lineage, metrics, and rejection/promotion reason.
+- [x] Add rolling-origin evaluator and experiment ledger.
+- [x] Train first GeoFusion challenger on existing data before external-geo augmentation.
+- [~] Add terrain/access/population/land-cover features one family at a time and run ablations. Terrain/access/population done; WorldCover remains.
+- [x] Train tree diversity expert on the compiled GeoBrain table.
+- [x] Build a validation-only proper-score broad-area ensemble after freezing individual expert outputs; keep rolling-origin/prospective confirmation as the promotion gate.
+- [x] Preserve every trained version and produce `info.blt`/failure metadata with lineage, metrics, and rejection/promotion reason.
 
 ---
 

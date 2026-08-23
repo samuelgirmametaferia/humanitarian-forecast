@@ -1,0 +1,40 @@
+{
+  "threshold": 0.6931471824645996,
+  "validation": {
+    "samples": 8375,
+    "positive_rate": 0.04955223947763443,
+    "v6": {
+      "ap": 0.16622406412105956,
+      "log_loss": 0.17534083783835708,
+      "mae": 0.08116687041112403
+    },
+    "specialist": {
+      "ap": 0.05601310749561357,
+      "log_loss": 0.23441654443740845,
+      "mae": 0.24018381536006927
+    },
+    "selected_probability_weight": 0.05,
+    "selected_intensity_weight": 0.0
+  },
+  "development": {
+    "samples": 7251,
+    "positive_rate": 0.0688180923461914,
+    "v6": {
+      "ap": 0.1724952378252922,
+      "log_loss": 0.22993793486211045,
+      "mae": 0.1054885223474615
+    },
+    "specialist": {
+      "ap": 0.06724071775869196,
+      "log_loss": 0.3078373074531555,
+      "mae": 0.26195985078811646
+    },
+    "validation_selected_blend": {
+      "ap": 0.1714979437560724,
+      "log_loss": 0.23079390933192426,
+      "mae": 0.1054885223474615,
+      "probability_weight": 0.05,
+      "intensity_weight": 0.0
+    }
+  }
+}

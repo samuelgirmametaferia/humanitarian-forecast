@@ -1,0 +1,51 @@
+{
+  "selection": {
+    "metric": "validation AP",
+    "context_weight": 0.5,
+    "validation_ap_raw": 0.15327838914200723,
+    "calibration": {
+      "scale": 1.0205204124652962,
+      "temperature": 0.9798922077259341,
+      "bias": 0.05684767557455989
+    }
+  },
+  "validation": {
+    "average_precision": 0.15327838914200723,
+    "balanced_accuracy": 0.6772892148535595,
+    "precision": 0.13181602655286867,
+    "recall": 0.516728624535316,
+    "f1": 0.2100491122024934,
+    "brier": 0.041678379593587174,
+    "log_loss": 0.17015153833873095,
+    "threshold": 0.07931272689810157,
+    "positive_rate": 0.04547759932375317
+  },
+  "development": {
+    "average_precision": 0.15192417707821923,
+    "balanced_accuracy": 0.6293689053568196,
+    "precision": 0.15884652981427175,
+    "recall": 0.4145408163265306,
+    "f1": 0.22968197879858657,
+    "brier": 0.060113261522441494,
+    "log_loss": 0.23295333190866058,
+    "threshold": 0.07931272689810157,
+    "positive_rate": 0.06627218934911243
+  },
+  "components": {
+    "v6": {
+      "validation_ap": 0.14329812471501652,
+      "development_ap": 0.14688489958844314
+    },
+    "combined": {
+      "validation_ap": 0.16239235182246012,
+      "development_ap": 0.15382714292661318
+    }
+  },
+  "proper_scores": {
+    "validation_log_loss": 0.17015153833873095,
+    "development_log_loss": 0.23295333190866058,
+    "validation_brier": 0.041678379593587174,
+    "development_brier": 0.060113261522441494
+  },
+  "caveat": "AP weight selected on chronological validation only; final historical block is development, not prospective."
+}

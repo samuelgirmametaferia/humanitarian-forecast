@@ -1,0 +1,144 @@
+{
+  "validation": {
+    "average_precision": 0.14329812471501652,
+    "balanced_accuracy": 0.6775937367903322,
+    "precision": 0.12329351535836178,
+    "recall": 0.5371747211895911,
+    "f1": 0.20055517002081888,
+    "brier": 0.04164936367914989,
+    "log_loss": 0.16992956212208857,
+    "threshold": 0.06858889839011217,
+    "positive_rate": 0.04547759932375317,
+    "intensity_mae": 0.09263695576814707
+  },
+  "development_holdout": {
+    "average_precision": 0.14688489204649166,
+    "balanced_accuracy": 0.6343496999560281,
+    "precision": 0.14659044507962435,
+    "recall": 0.45790816326530615,
+    "f1": 0.22208475100525826,
+    "brier": 0.06008633264015309,
+    "log_loss": 0.23257682257516651,
+    "threshold": 0.06858889839011217,
+    "positive_rate": 0.06627218934911243,
+    "intensity_mae": 0.13683675692184685
+  },
+  "components": {
+    "v6": {
+      "validation_ap": 0.14329812471501652,
+      "development_ap": 0.14688489204649166,
+      "validation_intensity_mae": 0.09263695576814707,
+      "development_intensity_mae": 0.13683675692184685
+    },
+    "context_fusion": {
+      "validation_ap_raw": 0.12916539526278564,
+      "development_ap_raw": 0.1346764188545171,
+      "validation_intensity_mae": 0.09538315236568451,
+      "development_intensity_mae": 0.13717788457870483
+    }
+  },
+  "ensemble": {
+    "base_v6_model": "models/risk/ethiopia/v6",
+    "probability_weights": {
+      "v6": 1.0,
+      "context_fusion": 0.0
+    },
+    "probability_selection": "validation binary log loss after expert-only affine calibration",
+    "expert_affine_logit_calibration": {
+      "scale": 0.5272757411003113,
+      "temperature": 1.8965408837380129,
+      "bias": -2.2836754322052
+    },
+    "ensemble_affine_logit_calibration": {
+      "scale": 0.9996846219598393,
+      "temperature": 1.0003154775348473,
+      "bias": -0.0007698541050332765
+    },
+    "selected_validation_log_loss": 0.1699295663925531,
+    "threshold": 0.06858889839011217,
+    "intensity_weights": {
+      "v6": 1.0,
+      "context_fusion": 0.0
+    },
+    "selected_validation_intensity_mae": 0.09263695576814707,
+    "dynamic_dim": 26
+  },
+  "classifier_training": {
+    "best_epoch": 1,
+    "validation_ap": 0.12916539526278564,
+    "history": [
+      {
+        "epoch": 1,
+        "training_loss": 0.577967674700768,
+        "validation_ap": 0.12916539526278564
+      },
+      {
+        "epoch": 2,
+        "training_loss": 0.5237516099329648,
+        "validation_ap": 0.12530603068839338
+      },
+      {
+        "epoch": 3,
+        "training_loss": 0.49668973832442587,
+        "validation_ap": 0.11966527286612486
+      },
+      {
+        "epoch": 4,
+        "training_loss": 0.4597071048796913,
+        "validation_ap": 0.09418384743960473
+      },
+      {
+        "epoch": 5,
+        "training_loss": 0.42563992888582913,
+        "validation_ap": 0.0933548812290904
+      }
+    ]
+  },
+  "intensity_training": {
+    "best_epoch": 5,
+    "validation_mae": 0.09538315236568451,
+    "history": [
+      {
+        "epoch": 1,
+        "training_loss": 0.0714998210248278,
+        "validation_mae": 0.09695187211036682
+      },
+      {
+        "epoch": 2,
+        "training_loss": 0.05672758810978733,
+        "validation_mae": 0.09850966930389404
+      },
+      {
+        "epoch": 3,
+        "training_loss": 0.055793783934854735,
+        "validation_mae": 0.10750003904104233
+      },
+      {
+        "epoch": 4,
+        "training_loss": 0.054872951733857846,
+        "validation_mae": 0.09891809523105621
+      },
+      {
+        "epoch": 5,
+        "training_loss": 0.05296372408610438,
+        "validation_mae": 0.09538315236568451
+      },
+      {
+        "epoch": 6,
+        "training_loss": 0.05162262315063426,
+        "validation_mae": 0.09668523818254471
+      },
+      {
+        "epoch": 7,
+        "training_loss": 0.049194603730849426,
+        "validation_mae": 0.10858451575040817
+      },
+      {
+        "epoch": 8,
+        "training_loss": 0.0474196538237082,
+        "validation_mae": 0.09980446100234985
+      }
+    ]
+  },
+  "evaluation_caveat": "Final historical block is a development benchmark. Static representation passed a separate rolling-origin feature gate; prospective confirmation remains required."
+}

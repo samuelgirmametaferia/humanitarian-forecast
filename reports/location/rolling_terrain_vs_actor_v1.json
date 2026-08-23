@@ -1,0 +1,137 @@
+{
+  "schema": "rolling-origin-ethiopia-broad-area-v1",
+  "baseline": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+  "candidate": "data/location/conflict_candidates_32_motion_actor_transfer_terrain_v9.npz",
+  "fixed_ranker": {
+    "estimators": 75,
+    "learning_rate": 0.04,
+    "num_leaves": 31
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train_fraction": 0.6,
+      "train_end_date": "2017-09-03",
+      "eval_end_date": "2019-11-05",
+      "baseline": {
+        "samples": 48.0,
+        "mean_error_km": 386.49951171875,
+        "median_error_km": 347.56695556640625,
+        "p90_error_km": 794.9539794921875,
+        "within_50km": 0.1875,
+        "within_100km": 0.25,
+        "within_200km": 0.375,
+        "top3_within_100km": 0.3333333333333333,
+        "top5_within_200km": 0.5625,
+        "candidate_oracle_mean_km": 61.89045715332031,
+        "rolling_broad_score": 0.32916666666666666
+      },
+      "candidate": {
+        "samples": 48.0,
+        "mean_error_km": 375.1754455566406,
+        "median_error_km": 340.43597412109375,
+        "p90_error_km": 794.9539794921875,
+        "within_50km": 0.1875,
+        "within_100km": 0.25,
+        "within_200km": 0.375,
+        "top3_within_100km": 0.3333333333333333,
+        "top5_within_200km": 0.5833333333333334,
+        "candidate_oracle_mean_km": 61.89045715332031,
+        "rolling_broad_score": 0.33125
+      },
+      "delta": {
+        "rolling_broad_score": 0.002083333333333326,
+        "mean_error_km": -11.324066162109375,
+        "within_100km": 0.0
+      }
+    },
+    {
+      "fold": 2,
+      "train_fraction": 0.7,
+      "train_end_date": "2020-05-10",
+      "eval_end_date": "2022-02-04",
+      "baseline": {
+        "samples": 476.0,
+        "mean_error_km": 159.15492248535156,
+        "median_error_km": 92.77359771728516,
+        "p90_error_km": 440.33868408203125,
+        "within_50km": 0.29831932773109243,
+        "within_100km": 0.5189075630252101,
+        "within_200km": 0.7710084033613446,
+        "top3_within_100km": 0.6512605042016807,
+        "top5_within_200km": 0.8970588235294118,
+        "candidate_oracle_mean_km": 38.21718978881836,
+        "rolling_broad_score": 0.646218487394958
+      },
+      "candidate": {
+        "samples": 476.0,
+        "mean_error_km": 161.80667114257812,
+        "median_error_km": 94.83348083496094,
+        "p90_error_km": 446.90777587890625,
+        "within_50km": 0.28781512605042014,
+        "within_100km": 0.5252100840336135,
+        "within_200km": 0.7626050420168067,
+        "top3_within_100km": 0.6491596638655462,
+        "top5_within_200km": 0.8928571428571429,
+        "candidate_oracle_mean_km": 38.21718978881836,
+        "rolling_broad_score": 0.6461134453781513
+      },
+      "delta": {
+        "rolling_broad_score": -0.00010504201680672232,
+        "mean_error_km": 2.6517486572265625,
+        "within_100km": 0.006302521008403339
+      }
+    },
+    {
+      "fold": 3,
+      "train_fraction": 0.8,
+      "train_end_date": "2022-06-26",
+      "eval_end_date": "2023-11-26",
+      "baseline": {
+        "samples": 391.0,
+        "mean_error_km": 219.51266479492188,
+        "median_error_km": 198.27906799316406,
+        "p90_error_km": 440.6560363769531,
+        "within_50km": 0.17902813299232737,
+        "within_100km": 0.3145780051150895,
+        "within_200km": 0.5038363171355499,
+        "top3_within_100km": 0.42455242966751916,
+        "top5_within_200km": 0.7723785166240409,
+        "candidate_oracle_mean_km": 34.26382064819336,
+        "rolling_broad_score": 0.4296675191815857
+      },
+      "candidate": {
+        "samples": 391.0,
+        "mean_error_km": 218.8685302734375,
+        "median_error_km": 196.39260864257812,
+        "p90_error_km": 440.6560363769531,
+        "within_50km": 0.17135549872122763,
+        "within_100km": 0.309462915601023,
+        "within_200km": 0.5012787723785166,
+        "top3_within_100km": 0.4092071611253197,
+        "top5_within_200km": 0.7647058823529411,
+        "candidate_oracle_mean_km": 34.26382064819336,
+        "rolling_broad_score": 0.4228900255754476
+      },
+      "delta": {
+        "rolling_broad_score": -0.0067774936061381075,
+        "mean_error_km": -0.644134521484375,
+        "within_100km": -0.005115089514066473
+      }
+    }
+  ],
+  "summary": {
+    "mean_broad_score_delta": -0.001599734096537168,
+    "fold_broad_score_deltas": [
+      0.002083333333333326,
+      -0.00010504201680672232,
+      -0.0067774936061381075
+    ],
+    "mean_error_delta_km": -3.1054840087890625,
+    "mean_within_100km_delta": 0.0003958104981122886,
+    "positive_broad_score_folds": 1,
+    "stable_accept": false,
+    "rule": "positive mean broad-score delta, positive in nearly every fold, no fold worse than -0.02"
+  },
+  "evaluation_scope": "Ethiopia broad-area ranking; exact point errors diagnostic only"
+}

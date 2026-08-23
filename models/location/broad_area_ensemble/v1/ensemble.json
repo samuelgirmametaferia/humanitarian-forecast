@@ -1,0 +1,26 @@
+{
+  "schema": "broad-area-ensemble/v1",
+  "target": "100 km Gaussian distance-soft candidate probability",
+  "experts": {
+    "v9_phase1_validation_reproduction": "models/location/candidate_ranker/v9_phase1_ensemble_repro",
+    "actor_transfer": "models/location/geo_lambdarank_actor_transfer/v1",
+    "propagation_kernel": "models/location/geo_lambdarank_kernel/v1"
+  },
+  "temperatures": {
+    "v9_phase1": 3.1104887024105206,
+    "actor_transfer": 1.729638914881618,
+    "propagation_kernel": 1.729638914881618
+  },
+  "global_weights": {
+    "v9_phase1": 0.425,
+    "actor_transfer": 0.15,
+    "propagation_kernel": 0.425
+  },
+  "ethiopia_guarded_weights": {
+    "v9_phase1": 0.0,
+    "actor_transfer": 0.0,
+    "propagation_kernel": 1.0
+  },
+  "selection": "chronological validation distance-soft cross-entropy; Ethiopia weights constrained to <=0.5% global CE regression",
+  "development_is_not_prospective": true
+}

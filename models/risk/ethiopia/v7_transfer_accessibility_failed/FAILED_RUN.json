@@ -1,0 +1,20 @@
+{
+  "status": "failed-after-training-before-artifact-packaging",
+  "reason": "post-training base predictor was given 26-channel spatial base data although v5 expects 8 channels",
+  "preservation_note": "The process did not persist the selected state before the packaging error. This file preserves the completed epoch-level measurements so the compute result is not silently erased.",
+  "seed": 20260826,
+  "mask_probability": 0.30,
+  "transfer_weight": 0.55,
+  "best_epoch_by_selection_score": 2,
+  "history": [
+    {"epoch":1,"validation_ap":0.09990066206723133,"cold_start_validation_ap":0.05700269180489136,"validation_intensity_mae":0.16060133278369904,"cold_start_validation_intensity_mae":0.22475086152553558,"selection_score":0.08917616950164634},
+    {"epoch":2,"validation_ap":0.10559655282946918,"cold_start_validation_ap":0.0565114426070564,"validation_intensity_mae":0.15450456738471985,"cold_start_validation_intensity_mae":0.2245231568813324,"selection_score":0.093325275273866},
+    {"epoch":3,"validation_ap":0.09511538860238138,"cold_start_validation_ap":0.05758643539031237,"validation_intensity_mae":0.1613360345363617,"cold_start_validation_intensity_mae":0.24475054442882538,"selection_score":0.08573315029936412},
+    {"epoch":4,"validation_ap":0.09021686555194815,"cold_start_validation_ap":0.0636958422646743,"validation_intensity_mae":0.15578186511993408,"cold_start_validation_intensity_mae":0.2399686723947525,"selection_score":0.08358660973012969},
+    {"epoch":5,"validation_ap":0.07020777581120752,"cold_start_validation_ap":0.06034558144546037,"validation_intensity_mae":0.1620854288339615,"cold_start_validation_intensity_mae":0.22993312776088715,"selection_score":0.06774222721977073},
+    {"epoch":6,"validation_ap":0.06262222872013332,"cold_start_validation_ap":0.06125601834423795,"validation_intensity_mae":0.17138956487178802,"cold_start_validation_intensity_mae":0.24721302092075348,"selection_score":0.06228067612615948},
+    {"epoch":7,"validation_ap":0.06225800115757695,"cold_start_validation_ap":0.05890273268274035,"validation_intensity_mae":0.180906742811203,"cold_start_validation_intensity_mae":0.264253169298172,"selection_score":0.0614191840388678},
+    {"epoch":8,"validation_ap":0.07299832437137689,"cold_start_validation_ap":0.054123425932099074,"validation_intensity_mae":0.15706078708171844,"cold_start_validation_intensity_mae":0.22419576346874237,"selection_score":0.06827959976155744}
+  ],
+  "conclusion": "Shared masked-local auxiliary loss at this strength severely degrades the normal representation; preserve as a negative result and prefer a separate transfer specialist."
+}

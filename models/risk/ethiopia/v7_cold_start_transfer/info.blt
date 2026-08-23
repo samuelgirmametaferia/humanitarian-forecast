@@ -1,0 +1,290 @@
+{
+  "artifacts": [
+    "ethiopia_metrics.json",
+    "predictions.npz",
+    "transfer_classifier.joblib",
+    "transfer_intensity.joblib"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T20:46:21.142947+00:00",
+  "description": "Non-local coarse humanitarian-risk expert explicitly selected on chronologically later PRIO entities excluded from fit.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "data": "data/processed_v7/ethiopia_spatial_accessibility_population.npz"
+  },
+  "metrics": {
+    "headline": {
+      "all": {
+        "average_precision": 0.0656362438180933,
+        "intensity_mae": 0.26357424223726367,
+        "log_loss": 0.2990711314540952,
+        "positive_rate": 0.06627219170331955,
+        "samples": 11830
+      },
+      "heldout_entities": {
+        "average_precision": 0.06595450040374229,
+        "intensity_mae": 0.259434379849608,
+        "log_loss": 0.2569153370575093,
+        "positive_rate": 0.05320877209305763,
+        "samples": 2462
+      },
+      "low_local_activity": {
+        "average_precision": 0.06724071775869196,
+        "intensity_mae": 0.2619598509783735,
+        "log_loss": 0.30783730166538453,
+        "positive_rate": 0.0688180923461914,
+        "samples": 7251
+      }
+    },
+    "transfer_selection": {
+      "fit_period_end_fraction": 0.6,
+      "fit_rows": 37492,
+      "heldout_modulus": 5,
+      "search": [
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 60,
+          "num_leaves": 7,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.06895705781857708,
+          "transfer_log_loss": 0.3389944451483548
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 60,
+          "num_leaves": 7,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.06803226749611645,
+          "transfer_log_loss": 0.34276482434525707
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 60,
+          "num_leaves": 7,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.07572921792063986,
+          "transfer_log_loss": 0.31940071484756316
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 60,
+          "num_leaves": 7,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.07761842230917432,
+          "transfer_log_loss": 0.3131946888420544
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 140,
+          "num_leaves": 7,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.06587589699909199,
+          "transfer_log_loss": 0.3385400309855993
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 140,
+          "num_leaves": 7,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.06621982146869954,
+          "transfer_log_loss": 0.34205181219414726
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 140,
+          "num_leaves": 7,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.07001460939727505,
+          "transfer_log_loss": 0.3206421613140745
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 140,
+          "num_leaves": 7,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.07588465179719033,
+          "transfer_log_loss": 0.3130018315206186
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 60,
+          "num_leaves": 15,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.063509951903876,
+          "transfer_log_loss": 0.32289857383299486
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 60,
+          "num_leaves": 15,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.061493077931027124,
+          "transfer_log_loss": 0.32561385261213
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 60,
+          "num_leaves": 15,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.07191672503848817,
+          "transfer_log_loss": 0.30163918621320307
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 60,
+          "num_leaves": 15,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.078938852525116,
+          "transfer_log_loss": 0.2952161907016179
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 140,
+          "num_leaves": 15,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.06507862697225295,
+          "transfer_log_loss": 0.3157269366457254
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 140,
+          "num_leaves": 15,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.06866734262916441,
+          "transfer_log_loss": 0.3134947253484468
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 140,
+          "num_leaves": 15,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.07570163436927448,
+          "transfer_log_loss": 0.28950629742977896
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 140,
+          "num_leaves": 15,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.06559496441806731,
+          "transfer_log_loss": 0.30168256529094833
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 60,
+          "num_leaves": 31,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.07394962814233833,
+          "transfer_log_loss": 0.2887812848024814
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 60,
+          "num_leaves": 31,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.07073727076623487,
+          "transfer_log_loss": 0.2911147369733792
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 60,
+          "num_leaves": 31,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.07430487147006305,
+          "transfer_log_loss": 0.29067491533415807
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 60,
+          "num_leaves": 31,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.08003047213437822,
+          "transfer_log_loss": 0.29066898527392576
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 140,
+          "num_leaves": 31,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.081277861802921,
+          "transfer_log_loss": 0.28734738106593904
+        },
+        {
+          "learning_rate": 0.025,
+          "min_child_samples": 140,
+          "num_leaves": 31,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.07099657871812026,
+          "transfer_log_loss": 0.29073876915797553
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 140,
+          "num_leaves": 31,
+          "reg_lambda": 1.0,
+          "transfer_ap": 0.09238721159556085,
+          "transfer_log_loss": 0.28716405405685047
+        },
+        {
+          "learning_rate": 0.05,
+          "min_child_samples": 140,
+          "num_leaves": 31,
+          "reg_lambda": 3.0,
+          "transfer_ap": 0.07398466481659552,
+          "transfer_log_loss": 0.2955126015502494
+        }
+      ],
+      "selected": {
+        "learning_rate": 0.05,
+        "min_child_samples": 140,
+        "num_leaves": 31,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.09238721159556085,
+        "transfer_log_loss": 0.28716405405685047
+      },
+      "selection_period": [
+        0.6,
+        0.7
+      ],
+      "selection_positives": 101,
+      "selection_rows": 1441
+    },
+    "validation": {
+      "all": {
+        "average_precision": 0.048315597841751975,
+        "intensity_mae": 0.23423062765394864,
+        "log_loss": 0.22463167929202266,
+        "positive_rate": 0.045477598905563354,
+        "samples": 11830
+      },
+      "heldout_entities": {
+        "average_precision": 0.04881296635095421,
+        "intensity_mae": 0.24344596164102092,
+        "log_loss": 0.23165221669361533,
+        "positive_rate": 0.04970472306013107,
+        "samples": 2032
+      },
+      "low_local_activity": {
+        "average_precision": 0.05601310749561357,
+        "intensity_mae": 0.24018381271138403,
+        "log_loss": 0.23441654250397337,
+        "positive_rate": 0.04955223947763443,
+        "samples": 8375
+      }
+    }
+  },
+  "notes": [
+    "Local target-cell history channels are excluded from the expert input.",
+    "Hyperparameters are selected on held-out PRIO entities in a later training-period slice.",
+    "Specialist is intended for coarse humanitarian cold-start transfer and ensemble use, not exact-event geolocation."
+  ],
+  "status": "research-specialist",
+  "subsystem": "risk/ethiopia",
+  "training": {
+    "holdout_modulus": 5,
+    "inner_fit_fraction": 0.6,
+    "seed": 20260827,
+    "transfer_selection_end_fraction": 0.7
+  },
+  "version": "v7-cold-start-transfer"
+}

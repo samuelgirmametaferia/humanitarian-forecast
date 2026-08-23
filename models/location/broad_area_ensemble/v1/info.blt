@@ -1,0 +1,161 @@
+{
+  "artifacts": [
+    "ensemble.json",
+    "metrics.json"
+  ],
+  "calibration": {
+    "ethiopia_guarded_weights": {
+      "actor_transfer": 0.0,
+      "propagation_kernel": 1.0,
+      "v9_phase1": 0.0
+    },
+    "global_weights": {
+      "actor_transfer": 0.15,
+      "propagation_kernel": 0.425,
+      "v9_phase1": 0.425
+    },
+    "temperatures": {
+      "actor_transfer": 1.729638914881618,
+      "propagation_kernel": 1.729638914881618,
+      "v9_phase1": 3.1104887024105206
+    }
+  },
+  "created_at": "2026-08-23T20:58:05.345705+00:00",
+  "description": "Proper-score broad-area ensemble of v9 phase-1 reproduction, cross-conflict actor-transfer LambdaRank, and smooth propagation-kernel LambdaRank.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "actor_transfer": "models/location/geo_lambdarank_actor_transfer/v1",
+    "propagation_kernel": "models/location/geo_lambdarank_kernel/v1",
+    "report": "reports/location/broad_area_ensemble_v1.json",
+    "v9_reference": "models/location/candidate_ranker/v9",
+    "v9_validation_reproduction": "models/location/candidate_ranker/v9_phase1_ensemble_repro"
+  },
+  "metrics": {
+    "ethiopia_development": {
+      "broad_area_score": 0.27045416305804043,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "distance_soft_cross_entropy": 3.2546845163715217,
+      "mean_entropy": 3.312930928328186,
+      "mean_error_km": 205.1160888671875,
+      "median_error_km": 179.349853515625,
+      "p90_error_km": 402.628662109375,
+      "probability_mass_within_100km": 0.18420062890412756,
+      "probability_mass_within_200km": 0.41493396183690917,
+      "probability_mass_within_25km": 0.030379759652589027,
+      "probability_mass_within_50km": 0.07673844737190362,
+      "samples": 968.0,
+      "top3_within_100km": 0.4431818181818182,
+      "top3_within_200km": 0.7179752066115702,
+      "top5_within_100km": 0.5361570247933884,
+      "top5_within_200km": 0.7892561983471075,
+      "within_100km": 0.27892561983471076,
+      "within_200km": 0.5516528925619835,
+      "within_25km": 0.056818181818181816,
+      "within_50km": 0.12293388429752067
+    },
+    "ethiopia_validation": {
+      "broad_area_score": 0.3807122798720779,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "distance_soft_cross_entropy": 3.0895139244259973,
+      "mean_entropy": 3.1769918601172553,
+      "mean_error_km": 187.79583740234375,
+      "median_error_km": 118.80216217041016,
+      "p90_error_km": 466.64898681640625,
+      "probability_mass_within_100km": 0.28337321465478205,
+      "probability_mass_within_200km": 0.5058137214801209,
+      "probability_mass_within_25km": 0.05209747845199374,
+      "probability_mass_within_50km": 0.1263593881706635,
+      "samples": 785.0,
+      "top3_within_100km": 0.575796178343949,
+      "top3_within_200km": 0.7847133757961784,
+      "top5_within_100km": 0.6675159235668789,
+      "top5_within_200km": 0.8611464968152867,
+      "within_100km": 0.4407643312101911,
+      "within_200km": 0.6598726114649681,
+      "within_25km": 0.14140127388535031,
+      "within_50km": 0.24968152866242038
+    },
+    "global_development": {
+      "broad_area_score": 0.5417887287320032,
+      "candidate_oracle_mean_km": 35.99437713623047,
+      "distance_soft_cross_entropy": 3.111807641194822,
+      "mean_entropy": 3.122556877727349,
+      "mean_error_km": 226.4075164794922,
+      "median_error_km": 60.56305694580078,
+      "p90_error_km": 501.5950622558594,
+      "probability_mass_within_100km": 0.46752127094026,
+      "probability_mass_within_200km": 0.6336759358263061,
+      "probability_mass_within_25km": 0.20974719501075903,
+      "probability_mass_within_50km": 0.32235774169030834,
+      "samples": 23690.0,
+      "top3_within_100km": 0.689489235964542,
+      "top3_within_200km": 0.8107640354579991,
+      "top5_within_100km": 0.7411988180666949,
+      "top5_within_200km": 0.8519628535246939,
+      "within_100km": 0.5931194596876319,
+      "within_200km": 0.7311523849725623,
+      "within_25km": 0.3598986914309835,
+      "within_50km": 0.46116504854368934
+    },
+    "global_validation": {
+      "broad_area_score": 0.5283114394612801,
+      "candidate_oracle_mean_km": 36.495914459228516,
+      "distance_soft_cross_entropy": 3.05930900769385,
+      "mean_entropy": 3.0818202832811807,
+      "mean_error_km": 240.39202880859375,
+      "median_error_km": 66.8820571899414,
+      "p90_error_km": 513.0015869140625,
+      "probability_mass_within_100km": 0.44983573516852204,
+      "probability_mass_within_200km": 0.6212881573363163,
+      "probability_mass_within_25km": 0.18402046441440986,
+      "probability_mass_within_50km": 0.2965965553649424,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6905023216547066,
+      "top3_within_200km": 0.8047277332207683,
+      "top5_within_100km": 0.7463064584212749,
+      "top5_within_200km": 0.8501899535669059,
+      "within_100km": 0.5839594765723934,
+      "within_200km": 0.7226677923174335,
+      "within_25km": 0.33461376108062474,
+      "within_50km": 0.4433938370620515
+    },
+    "headline": {
+      "broad_area_score": 0.5417887287320032,
+      "candidate_oracle_mean_km": 35.99437713623047,
+      "distance_soft_cross_entropy": 3.111807641194822,
+      "mean_entropy": 3.122556877727349,
+      "mean_error_km": 226.4075164794922,
+      "median_error_km": 60.56305694580078,
+      "p90_error_km": 501.5950622558594,
+      "probability_mass_within_100km": 0.46752127094026,
+      "probability_mass_within_200km": 0.6336759358263061,
+      "probability_mass_within_25km": 0.20974719501075903,
+      "probability_mass_within_50km": 0.32235774169030834,
+      "samples": 23690.0,
+      "top3_within_100km": 0.689489235964542,
+      "top3_within_200km": 0.8107640354579991,
+      "top5_within_100km": 0.7411988180666949,
+      "top5_within_200km": 0.8519628535246939,
+      "within_100km": 0.5931194596876319,
+      "within_200km": 0.7311523849725623,
+      "within_25km": 0.3598986914309835,
+      "within_50km": 0.46116504854368934
+    }
+  },
+  "notes": [
+    "No expert was overwritten.",
+    "The v9 phase-1 reproduction is trained on 70% solely to avoid validation leakage from the 85%-trained v9 production checkpoint.",
+    "For Ethiopia, validation proper-score selection chooses the propagation-kernel expert alone.",
+    "Output objective is broad-area probability; exact point errors are diagnostic only.",
+    "Actor-transfer standalone rolling gate did not pass; terrain standalone rolling gate failed. Proper-score ensemble remains research-only pending prospective/rolling confirmation."
+  ],
+  "status": "research-challenger-rolling-required",
+  "subsystem": "location/broad_area_ensemble",
+  "training": {
+    "distance_soft_radius_km": 100,
+    "ensemble_only": true,
+    "selection_partition": "chronological validation",
+    "weight_step": 0.025
+  },
+  "version": "v1"
+}

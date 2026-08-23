@@ -1,0 +1,83 @@
+{
+  "artifacts": [
+    "context_classifier.pt",
+    "context_intensity.pt",
+    "ensemble.json",
+    "ethiopia_metrics.json"
+  ],
+  "calibration": {
+    "ensemble_probability": {
+      "bias": -0.0007698541050332765,
+      "scale": 0.9996846219598393,
+      "temperature": 1.0003154775348473
+    },
+    "expert_probability": {
+      "bias": -2.2836754322052,
+      "scale": 0.5272757411003113,
+      "temperature": 1.8965408837380129
+    }
+  },
+  "created_at": "2026-08-23T20:50:20.293275+00:00",
+  "description": "Separated dynamic/static coarse humanitarian-risk model with bounded FiLM context fusion over spatial history plus population/accessibility.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "base_v6_model": "models/risk/ethiopia/v6",
+    "context_data": "data/processed_v7/ethiopia_spatial_accessibility_population.npz"
+  },
+  "metrics": {
+    "components": {
+      "context_fusion": {
+        "development_ap_raw": 0.1346764188545171,
+        "development_intensity_mae": 0.13717788457870483,
+        "validation_ap_raw": 0.12916539526278564,
+        "validation_intensity_mae": 0.09538315236568451
+      },
+      "v6": {
+        "development_ap": 0.14688489204649166,
+        "development_intensity_mae": 0.13683675692184685,
+        "validation_ap": 0.14329812471501652,
+        "validation_intensity_mae": 0.09263695576814707
+      }
+    },
+    "headline": {
+      "average_precision": 0.14688489204649166,
+      "balanced_accuracy": 0.6343496999560281,
+      "brier": 0.06008633264015309,
+      "f1": 0.22208475100525826,
+      "intensity_mae": 0.13683675692184685,
+      "log_loss": 0.23257682257516651,
+      "positive_rate": 0.06627218934911243,
+      "precision": 0.14659044507962435,
+      "recall": 0.45790816326530615,
+      "threshold": 0.06858889839011217
+    },
+    "validation": {
+      "average_precision": 0.14329812471501652,
+      "balanced_accuracy": 0.6775937367903322,
+      "brier": 0.04164936367914989,
+      "f1": 0.20055517002081888,
+      "intensity_mae": 0.09263695576814707,
+      "log_loss": 0.16992956212208857,
+      "positive_rate": 0.04547759932375317,
+      "precision": 0.12329351535836178,
+      "recall": 0.5371747211895911,
+      "threshold": 0.06858889839011217
+    }
+  },
+  "notes": [
+    "Static context is encoded once, not repeated through temporal convolutions.",
+    "Bounded FiLM modulation prevents static geography from replacing dynamic evidence.",
+    "Outputs are coarse humanitarian escalation/intensity signals only.",
+    "Separated ContextFusion first seed received zero validation-selected ensemble weight for both probability and intensity."
+  ],
+  "status": "research-rejected",
+  "subsystem": "risk/ethiopia",
+  "training": {
+    "classifier_epochs": 5,
+    "classifier_seed": 20260828,
+    "dynamic_dim": 26,
+    "intensity_epochs": 8,
+    "intensity_seed": 20260829
+  },
+  "version": "v7-context-fusion"
+}

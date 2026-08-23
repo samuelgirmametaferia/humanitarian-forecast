@@ -1,0 +1,87 @@
+{
+  "artifacts": [
+    "ensemble.json",
+    "ethiopia_metrics.json",
+    "transfer_classifier.pt",
+    "transfer_intensity.pt"
+  ],
+  "calibration": {
+    "intensity_conformal_absolute_radii_log1p": {
+      "p80": 0.26183021068573,
+      "p90": 0.5138373374938965,
+      "p95": 0.5218791961669922
+    },
+    "probability": {
+      "bias": 0.06283221841465371,
+      "scale": 1.0788158085152209,
+      "temperature": 0.9269422936769017
+    }
+  },
+  "created_at": "2026-08-23T21:01:07.617911+00:00",
+  "description": "Coarse humanitarian-risk challenger with explicit unseen-area transfer regularization via local-history masking.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "base_data": "data/processed_v3/ethiopia.npz",
+    "base_model": "models/risk/ethiopia/v5",
+    "context_data": "data/processed_v6/ethiopia_spatial.npz"
+  },
+  "metrics": {
+    "headline": {
+      "average_precision": 0.14736654098000973,
+      "balanced_accuracy": 0.6349381482631076,
+      "brier": 0.06011126575618168,
+      "f1": 0.22298136645962732,
+      "intensity_mae": 0.1699124276638031,
+      "log_loss": 0.23285098164976684,
+      "positive_rate": 0.06627218934911243,
+      "precision": 0.1473727422003284,
+      "recall": 0.45790816326530615,
+      "threshold": 0.06562270520464969
+    },
+    "synthetic_cold_start": {
+      "development": {
+        "classifier_average_precision": 0.07024820856404487,
+        "classifier_intensity_mae_aux": 0.2995733916759491,
+        "intensity_mae": 0.2844448685646057
+      },
+      "simulation": "first 8 local-history channels zeroed; neighborhood/static context preserved",
+      "validation": {
+        "classifier_average_precision": 0.05279852735969502,
+        "classifier_intensity_mae_aux": 0.3097590208053589,
+        "intensity_mae": 0.28478652238845825
+      }
+    },
+    "validation": {
+      "average_precision": 0.12852658533596228,
+      "balanced_accuracy": 0.6779464884176316,
+      "brier": 0.04170741542365596,
+      "f1": 0.19863945578231293,
+      "intensity_mae": 0.12541866302490234,
+      "log_loss": 0.16989830197590677,
+      "positive_rate": 0.04547759932375317,
+      "precision": 0.12156536219816819,
+      "recall": 0.5427509293680297,
+      "threshold": 0.06562270520464969
+    }
+  },
+  "notes": [
+    "Coarse humanitarian escalation/intensity only.",
+    "No next-event coordinate, route, unit-position, or tactical prediction is produced.",
+    "Rolling-origin true cold-start evaluation is required before promotion.",
+    "Masked-local transfer objective was too weak on synthetic cold-start and materially worse on intensity; preserve as a negative experiment.",
+    "Masked-local transfer regularization damaged ordinary validation/intensity performance; preserve completed compute as a negative ablation."
+  ],
+  "status": "research-rejected-transfer",
+  "subsystem": "risk/ethiopia",
+  "training": {
+    "local_dim": 8,
+    "split": {
+      "development_holdout": 0.15,
+      "train": 0.7,
+      "validation": 0.15
+    },
+    "transfer_probability": 0.25,
+    "transfer_weight": 0.35
+  },
+  "version": "v7-transfer"
+}

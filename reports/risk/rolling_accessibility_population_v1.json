@@ -1,0 +1,188 @@
+{
+  "schema": "rolling-origin-humanitarian-risk-v1",
+  "baseline": "data/processed_v6/ethiopia_spatial.npz",
+  "candidate": "data/processed_v7/ethiopia_spatial_accessibility_population.npz",
+  "dynamic_dim": 26,
+  "folds": [
+    {
+      "name": "fold_1",
+      "train_end": 22731,
+      "eval_start": 22731,
+      "eval_end": 26253,
+      "train_end_date": "2011-06-21",
+      "eval_end_date": "2014-09-28"
+    },
+    {
+      "name": "fold_2",
+      "train_end": 26253,
+      "eval_start": 26253,
+      "eval_end": 30804,
+      "train_end_date": "2014-09-28",
+      "eval_end_date": "2018-07-30"
+    },
+    {
+      "name": "fold_3",
+      "train_end": 30804,
+      "eval_start": 30804,
+      "eval_end": 39028,
+      "train_end_date": "2018-07-30",
+      "eval_end_date": "2021-09-03"
+    },
+    {
+      "name": "fold_4",
+      "train_end": 39028,
+      "eval_start": 39028,
+      "eval_end": 61429,
+      "train_end_date": "2021-09-03",
+      "eval_end_date": "2024-07-17"
+    }
+  ],
+  "baseline_reports": [
+    {
+      "train_samples": 22731,
+      "evaluation_samples": 3522,
+      "train_end_date": "2011-06-21",
+      "evaluation_end_date": "2014-09-28",
+      "average_precision": 0.1394223636585405,
+      "intensity_mae": 0.06240765634087436,
+      "positive_rate": 0.02612152136862278,
+      "cold_start": {
+        "samples": 4,
+        "average_precision": null,
+        "intensity_mae": 0.018407575672817908,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    },
+    {
+      "train_samples": 26253,
+      "evaluation_samples": 4551,
+      "train_end_date": "2014-09-28",
+      "evaluation_end_date": "2018-07-30",
+      "average_precision": 0.11000705098019913,
+      "intensity_mae": 0.10039965217130037,
+      "positive_rate": 0.045923974364995956,
+      "cold_start": {
+        "samples": 119,
+        "average_precision": 0.875,
+        "intensity_mae": 0.05597480785205349,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    },
+    {
+      "train_samples": 30804,
+      "evaluation_samples": 8224,
+      "train_end_date": "2018-07-30",
+      "evaluation_end_date": "2021-09-03",
+      "average_precision": 0.11505745523517294,
+      "intensity_mae": 0.16906070687131672,
+      "positive_rate": 0.08329280465841293,
+      "cold_start": {
+        "samples": 1907,
+        "average_precision": 0.0873987972578399,
+        "intensity_mae": 0.20325857191480984,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    },
+    {
+      "train_samples": 39028,
+      "evaluation_samples": 22401,
+      "train_end_date": "2021-09-03",
+      "evaluation_end_date": "2024-07-17",
+      "average_precision": 0.15322068363233918,
+      "intensity_mae": 0.14640489886290622,
+      "positive_rate": 0.05839025229215622,
+      "cold_start": {
+        "samples": 2167,
+        "average_precision": 0.17864809090491116,
+        "intensity_mae": 0.14127334900693464,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    }
+  ],
+  "candidate_reports": [
+    {
+      "train_samples": 22731,
+      "evaluation_samples": 3522,
+      "train_end_date": "2011-06-21",
+      "evaluation_end_date": "2014-09-28",
+      "average_precision": 0.1441031463342132,
+      "intensity_mae": 0.060250769057306704,
+      "positive_rate": 0.02612152136862278,
+      "cold_start": {
+        "samples": 4,
+        "average_precision": null,
+        "intensity_mae": 0.02085836724211386,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    },
+    {
+      "train_samples": 26253,
+      "evaluation_samples": 4551,
+      "train_end_date": "2014-09-28",
+      "evaluation_end_date": "2018-07-30",
+      "average_precision": 0.09292113106026571,
+      "intensity_mae": 0.09920928625883671,
+      "positive_rate": 0.045923974364995956,
+      "cold_start": {
+        "samples": 119,
+        "average_precision": 1.0,
+        "intensity_mae": 0.04037544062997259,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    },
+    {
+      "train_samples": 30804,
+      "evaluation_samples": 8224,
+      "train_end_date": "2018-07-30",
+      "evaluation_end_date": "2021-09-03",
+      "average_precision": 0.13598817314929812,
+      "intensity_mae": 0.16880321854205585,
+      "positive_rate": 0.08329280465841293,
+      "cold_start": {
+        "samples": 1907,
+        "average_precision": 0.12726039477183704,
+        "intensity_mae": 0.2029495157789182,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    },
+    {
+      "train_samples": 39028,
+      "evaluation_samples": 22401,
+      "train_end_date": "2021-09-03",
+      "evaluation_end_date": "2024-07-17",
+      "average_precision": 0.1523496578339757,
+      "intensity_mae": 0.14809329052660994,
+      "positive_rate": 0.05839025229215622,
+      "cold_start": {
+        "samples": 2167,
+        "average_precision": 0.2647654471539249,
+        "intensity_mae": 0.14198603760619802,
+        "definition": "PRIO entity absent from every sample before the fold training cutoff"
+      }
+    }
+  ],
+  "comparison": {
+    "mean_ap_delta": 0.0019136387178752476,
+    "fold_ap_deltas": [
+      0.004680782675672707,
+      -0.017085919919933412,
+      0.02093071791412518,
+      -0.0008710257983634839
+    ],
+    "mean_intensity_mae_delta": -0.000479087465397118,
+    "fold_intensity_mae_deltas": [
+      -0.0021568872835676586,
+      -0.001190365912463659,
+      -0.00025748832926086873,
+      0.0016883916637037144
+    ],
+    "cold_start_mean_ap_delta": 0.08365965125433698,
+    "cold_start_mean_intensity_mae_delta": -0.0031862357973533022,
+    "classification_accept": false,
+    "intensity_accept": true,
+    "cold_start_nonregression": true,
+    "stable_feature_accept": true,
+    "gate": "Accept only if AP or intensity improves on average and in nearly every rolling fold, with bounded worst-fold regression and no material cold-start regression."
+  },
+  "safety_scope": "coarse humanitarian escalation/intensity and cold-start area transfer; no next-event coordinate ranking"
+}

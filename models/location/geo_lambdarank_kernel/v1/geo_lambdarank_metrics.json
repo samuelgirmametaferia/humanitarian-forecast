@@ -1,0 +1,61 @@
+{
+  "validation": {
+    "samples": 23690.0,
+    "mean_error_km": 257.3968505859375,
+    "median_error_km": 64.9561538696289,
+    "p90_error_km": 529.0042724609375,
+    "candidate_oracle_mean_km": 36.495914459228516,
+    "mean_entropy": 1.6722757156415309,
+    "within_25km": 0.34115660616293797,
+    "probability_mass_within_25km": 0.3212979346936192,
+    "within_50km": 0.4512030392570705,
+    "probability_mass_within_50km": 0.43625151460048217,
+    "within_100km": 0.585901224145209,
+    "probability_mass_within_100km": 0.5745193540145104,
+    "within_200km": 0.7197129590544533,
+    "probability_mass_within_200km": 0.7137689478500961,
+    "top3_within_100km": 0.6715491768678767,
+    "top3_within_200km": 0.7939636977627691,
+    "top5_within_100km": 0.7286618826509076,
+    "top5_within_200km": 0.8427606585056986,
+    "broad_area_score": 0.6137795355865691
+  },
+  "development": {
+    "samples": 23690.0,
+    "mean_error_km": 237.71617126464844,
+    "median_error_km": 59.708030700683594,
+    "p90_error_km": 528.8638305664062,
+    "candidate_oracle_mean_km": 35.99437713623047,
+    "mean_entropy": 1.8027249305782371,
+    "within_25km": 0.36791895314478684,
+    "probability_mass_within_25km": 0.3496600405673888,
+    "within_50km": 0.4683832840861123,
+    "probability_mass_within_50km": 0.4544725014912699,
+    "within_100km": 0.5940481215702829,
+    "probability_mass_within_100km": 0.5836218971524858,
+    "within_200km": 0.7287463064584213,
+    "probability_mass_within_200km": 0.7227791911745014,
+    "top3_within_100km": 0.6772055719712959,
+    "top3_within_200km": 0.8025327142254116,
+    "top5_within_100km": 0.7262980160405235,
+    "top5_within_200km": 0.8420008442380751,
+    "broad_area_score": 0.6223756571014395
+  },
+  "configuration": {
+    "model_type": "LightGBM LambdaRank",
+    "selected_iteration": 250,
+    "probability_temperature": 0.2,
+    "feature_dim": 172,
+    "event_feature_contract": "motion-v3",
+    "candidate_feature_dim": 60,
+    "relevance": {
+      "within_25km": 4,
+      "within_50km": 3,
+      "within_100km": 2,
+      "within_200km": 1,
+      "else": 0
+    }
+  },
+  "protocol": "70% train; 15% validation selects tree count and temperature; final 15% development benchmark",
+  "evaluation_caveat": "Final historical block has been inspected by ongoing architecture research and is not a pristine prospective test."
+}

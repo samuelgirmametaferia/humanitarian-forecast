@@ -1,0 +1,79 @@
+{
+  "schema": "coarse-humanitarian-context-ensemble-v1",
+  "selection": {
+    "probability_metric": "binary log loss on chronological validation (proper scoring rule)",
+    "intensity_metric": "MAE on chronological validation",
+    "weight_step": 0.05,
+    "minimum_v6_weight": 0.5,
+    "probability_weights": {
+      "v6": 1.0,
+      "accessibility": 0.0,
+      "population": 0.0
+    },
+    "intensity_weights": {
+      "v6": 0.5,
+      "accessibility": 0.0,
+      "population": 0.5
+    },
+    "raw_validation_log_loss": 0.1699295667915998,
+    "validation_intensity_mae": 0.09127104551626239,
+    "affine_logit_calibration": {
+      "scale": 0.9996846083826424,
+      "temperature": 1.0003154911206125,
+      "bias": -0.0007698651882518479
+    },
+    "threshold": 0.06858889487232342
+  },
+  "validation": {
+    "average_precision": 0.14329812471501652,
+    "balanced_accuracy": 0.6775937367903322,
+    "precision": 0.12329351535836178,
+    "recall": 0.5371747211895911,
+    "f1": 0.20055517002081888,
+    "brier": 0.04164936371831345,
+    "log_loss": 0.16992956252075656,
+    "threshold": 0.06858889487232342,
+    "positive_rate": 0.04547759932375317,
+    "intensity_mae": 0.09127104551626239
+  },
+  "development_holdout": {
+    "average_precision": 0.14688489958844314,
+    "balanced_accuracy": 0.6343496999560281,
+    "precision": 0.14659044507962435,
+    "recall": 0.45790816326530615,
+    "f1": 0.22208475100525826,
+    "brier": 0.06008633270772971,
+    "log_loss": 0.23257682298136967,
+    "threshold": 0.06858889487232342,
+    "positive_rate": 0.06627218934911243,
+    "intensity_mae": 0.13498055629591818
+  },
+  "components": {
+    "v6": {
+      "validation_ap": 0.14329812471501652,
+      "development_ap": 0.14688489958844314,
+      "validation_log_loss": 0.1699295667915998,
+      "development_log_loss": 0.23257941427392353,
+      "validation_intensity_mae": 0.09263695836055784,
+      "development_intensity_mae": 0.1368367591432539
+    },
+    "accessibility": {
+      "validation_ap": 0.1482034239791965,
+      "development_ap": 0.16760170187235904,
+      "validation_log_loss": 0.1709954432715676,
+      "development_log_loss": 0.23431511170296457,
+      "validation_intensity_mae": 0.09571495382071946,
+      "development_intensity_mae": 0.1344659746108484
+    },
+    "population": {
+      "validation_ap": 0.14869161930181293,
+      "development_ap": 0.15436402952909303,
+      "validation_log_loss": 0.1710532532847929,
+      "development_log_loss": 0.23362012830647394,
+      "validation_intensity_mae": 0.090040619979929,
+      "development_intensity_mae": 0.13398323074047747
+    }
+  },
+  "evaluation_caveat": "Final historical block is a development benchmark; weights/calibration use validation only. Rolling-origin stability remains a separate promotion gate.",
+  "safety_scope": "coarse humanitarian escalation/intensity only; no next-event coordinate or route output"
+}

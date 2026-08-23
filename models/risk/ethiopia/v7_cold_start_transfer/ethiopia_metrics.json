@@ -1,0 +1,321 @@
+{
+  "transfer_selection": {
+    "fit_period_end_fraction": 0.6,
+    "selection_period": [
+      0.6,
+      0.7
+    ],
+    "heldout_modulus": 5,
+    "fit_rows": 37492,
+    "selection_rows": 1441,
+    "selection_positives": 101,
+    "selected": {
+      "num_leaves": 31,
+      "min_child_samples": 140,
+      "learning_rate": 0.05,
+      "reg_lambda": 1.0,
+      "transfer_ap": 0.09238721159556085,
+      "transfer_log_loss": 0.28716405405685047
+    },
+    "search": [
+      {
+        "num_leaves": 7,
+        "min_child_samples": 60,
+        "learning_rate": 0.025,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.06895705781857708,
+        "transfer_log_loss": 0.3389944451483548
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 60,
+        "learning_rate": 0.025,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.06803226749611645,
+        "transfer_log_loss": 0.34276482434525707
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 60,
+        "learning_rate": 0.05,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.07572921792063986,
+        "transfer_log_loss": 0.31940071484756316
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 60,
+        "learning_rate": 0.05,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.07761842230917432,
+        "transfer_log_loss": 0.3131946888420544
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 140,
+        "learning_rate": 0.025,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.06587589699909199,
+        "transfer_log_loss": 0.3385400309855993
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 140,
+        "learning_rate": 0.025,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.06621982146869954,
+        "transfer_log_loss": 0.34205181219414726
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 140,
+        "learning_rate": 0.05,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.07001460939727505,
+        "transfer_log_loss": 0.3206421613140745
+      },
+      {
+        "num_leaves": 7,
+        "min_child_samples": 140,
+        "learning_rate": 0.05,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.07588465179719033,
+        "transfer_log_loss": 0.3130018315206186
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 60,
+        "learning_rate": 0.025,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.063509951903876,
+        "transfer_log_loss": 0.32289857383299486
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 60,
+        "learning_rate": 0.025,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.061493077931027124,
+        "transfer_log_loss": 0.32561385261213
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 60,
+        "learning_rate": 0.05,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.07191672503848817,
+        "transfer_log_loss": 0.30163918621320307
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 60,
+        "learning_rate": 0.05,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.078938852525116,
+        "transfer_log_loss": 0.2952161907016179
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 140,
+        "learning_rate": 0.025,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.06507862697225295,
+        "transfer_log_loss": 0.3157269366457254
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 140,
+        "learning_rate": 0.025,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.06866734262916441,
+        "transfer_log_loss": 0.3134947253484468
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 140,
+        "learning_rate": 0.05,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.07570163436927448,
+        "transfer_log_loss": 0.28950629742977896
+      },
+      {
+        "num_leaves": 15,
+        "min_child_samples": 140,
+        "learning_rate": 0.05,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.06559496441806731,
+        "transfer_log_loss": 0.30168256529094833
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 60,
+        "learning_rate": 0.025,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.07394962814233833,
+        "transfer_log_loss": 0.2887812848024814
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 60,
+        "learning_rate": 0.025,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.07073727076623487,
+        "transfer_log_loss": 0.2911147369733792
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 60,
+        "learning_rate": 0.05,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.07430487147006305,
+        "transfer_log_loss": 0.29067491533415807
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 60,
+        "learning_rate": 0.05,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.08003047213437822,
+        "transfer_log_loss": 0.29066898527392576
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 140,
+        "learning_rate": 0.025,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.081277861802921,
+        "transfer_log_loss": 0.28734738106593904
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 140,
+        "learning_rate": 0.025,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.07099657871812026,
+        "transfer_log_loss": 0.29073876915797553
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 140,
+        "learning_rate": 0.05,
+        "reg_lambda": 1.0,
+        "transfer_ap": 0.09238721159556085,
+        "transfer_log_loss": 0.28716405405685047
+      },
+      {
+        "num_leaves": 31,
+        "min_child_samples": 140,
+        "learning_rate": 0.05,
+        "reg_lambda": 3.0,
+        "transfer_ap": 0.07398466481659552,
+        "transfer_log_loss": 0.2955126015502494
+      }
+    ]
+  },
+  "validation": {
+    "all": {
+      "samples": 11830,
+      "positive_rate": 0.045477598905563354,
+      "average_precision": 0.048315597841751975,
+      "log_loss": 0.22463167929202266,
+      "intensity_mae": 0.23423062765394864
+    },
+    "heldout_entities": {
+      "samples": 2032,
+      "positive_rate": 0.04970472306013107,
+      "average_precision": 0.04881296635095421,
+      "log_loss": 0.23165221669361533,
+      "intensity_mae": 0.24344596164102092
+    },
+    "low_local_activity": {
+      "samples": 8375,
+      "positive_rate": 0.04955223947763443,
+      "average_precision": 0.05601310749561357,
+      "log_loss": 0.23441654250397337,
+      "intensity_mae": 0.24018381271138403
+    }
+  },
+  "development_holdout": {
+    "all": {
+      "samples": 11830,
+      "positive_rate": 0.06627219170331955,
+      "average_precision": 0.0656362438180933,
+      "log_loss": 0.2990711314540952,
+      "intensity_mae": 0.26357424223726367
+    },
+    "heldout_entities": {
+      "samples": 2462,
+      "positive_rate": 0.05320877209305763,
+      "average_precision": 0.06595450040374229,
+      "log_loss": 0.2569153370575093,
+      "intensity_mae": 0.259434379849608
+    },
+    "low_local_activity": {
+      "samples": 7251,
+      "positive_rate": 0.0688180923461914,
+      "average_precision": 0.06724071775869196,
+      "log_loss": 0.30783730166538453,
+      "intensity_mae": 0.2619598509783735
+    }
+  },
+  "low_local_activity_threshold": 0.6931471824645996,
+  "feature_contract": {
+    "local_channels_excluded": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "nonlocal_dynamic_channels": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "static_channels": [
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ],
+    "feature_dim": 419
+  },
+  "evaluation_caveat": "The final historical block is a development benchmark; transfer selection occurs entirely inside the first 70% training chronology."
+}

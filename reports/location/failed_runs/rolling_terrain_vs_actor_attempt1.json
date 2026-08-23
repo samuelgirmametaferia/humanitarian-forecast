@@ -1,0 +1,7 @@
+{
+  "status": "failed-after-fold-computation-during-reporting",
+  "command": "evaluation.rolling_origin_location baseline=actor_transfer_v8 candidate=actor_transfer_terrain_v9 train_fracs=.60,.70,.80 eval_frac=.08 estimators=75",
+  "failure": "TypeError: JSONEncoder.__init__() got an unexpected keyword argument 'flush'",
+  "location": "print(json.dumps(rows[-1], flush=True))",
+  "note": "The first baseline/candidate fold pair had completed training before the reporting exception. Its in-memory metrics were not serialised by the buggy version, so the corrected evaluator will persist each fold before any console reporting."
+}
