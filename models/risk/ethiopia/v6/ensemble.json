@@ -1,0 +1,27 @@
+{
+  "base_model_dir": "../v5",
+  "probability_weights": {
+    "base_v5": 0.85,
+    "spatial": 0.15
+  },
+  "weight_selection": {
+    "partition": "chronological validation only",
+    "metric": "average_precision",
+    "grid": "spatial weight 0.00..0.50 in 0.05 increments",
+    "validation_ap": 0.14329812471501652
+  },
+  "affine_logit_calibration": {
+    "scale": 1.1330295906312087,
+    "temperature": 0.8825894824537652,
+    "bias": -0.2787219762796634
+  },
+  "threshold": 0.06858551936675956,
+  "spatial_classifier": "spatial_classifier.pt",
+  "intensity_model": "spatial_intensity.pt",
+  "spatial_feature_contract": "local8 + PRIO ring1 sum8 + ring2 sum8 + historical active-neighbor counts2",
+  "intensity_conformal_absolute_radii_log1p": {
+    "p80": 0.05632650852203369,
+    "p90": 0.5078021883964539,
+    "p95": 0.5208907127380371
+  }
+}

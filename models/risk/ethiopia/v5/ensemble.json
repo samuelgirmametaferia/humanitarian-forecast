@@ -1,0 +1,15 @@
+{
+  "weights": {
+    "multiscale": 0.75,
+    "reference": 0.25,
+    "tree": 0.0
+  },
+  "threshold": 0.08591781390622355,
+  "reference_checkpoint": "models/risk/ethiopia/v4/ethiopia_best.pt",
+  "selection": "weights maximize validation average precision; threshold maximizes validation balanced accuracy",
+  "affine_logit_calibration": {
+    "scale": 0.9744005557148985,
+    "temperature": 1.0262719926984438,
+    "bias": -2.4766811914096665
+  }
+}

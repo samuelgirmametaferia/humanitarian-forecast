@@ -78,6 +78,29 @@ models/risk/ethiopia/vN/
 
 Their legacy metrics are preserved in each version's `info.blt`. The validated reference versions used by the new production workflow are `models/risk/base/v2/` and `models/risk/ethiopia/v4/`.
 
+### Ethiopia v6 spatial-risk challenger
+
+Model directory:
+
+```text
+models/risk/ethiopia/v6/
+```
+
+v6 is a **coarse humanitarian early-warning** challenger, not a precise next-event location model. It preserves the v5 local temporal-risk predictor as a stable expert and adds cutoff-safe PRIO-GRID neighborhood histories. The spatial tensor contains the eight local channels plus first- and second-ring historical neighbor aggregates and historical active-neighbor counts. A separate spatial model is optimized for future intensity so the rare-event ranking and magnitude objectives do not fight over one checkpoint.
+
+The escalation ensemble weight, checkpoint epochs, affine probability calibration, classification threshold, and split-conformal intensity radii are selected only on the chronological validation partition. The final 15% has been inspected during iterative research and is therefore reported as a **development holdout**, not as a pristine prospective test.
+
+| Metric | v5 development | v6 development | Relative change |
+|---|---:|---:|---:|
+| Escalation average precision | 0.13436 | **0.14688** | **+9.32%** |
+| Intensity MAE (log1p) | 0.16383 | **0.13684** | **-16.47%** |
+| Brier score | 0.06023 | **0.06009** | lower is better |
+| Log loss | 0.23368 | **0.23258** | lower is better |
+
+The paired bootstrap 95% interval for the v6-v5 average-precision difference on the development block is **+0.0040 to +0.0253**. This is a development diagnostic, not a substitute for future prospective scoring. Promotion still requires rolling-origin and genuinely prospective confirmation.
+
+v6 also stores validation split-conformal absolute residual radii for intensity at 80%, 90%, and 95% target coverage. These intervals describe historical model uncertainty; they are not guarantees about field conditions.
+
 ## Production all-data policy
 
 `main.py workflow full` trains global models on all currently available labels, then fine-tunes Ethiopia-specialized copies. The default new version destinations are:

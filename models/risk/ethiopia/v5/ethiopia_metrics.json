@@ -1,0 +1,99 @@
+{
+  "metric_implementation": "scikit-learn 1.9 standard average_precision_score",
+  "best_epoch": 1,
+  "training_history": [
+    {
+      "epoch": 1.0,
+      "training_loss": 0.6329078573258645,
+      "validation_average_precision": 0.10728969514031875,
+      "validation_intensity_mae": 0.1292334496974945
+    },
+    {
+      "epoch": 2.0,
+      "training_loss": 0.5833392454541965,
+      "validation_average_precision": 0.10690553514478433,
+      "validation_intensity_mae": 0.11762798577547073
+    },
+    {
+      "epoch": 3.0,
+      "training_loss": 0.576554692778791,
+      "validation_average_precision": 0.10577876650166432,
+      "validation_intensity_mae": 0.10436711460351944
+    },
+    {
+      "epoch": 4.0,
+      "training_loss": 0.571240047395685,
+      "validation_average_precision": 0.1022673973332221,
+      "validation_intensity_mae": 0.10540438443422318
+    }
+  ],
+  "ensemble": {
+    "weights": {
+      "multiscale": 0.75,
+      "reference": 0.25,
+      "tree": 0.0
+    },
+    "threshold": 0.08591781390622355,
+    "reference_checkpoint": "models/risk/ethiopia/v4/ethiopia_best.pt",
+    "selection": "weights maximize validation average precision; threshold maximizes validation balanced accuracy",
+    "affine_logit_calibration": {
+      "scale": 0.9744005557148985,
+      "temperature": 1.0262719926984438,
+      "bias": -2.4766811914096665
+    }
+  },
+  "validation": {
+    "average_precision": 0.10765381307293148,
+    "balanced_accuracy": 0.6769364632262602,
+    "precision": 0.1340809361287177,
+    "recall": 0.5111524163568774,
+    "f1": 0.21243723445345694,
+    "brier": 0.04180767391720428,
+    "log_loss": 0.17114935426424138,
+    "threshold": 0.08591781390622355,
+    "positive_rate": 0.04547759932375317,
+    "intensity_mae": 0.1292334496974945
+  },
+  "untouched_test": {
+    "average_precision": 0.13435645731514048,
+    "balanced_accuracy": 0.6277854297612582,
+    "precision": 0.1639686684073107,
+    "recall": 0.4005102040816326,
+    "f1": 0.23267876991478326,
+    "brier": 0.060229184642295645,
+    "log_loss": 0.23368082171115725,
+    "threshold": 0.08591781390622355,
+    "positive_rate": 0.06627218934911243,
+    "intensity_mae": 0.16382507979869843
+  },
+  "components": {
+    "multiscale_validation_ap": 0.10728969514031875,
+    "multiscale_test_ap": 0.13302162864521525,
+    "tree_validation_ap": 0.10006615653831356,
+    "tree_test_ap": 0.12669059896609572,
+    "reference_validation": {
+      "average_precision": 0.10508967409600833,
+      "balanced_accuracy": 0.6785713345105987,
+      "precision": 0.13007380073800737,
+      "recall": 0.5241635687732342,
+      "f1": 0.20842572062084258,
+      "brier": 0.2337978482246399,
+      "log_loss": 0.6662964820861816,
+      "threshold": 0.6603310585021972,
+      "positive_rate": 0.04547759932375317
+    },
+    "reference_test": {
+      "average_precision": 0.13084451415152942,
+      "balanced_accuracy": 0.6339770699154187,
+      "precision": 0.1605769230769231,
+      "recall": 0.4260204081632653,
+      "f1": 0.23324022346368714,
+      "brier": 0.24990613758563995,
+      "log_loss": 0.6999176144599915,
+      "threshold": 0.6603310585021972,
+      "positive_rate": 0.06627218934911243
+    },
+    "reference_validation_intensity_mae": 0.13617314398288727,
+    "reference_test_intensity_mae": 0.17278239130973816
+  }
+}

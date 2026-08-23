@@ -1,0 +1,97 @@
+{
+  "artifacts": [
+    "ensemble.json",
+    "ethiopia_metrics.json",
+    "spatial_classifier.pt",
+    "spatial_intensity.pt"
+  ],
+  "calibration": {
+    "intensity_conformal_absolute_radii_log1p": {
+      "p80": 0.05632650852203369,
+      "p90": 0.5078021883964539,
+      "p95": 0.5208907127380371
+    },
+    "probability": {
+      "bias": -0.2787219762796634,
+      "scale": 1.1330295906312087,
+      "temperature": 0.8825894824537652
+    }
+  },
+  "created_at": "2026-08-23T09:15:52.410959+00:00",
+  "description": "Spatially contextualized coarse humanitarian early-warning bundle using v5 local history plus a causal PRIO-neighborhood neural expert, a separately optimized intensity expert, probability calibration, and split-conformal intensity uncertainty.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "base_data": "data/processed_v3/ethiopia.npz",
+    "base_model": "models/risk/ethiopia/v5",
+    "spatial_builder": "humanitarian_forecast.data.build_spatial_risk_dataset",
+    "spatial_data": "data/processed_v6/ethiopia_spatial.npz"
+  },
+  "metrics": {
+    "comparison_vs_v5": {
+      "ap_relative_change_vs_v5": 0.0932475155670287,
+      "intensity_mae_relative_change_vs_v5": -0.16473858969093924
+    },
+    "components": {
+      "spatial_classifier": {
+        "development_ap": 0.12903897856860247,
+        "validation_ap": 0.13263539892210807
+      },
+      "spatial_intensity": {
+        "development_mae": 0.13683676719665527,
+        "validation_mae": 0.09263696521520615
+      },
+      "v5": {
+        "development_ap": 0.13435649063630312,
+        "development_intensity_mae": 0.16382507979869843,
+        "validation_ap": 0.10765381307293145
+      }
+    },
+    "headline": {
+      "average_precision": 0.14688489958844314,
+      "balanced_accuracy": 0.6343496999560281,
+      "brier": 0.060086248084256354,
+      "f1": 0.22208475100525826,
+      "intensity_mae": 0.13683676719665527,
+      "log_loss": 0.2325794134909142,
+      "positive_rate": 0.06627218934911243,
+      "precision": 0.14659044507962435,
+      "recall": 0.45790816326530615,
+      "threshold": 0.06858551936675956
+    },
+    "paired_bootstrap_development_ap_difference_95ci": [
+      0.004020313199332298,
+      0.025307037738688188
+    ],
+    "validation": {
+      "average_precision": 0.14329812471501652,
+      "balanced_accuracy": 0.6775937367903322,
+      "brier": 0.04164923396593307,
+      "f1": 0.20055517002081888,
+      "intensity_mae": 0.09263696521520615,
+      "log_loss": 0.16992956651576405,
+      "positive_rate": 0.04547759932375317,
+      "precision": 0.12329351535836178,
+      "recall": 0.5371747211895911,
+      "threshold": 0.06858551936675956
+    }
+  },
+  "notes": [
+    "No precise next-event location, route, unit-position, or tactical-output subsystem was modified.",
+    "Spatial ensemble weight, calibration, classification threshold, checkpoint epochs, and conformal radii were selected on validation data.",
+    "The final historical block is a development benchmark after iterative research, not a prospective untouched test."
+  ],
+  "status": "validated-challenger",
+  "subsystem": "risk/ethiopia",
+  "training": {
+    "classifier_best_epoch": 2,
+    "classifier_seed": 20260823,
+    "intensity_best_epoch": 7,
+    "intensity_seed": 20260824,
+    "split": {
+      "development_holdout": 0.15,
+      "train": 0.7,
+      "validation": 0.15
+    }
+  },
+  "version": "v6"
+}

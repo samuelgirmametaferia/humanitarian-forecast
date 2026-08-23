@@ -40,7 +40,12 @@ def _builtin(name: str, module: str, category: str, description: str, production
 
 _builtin("data.reliefweb.download", "humanitarian_forecast.data.download_reliefweb", "data", "Download the full ReliefWeb conflict-report corpus.", True)
 _builtin("data.risk.build", "humanitarian_forecast.data.build_risk_datasets", "data", "Build aligned global and Ethiopia temporal-risk datasets.", True)
+_builtin("data.risk.spatial.build", "humanitarian_forecast.data.build_spatial_risk_dataset", "data", "Add cutoff-safe PRIO-neighborhood context to a coarse risk dataset.")
 _builtin("risk.train.evaluate", "humanitarian_forecast.risk.train", "risk", "Chronological holdout trainer for measured risk-model experiments.")
+_builtin("risk.train.challenger", "humanitarian_forecast.risk.train_challenger", "risk", "Train a multiscale coarse humanitarian-risk challenger with chronological evaluation.")
+_builtin("risk.train.v6", "humanitarian_forecast.risk.train_v6", "risk", "Train the v6 spatially contextualized coarse humanitarian-risk bundle.")
+_builtin("risk.predict", "humanitarian_forecast.risk.predict", "inference", "Run calibrated coarse humanitarian-risk inference from a versioned challenger.")
+_builtin("risk.predict.v6", "humanitarian_forecast.risk.predict_v6", "inference", "Run v6 calibrated spatial humanitarian-risk inference with uncertainty.")
 _builtin("risk.train.production", "humanitarian_forecast.risk.production", "risk", "Train global or Ethiopia risk models on every available row.", True)
 _builtin("location.dataset.build", "humanitarian_forecast.data.build_next_location_dataset", "location", "Build next-event location histories.", True)
 _builtin("location.candidates.build", "humanitarian_forecast.data.build_candidate_rank_dataset", "location", "Build cutoff-safe historical location candidates and spatial features.", True)

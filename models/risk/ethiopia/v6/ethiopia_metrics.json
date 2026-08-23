@@ -1,0 +1,78 @@
+{
+  "metric_implementation": "scikit-learn standard average_precision_score and MAE",
+  "evaluation_caveat": "The final historical block has been inspected during iterative research; treat it as a development holdout, not a pristine prospective test.",
+  "validation": {
+    "average_precision": 0.14329812471501652,
+    "balanced_accuracy": 0.6775937367903322,
+    "precision": 0.12329351535836178,
+    "recall": 0.5371747211895911,
+    "f1": 0.20055517002081888,
+    "brier": 0.04164923396593307,
+    "log_loss": 0.16992956651576405,
+    "threshold": 0.06858551936675956,
+    "positive_rate": 0.04547759932375317,
+    "intensity_mae": 0.09263696521520615
+  },
+  "development_holdout": {
+    "average_precision": 0.14688489958844314,
+    "balanced_accuracy": 0.6343496999560281,
+    "precision": 0.14659044507962435,
+    "recall": 0.45790816326530615,
+    "f1": 0.22208475100525826,
+    "brier": 0.060086248084256354,
+    "log_loss": 0.2325794134909142,
+    "threshold": 0.06858551936675956,
+    "positive_rate": 0.06627218934911243,
+    "intensity_mae": 0.13683676719665527
+  },
+  "components": {
+    "v5": {
+      "validation_ap": 0.10765381307293145,
+      "development_ap": 0.13435649063630312,
+      "development_intensity_mae": 0.16382507979869843
+    },
+    "spatial_classifier": {
+      "validation_ap": 0.13263539892210807,
+      "development_ap": 0.12903897856860247
+    },
+    "spatial_intensity": {
+      "validation_mae": 0.09263696521520615,
+      "development_mae": 0.13683676719665527
+    }
+  },
+  "comparison_vs_v5": {
+    "ap_relative_change_vs_v5": 0.0932475155670287,
+    "intensity_mae_relative_change_vs_v5": -0.16473858969093924
+  },
+  "paired_bootstrap_development_ap_difference_95ci": [
+    0.004020313199332298,
+    0.025307037738688188
+  ],
+  "ensemble": {
+    "base_model_dir": "../v5",
+    "probability_weights": {
+      "base_v5": 0.85,
+      "spatial": 0.15
+    },
+    "weight_selection": {
+      "partition": "chronological validation only",
+      "metric": "average_precision",
+      "grid": "spatial weight 0.00..0.50 in 0.05 increments",
+      "validation_ap": 0.14329812471501652
+    },
+    "affine_logit_calibration": {
+      "scale": 1.1330295906312087,
+      "temperature": 0.8825894824537652,
+      "bias": -0.2787219762796634
+    },
+    "threshold": 0.06858551936675956,
+    "spatial_classifier": "spatial_classifier.pt",
+    "intensity_model": "spatial_intensity.pt",
+    "spatial_feature_contract": "local8 + PRIO ring1 sum8 + ring2 sum8 + historical active-neighbor counts2",
+    "intensity_conformal_absolute_radii_log1p": {
+      "p80": 0.05632650852203369,
+      "p90": 0.5078021883964539,
+      "p95": 0.5208907127380371
+    }
+  }
+}

@@ -97,6 +97,28 @@ models/location/candidate_ranker/v9/candidate_ranker_calibrated.pt
 
 Its fixed chronological test result is 61.01 km median center error, 194.36 km mean error, 435.09 km p90, and 34.39% within 25 km. It uses the spatial-ring candidate Transformer with 32 cutoff-safe candidates and validation-selected weighted geometric-median aggregation at temperature 1.0.
 
+The latest **coarse humanitarian-risk challenger** is `models/risk/ethiopia/v6/`. It combines the calibrated v5 local-history predictor with a low-weight causal PRIO-neighborhood expert, uses a separately optimized spatial intensity model, and reports split-conformal intensity uncertainty. The final historical block is explicitly a development benchmark rather than a fresh prospective test.
+
+```bash
+# Rebuild v6's causal spatial context from the canonical Ethiopia risk tensor.
+.venv/bin/python main.py run data.risk.spatial.build -- \
+  --input data/processed_v3/ethiopia.npz \
+  --output data/processed_v6/ethiopia_spatial.npz
+
+# Reproduce the v6 challenger from v5 + the spatial tensor.
+.venv/bin/python main.py run risk.train.v6 -- \
+  --base-data data/processed_v3/ethiopia.npz \
+  --spatial-data data/processed_v6/ethiopia_spatial.npz \
+  --base-model-dir models/risk/ethiopia/v5 \
+  --output-dir models/risk/ethiopia/v6_reproduction
+
+# Run calibrated v6 inference on one prepared coarse-area history.
+.venv/bin/python main.py run risk.predict.v6 -- \
+  --model-dir models/risk/ethiopia/v6 \
+  --input data/processed_v6/ethiopia_spatial.npz \
+  --index 0
+```
+
 ## Adding a future subsystem
 
 Place its implementation under the appropriate `src/humanitarian_forecast/<subsystem>/` package, then register one `SystemSpec` in:

@@ -1,0 +1,111 @@
+{
+  "artifacts": [
+    "ensemble.json",
+    "ethiopia_metrics.json",
+    "multiscale_best.pt",
+    "tree_classifier.joblib"
+  ],
+  "calibration": {
+    "ensemble": {
+      "affine_logit_calibration": {
+        "bias": -2.4766811914096665,
+        "scale": 0.9744005557148985,
+        "temperature": 1.0262719926984438
+      },
+      "reference_checkpoint": "models/risk/ethiopia/v4/ethiopia_best.pt",
+      "selection": "weights maximize validation average precision; threshold maximizes validation balanced accuracy",
+      "threshold": 0.08591781390622355,
+      "weights": {
+        "multiscale": 0.75,
+        "reference": 0.25,
+        "tree": 0.0
+      }
+    }
+  },
+  "created_at": "2026-08-23T08:43:35.717830+00:00",
+  "description": "Multiscale coarse humanitarian-risk challenger with featurewise normalization, local temporal convolutions, Transformer context, explicit multiscale summaries, and validation-selected expert ensembling.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/processed_v3/ethiopia.npz",
+    "reference_checkpoint": "models/risk/ethiopia/v4/ethiopia_best.pt"
+  },
+  "metrics": {
+    "components": {
+      "multiscale_test_ap": 0.13302162864521525,
+      "multiscale_validation_ap": 0.10728969514031875,
+      "reference_test": {
+        "average_precision": 0.13084451415152942,
+        "balanced_accuracy": 0.6339770699154187,
+        "brier": 0.24990613758563995,
+        "f1": 0.23324022346368714,
+        "log_loss": 0.6999176144599915,
+        "positive_rate": 0.06627218934911243,
+        "precision": 0.1605769230769231,
+        "recall": 0.4260204081632653,
+        "threshold": 0.6603310585021972
+      },
+      "reference_test_intensity_mae": 0.17278239130973816,
+      "reference_validation": {
+        "average_precision": 0.10508967409600833,
+        "balanced_accuracy": 0.6785713345105987,
+        "brier": 0.2337978482246399,
+        "f1": 0.20842572062084258,
+        "log_loss": 0.6662964820861816,
+        "positive_rate": 0.04547759932375317,
+        "precision": 0.13007380073800737,
+        "recall": 0.5241635687732342,
+        "threshold": 0.6603310585021972
+      },
+      "reference_validation_intensity_mae": 0.13617314398288727,
+      "tree_test_ap": 0.12669059896609572,
+      "tree_validation_ap": 0.10006615653831356
+    },
+    "headline": {
+      "average_precision": 0.13435645731514048,
+      "balanced_accuracy": 0.6277854297612582,
+      "brier": 0.060229184642295645,
+      "f1": 0.23267876991478326,
+      "intensity_mae": 0.16382507979869843,
+      "log_loss": 0.23368082171115725,
+      "positive_rate": 0.06627218934911243,
+      "precision": 0.1639686684073107,
+      "recall": 0.4005102040816326,
+      "threshold": 0.08591781390622355
+    },
+    "validation": {
+      "average_precision": 0.10765381307293148,
+      "balanced_accuracy": 0.6769364632262602,
+      "brier": 0.04180767391720428,
+      "f1": 0.21243723445345694,
+      "intensity_mae": 0.1292334496974945,
+      "log_loss": 0.17114935426424138,
+      "positive_rate": 0.04547759932375317,
+      "precision": 0.1340809361287177,
+      "recall": 0.5111524163568774,
+      "threshold": 0.08591781390622355
+    }
+  },
+  "notes": [
+    "Untouched test rows were not used for architecture, checkpoint, ensemble-weight, or threshold selection.",
+    "Artifact is restricted to coarse humanitarian-risk/intensity forecasting and is not a tactical location predictor.",
+    "{\"decision\": \"challenger\", \"offline_comparison\": {\"ap_relative_change\": 0.02684058392806543, \"balanced_accuracy_change\": -0.006191640154160516, \"intensity_mae_relative_change\": -0.05184157623436536}, \"reason\": \"requires prospective/rolling-origin confirmation before production promotion\"}"
+  ],
+  "status": "validated-challenger",
+  "subsystem": "risk/ethiopia",
+  "training": {
+    "batch_size": 512,
+    "best_epoch": 1,
+    "epochs_requested": 12,
+    "learning_rate": 0.0004,
+    "patience": 3,
+    "positive_weight": 5.93899935696135,
+    "samples": 78866,
+    "seed": 20260823,
+    "split": {
+      "test": 0.15,
+      "train": 0.7,
+      "validation": 0.15
+    }
+  },
+  "version": "v5"
+}
