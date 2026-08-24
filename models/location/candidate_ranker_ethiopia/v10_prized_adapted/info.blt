@@ -1,0 +1,51 @@
+{
+  "artifacts": [
+    "candidate_ranker_calibrated.pt",
+    "model.pt",
+    "training_metrics.json"
+  ],
+  "calibration": {
+    "aggregation": "weighted_geometric_median",
+    "temperature": 1.0
+  },
+  "created_at": "2026-08-24T08:57:54.547344+00:00",
+  "description": "One-epoch late-layer Ethiopia adaptation of the all-data v9-family v10 parent for the v10-prized 32-candidate support view.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "resume_checkpoint": "models/location/candidate_ranker/v10/model.pt",
+    "validated_recipe": "v9 late-layer Ethiopia adaptation; center_weight=100"
+  },
+  "metrics": {
+    "held_out_evaluation": false,
+    "receipt": "reports/location/v10_prized_receipts.json"
+  },
+  "notes": [
+    "Uses all 2,669 Ethiopia rows; no held-out score is claimed for this fitted artifact.",
+    "Only late scorer/identity layers were trainable.",
+    "Packaged into models/location/candidate_ranker/v10_prized/model.pt."
+  ],
+  "status": "production-finetune-all-data",
+  "subsystem": "location/candidate_ranker_ethiopia",
+  "training": {
+    "aggregation": "weighted_geometric_median",
+    "available_global_samples": 157932,
+    "batch_size": 128,
+    "center_weight": 100.0,
+    "country": "Ethiopia",
+    "country_filter": "Ethiopia",
+    "dataset": "data/location/conflict_candidates_32_spatial_v5.npz",
+    "distance_weight": 0.0,
+    "epochs": 1,
+    "final_training_loss": 20.865723963309065,
+    "held_out_evaluation": false,
+    "identity_conflicts": 1013,
+    "identity_countries": 120,
+    "learning_rate": 0.0003,
+    "seed": 20260824,
+    "temperature": 1.0,
+    "trainable_parameters": 184249,
+    "trainable_scope": "late",
+    "training_samples": 2669
+  },
+  "version": "v10-prized-adapted"
+}

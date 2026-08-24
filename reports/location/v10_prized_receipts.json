@@ -1,0 +1,107 @@
+{
+  "protocol": "aligned Ethiopia 70/15/15 historical development; final 15% repeatedly inspected, not prospective",
+  "blend": {
+    "ethiopia32_weight": 0.5,
+    "global64_weight": 0.5
+  },
+  "validation": {
+    "aligned_v9_parent": {
+      "samples": 785,
+      "mean_error_km": 166.35638427734375,
+      "median_error_km": 115.14903259277344,
+      "p90_error_km": 394.1524963378906,
+      "within_25km": 0.0904458612203598,
+      "within_50km": 0.19745223224163055,
+      "within_100km": 0.4331210255622864
+    },
+    "ethiopia32_adapted": {
+      "samples": 785,
+      "mean_error_km": 166.2950897216797,
+      "median_error_km": 113.67491149902344,
+      "p90_error_km": 395.2120056152344,
+      "within_25km": 0.09808917343616486,
+      "within_50km": 0.2050955444574356,
+      "within_100km": 0.4369426667690277
+    },
+    "global_v9_weights_on_64_support": {
+      "samples": 785,
+      "mean_error_km": 162.63116455078125,
+      "median_error_km": 116.87438201904297,
+      "p90_error_km": 370.9411315917969,
+      "within_25km": 0.0573248416185379,
+      "within_50km": 0.17961783707141876,
+      "within_100km": 0.4254777133464813
+    },
+    "v10_prized_blend": {
+      "samples": 785,
+      "mean_error_km": 163.3533172607422,
+      "median_error_km": 113.97406005859375,
+      "p90_error_km": 379.29345703125,
+      "within_25km": 0.07006369531154633,
+      "within_50km": 0.20127388834953308,
+      "within_100km": 0.4420382082462311
+    },
+    "oracle32_mean_km": 36.53844451904297,
+    "oracle64_mean_km": 26.26972007751465
+  },
+  "development": {
+    "aligned_v9_parent": {
+      "samples": 968,
+      "mean_error_km": 178.59228515625,
+      "median_error_km": 156.82778930664062,
+      "p90_error_km": 340.6812438964844,
+      "within_25km": 0.03512396663427353,
+      "within_50km": 0.10433883965015411,
+      "within_100km": 0.30888429284095764
+    },
+    "ethiopia32_adapted": {
+      "samples": 968,
+      "mean_error_km": 177.9004364013672,
+      "median_error_km": 156.22520446777344,
+      "p90_error_km": 346.41375732421875,
+      "within_25km": 0.03719008341431618,
+      "within_50km": 0.10743801295757294,
+      "within_100km": 0.3140496015548706
+    },
+    "global_v9_weights_on_64_support": {
+      "samples": 968,
+      "mean_error_km": 178.0825958251953,
+      "median_error_km": 155.56275939941406,
+      "p90_error_km": 325.44061279296875,
+      "within_25km": 0.01652892492711544,
+      "within_50km": 0.08367768675088882,
+      "within_100km": 0.2913223206996918
+    },
+    "v10_prized_blend": {
+      "samples": 968,
+      "mean_error_km": 177.19674682617188,
+      "median_error_km": 155.96755981445312,
+      "p90_error_km": 334.17041015625,
+      "within_25km": 0.022727273404598236,
+      "within_50km": 0.09607437998056412,
+      "within_100km": 0.3099173605442047
+    },
+    "oracle32_mean_km": 34.84501266479492,
+    "oracle64_mean_km": 23.900867462158203
+  },
+  "development_delta_vs_parent": {
+    "mean_error_km": -1.395538330078125,
+    "median_error_km": -0.8602294921875,
+    "p90_error_km": -6.510833740234375,
+    "within_25km": -0.012396693229675293,
+    "within_50km": -0.008264459669589996,
+    "within_100km": 0.0010330677032470703
+  },
+  "data_provenance": {
+    "candidate32": {
+      "path": "data/location/conflict_candidates_32_spatial_v5.npz",
+      "sha256": "8510afeb2df32b2e92e1c45c420d352e20054c01e9f04ab62f059c91e39938db",
+      "size_bytes": 219819666
+    },
+    "candidate64": {
+      "path": "data/location/conflict_candidates_64_spatial_v10.npz",
+      "sha256": "815bf1b9962fa32db46daafeaa128fa50aed24a219c899f412a3d8c525444a8e",
+      "size_bytes": 366277187
+    }
+  }
+}

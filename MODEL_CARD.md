@@ -67,6 +67,33 @@ Recipe: `conflict_candidate_transformer_spatial_rings_geometric_median_v9`.
 
 The candidate-oracle metric asks how close the best of 32 generated candidates was after seeing the target. It is a diagnostic of candidate coverage, not top-1 forecasting accuracy.
 
+## Ethiopia production v10 — direct v9 lineage
+
+The active production-weight artifact is `models/location/candidate_ranker/v10/`. It keeps the v9 candidate-ranker architecture and objective and retrains the recipe on **all 157,932 currently materialized labels** rather than permanently withholding the old final 15%. The corpus contains **2,669 Ethiopia examples through 2025-12-29**. Because every available label is used, this all-data checkpoint has no fabricated new untouched-test score; recipe evidence comes from the frozen historical experiments recorded in `reports/location/v10_direct_v9lineage_receipts.json`.
+
+For Ethiopia, `models/location/candidate_ranker_ethiopia/v10/` is a calibration wrapper around the **same tensor weights**. Validation-only selection minimized mean error subject to no regression at the 50 km and 100 km thresholds on the selection block. It chose a weighted geometric median at temperature `0.8`, blended 50% with the causal `recent_8_mean` conflict-history reference. Applied unchanged to the later 968-event Ethiopia block, this reduced mean center error from **181.85 km to 178.33 km**, median from **158.58 km to 153.62 km**, and P90 from **357.31 km to 343.25 km**, while <=100 km improved from **30.68% to 31.71%**. <=25 km and <=50 km declined on the later block, so the next v9-lineage work must target candidate support/ranking rather than pretending calibration solved localization.
+
+Two direct v9 continuations were rejected and preserved: the richer actor-transfer tensor improved global validation but regressed Ethiopia geometric-median mean (`182.90 km` vs `181.85 km`), and direct Ethiopia weight fine-tuning improved the later-block mean by only about `0.10 km`. These failures are receipts, not promoted models.
+
+### Ethiopia v10-prized — direct v9 two-support artifact
+
+`models/location/candidate_ranker/v10_prized/` is the current **internal v9-lineage development champion for Ethiopia mean/tail center error**. It does not replace v9's historical validation claim: the final 15% block has been repeatedly inspected and is development data, not a pristine prospective test.
+
+The recipe deliberately keeps the `ConflictCandidateRanker` architecture. It combines two views of the same v9 family: (1) an Ethiopia-adapted 32-candidate model produced by one late-layer-only epoch on all **2,669 Ethiopia labels**, and (2) the all-data global v10 weights evaluated over a new **64-candidate, 28-feature** support bank. The 64-candidate bank lowers Ethiopia candidate-oracle mean from **34.85 km to 23.90 km** on the later block. The frozen center blend is 50% adapted-32 weighted geometric median at temperature `1.0` and 50% global-64 weighted mean at temperature `0.65`.
+
+Aligned Ethiopia historical development receipts (`reports/location/v10_prized_receipts.json`):
+
+| Metric | aligned v9 parent | v10-prized | Delta |
+|---|---:|---:|---:|
+| Mean center error | 178.59 km | **177.20 km** | **-1.40 km** |
+| Median center error | 156.83 km | **155.97 km** | **-0.86 km** |
+| P90 center error | 340.68 km | **334.17 km** | **-6.51 km** |
+| Within 100 km | 30.89% | **30.99%** | **+0.10 pp** |
+| Within 50 km | **10.43%** | 9.61% | -0.82 pp |
+| Within 25 km | **3.51%** | 2.27% | -1.24 pp |
+
+The result is therefore a **mean/tail improvement with a close-range tradeoff**, not a universal win. The production package is retrained/materialized with all historical labels and has `held_out_evaluation: false`; prospective and rolling-origin confirmation remain required before calling it a validated replacement for v9. The registered `location.v10_prized.predict` entry point emits only a coarse humanitarian zone and does not expose ranked tactical coordinates.
+
 ## Temporal risk references
 
 Historical global and Ethiopia risk artifacts have been migrated to:

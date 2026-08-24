@@ -38,6 +38,8 @@ def main() -> None:
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--aggregation", default="weighted_geometric_median")
     parser.add_argument("--seed", type=int, default=20260816)
+    parser.add_argument("--device", choices=("auto", "cpu", "mps", "cuda"), default="auto")
+    parser.add_argument("--trainable-scope", choices=("all", "late"), default="all", help="late freezes the event Transformer and updates only scorer/identity layers.")
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -94,9 +96,10 @@ def main() -> None:
     )
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
 
-    device = torch.device(
-        "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
-    )
+    if args.device == "auto":
+        device = torch.device("mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu"))
+    else:
+        device = torch.device(args.device)
     if resume_state is not None:
         model = ConflictCandidateRanker(**resume_state["model_config"]).to(device)
         model.load_state_dict(resume_state["model_state"])
@@ -104,7 +107,17 @@ def main() -> None:
         model = ConflictCandidateRanker(
             x.shape[-1], features.shape[-1], x.shape[1], len(countries) + 1, len(conflicts) + 1
         ).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.01)
+    if args.trainable_scope == "late":
+        for parameter in model.parameters():
+            parameter.requires_grad = False
+        late_prefixes = ("context.", "candidate.", "bias.", "country.", "conflict.")
+        for name, parameter in model.named_parameters():
+            if name.startswith(late_prefixes):
+                parameter.requires_grad = True
+    trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    if not trainable:
+        raise SystemExit("no trainable parameters selected")
+    optimizer = torch.optim.AdamW(trainable, lr=args.learning_rate, weight_decay=0.01)
 
     epoch_losses: list[float] = []
     scope = args.country_filter or "global"
@@ -122,7 +135,7 @@ def main() -> None:
             logits = model(xb, fb, vb, countryb, conflictb)
             loss, _, _, _ = loss_fn(logits, cb, yb, lb, args.distance_weight, args.center_weight)
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            torch.nn.utils.clip_grad_norm_(trainable, 1.0)
             optimizer.step()
             total += float(loss.detach()) * len(xb)
         epoch_loss = total / len(dataset)
@@ -161,6 +174,8 @@ def main() -> None:
         "aggregation": args.aggregation,
         "temperature": args.temperature,
         "held_out_evaluation": False,
+        "trainable_scope": args.trainable_scope,
+        "trainable_parameters": int(sum(parameter.numel() for parameter in trainable)),
     }
     (args.output_dir / "training_metrics.json").write_text(
         json.dumps(training_report, indent=2) + "\n", encoding="utf-8"
@@ -208,6 +223,9 @@ def main() -> None:
                 "distance_weight": args.distance_weight,
                 "center_weight": args.center_weight,
                 "seed": args.seed,
+                "trainable_scope": args.trainable_scope,
+                "trainable_parameters": int(sum(parameter.numel() for parameter in trainable)),
+                "device": str(device),
             },
             calibration={"aggregation": args.aggregation, "temperature": args.temperature},
             notes=[

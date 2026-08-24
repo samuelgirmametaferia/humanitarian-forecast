@@ -1,0 +1,172 @@
+{
+  "artifacts": [
+    "evaluation_metrics.json",
+    "model.pt"
+  ],
+  "calibration": {
+    "ethiopia32": {
+      "aggregation": "weighted_geometric_median",
+      "candidate_count": 32,
+      "center_weight": 0.5,
+      "feature_dim": 28,
+      "temperature": 1.0,
+      "weights": "ethiopia_model_state"
+    },
+    "global64": {
+      "aggregation": "weighted_mean",
+      "candidate_count": 64,
+      "center_weight": 0.5,
+      "feature_dim": 28,
+      "temperature": 0.65,
+      "weights": "global_model_state"
+    }
+  },
+  "created_at": "2026-08-24T08:54:05.696558+00:00",
+  "description": "Direct v9-family v10-prized: all-data global candidate Transformer plus one-epoch Ethiopia late-layer adaptation, with frozen 32/64 support-view center blending.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "architecture": "ConflictCandidateRanker (v9 family)",
+    "ethiopia_adaptation_samples": 2669,
+    "ethiopia_checkpoint": "models/location/candidate_ranker_ethiopia/v10_prized_adapted/model.pt",
+    "global_checkpoint": "models/location/candidate_ranker/v10/model.pt",
+    "global_training_samples": 157932
+  },
+  "metrics": {
+    "held_out_evaluation": false,
+    "historical_evaluation": {
+      "blend": {
+        "ethiopia32_weight": 0.5,
+        "global64_weight": 0.5
+      },
+      "data_provenance": {
+        "candidate32": {
+          "path": "data/location/conflict_candidates_32_spatial_v5.npz",
+          "sha256": "8510afeb2df32b2e92e1c45c420d352e20054c01e9f04ab62f059c91e39938db",
+          "size_bytes": 219819666
+        },
+        "candidate64": {
+          "path": "data/location/conflict_candidates_64_spatial_v10.npz",
+          "sha256": "815bf1b9962fa32db46daafeaa128fa50aed24a219c899f412a3d8c525444a8e",
+          "size_bytes": 366277187
+        }
+      },
+      "development": {
+        "aligned_v9_parent": {
+          "mean_error_km": 178.59228515625,
+          "median_error_km": 156.82778930664062,
+          "p90_error_km": 340.6812438964844,
+          "samples": 968,
+          "within_100km": 0.30888429284095764,
+          "within_25km": 0.03512396663427353,
+          "within_50km": 0.10433883965015411
+        },
+        "ethiopia32_adapted": {
+          "mean_error_km": 177.9004364013672,
+          "median_error_km": 156.22520446777344,
+          "p90_error_km": 346.41375732421875,
+          "samples": 968,
+          "within_100km": 0.3140496015548706,
+          "within_25km": 0.03719008341431618,
+          "within_50km": 0.10743801295757294
+        },
+        "global_v9_weights_on_64_support": {
+          "mean_error_km": 178.0825958251953,
+          "median_error_km": 155.56275939941406,
+          "p90_error_km": 325.44061279296875,
+          "samples": 968,
+          "within_100km": 0.2913223206996918,
+          "within_25km": 0.01652892492711544,
+          "within_50km": 0.08367768675088882
+        },
+        "oracle32_mean_km": 34.84501266479492,
+        "oracle64_mean_km": 23.900867462158203,
+        "v10_prized_blend": {
+          "mean_error_km": 177.19674682617188,
+          "median_error_km": 155.96755981445312,
+          "p90_error_km": 334.17041015625,
+          "samples": 968,
+          "within_100km": 0.3099173605442047,
+          "within_25km": 0.022727273404598236,
+          "within_50km": 0.09607437998056412
+        }
+      },
+      "development_delta_vs_parent": {
+        "mean_error_km": -1.395538330078125,
+        "median_error_km": -0.8602294921875,
+        "p90_error_km": -6.510833740234375,
+        "within_100km": 0.0010330677032470703,
+        "within_25km": -0.012396693229675293,
+        "within_50km": -0.008264459669589996
+      },
+      "production_note": "All-data packaged weights use all 157,932 global labels and all 2,669 Ethiopia labels; no held-out metric is claimed for the final fitted weights.",
+      "protocol": "aligned Ethiopia 70/15/15 historical development; final 15% repeatedly inspected, not prospective",
+      "validation": {
+        "aligned_v9_parent": {
+          "mean_error_km": 166.35638427734375,
+          "median_error_km": 115.14903259277344,
+          "p90_error_km": 394.1524963378906,
+          "samples": 785,
+          "within_100km": 0.4331210255622864,
+          "within_25km": 0.0904458612203598,
+          "within_50km": 0.19745223224163055
+        },
+        "ethiopia32_adapted": {
+          "mean_error_km": 166.2950897216797,
+          "median_error_km": 113.67491149902344,
+          "p90_error_km": 395.2120056152344,
+          "samples": 785,
+          "within_100km": 0.4369426667690277,
+          "within_25km": 0.09808917343616486,
+          "within_50km": 0.2050955444574356
+        },
+        "global_v9_weights_on_64_support": {
+          "mean_error_km": 162.63116455078125,
+          "median_error_km": 116.87438201904297,
+          "p90_error_km": 370.9411315917969,
+          "samples": 785,
+          "within_100km": 0.4254777133464813,
+          "within_25km": 0.0573248416185379,
+          "within_50km": 0.17961783707141876
+        },
+        "oracle32_mean_km": 36.53844451904297,
+        "oracle64_mean_km": 26.26972007751465,
+        "v10_prized_blend": {
+          "mean_error_km": 163.3533172607422,
+          "median_error_km": 113.97406005859375,
+          "p90_error_km": 379.29345703125,
+          "samples": 785,
+          "within_100km": 0.4420382082462311,
+          "within_25km": 0.07006369531154633,
+          "within_50km": 0.20127388834953308
+        }
+      }
+    }
+  },
+  "notes": [
+    "Historical final-15% Ethiopia rows are development data, not a pristine prospective test.",
+    "Final packaged weights use all historical labels, so no new held-out score is claimed.",
+    "Ethiopia uses the frozen 32/64 support blend; other countries route through global64 only.",
+    "Public inference projects the internal center to a coarse humanitarian grid >=0.2 degrees and exposes no ranked tactical coordinates."
+  ],
+  "status": "production-all-data-humanitarian-coarse-output",
+  "subsystem": "location/candidate_ranker",
+  "training": {
+    "candidate_feature_dim": 28,
+    "data_provenance": {
+      "candidate32": {
+        "path": "data/location/conflict_candidates_32_spatial_v5.npz",
+        "sha256": "8510afeb2df32b2e92e1c45c420d352e20054c01e9f04ab62f059c91e39938db",
+        "size_bytes": 219819666
+      },
+      "candidate64": {
+        "path": "data/location/conflict_candidates_64_spatial_v10.npz",
+        "sha256": "815bf1b9962fa32db46daafeaa128fa50aed24a219c899f412a3d8c525444a8e",
+        "size_bytes": 366277187
+      }
+    },
+    "ethiopia_adaptation_samples": 2669,
+    "global_samples": 157932,
+    "history_feature_dim": 19
+  },
+  "version": "v10-prized"
+}

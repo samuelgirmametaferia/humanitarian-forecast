@@ -1,0 +1,16 @@
+{
+  "training_samples": 2669,
+  "available_global_samples": 157932,
+  "country_filter": "Ethiopia",
+  "identity_countries": 120,
+  "identity_conflicts": 1013,
+  "epochs": 1,
+  "final_training_loss": 20.865723963309065,
+  "distance_weight": 0.0,
+  "center_weight": 100.0,
+  "aggregation": "weighted_geometric_median",
+  "temperature": 1.0,
+  "held_out_evaluation": false,
+  "trainable_scope": "late",
+  "trainable_parameters": 184249
+}

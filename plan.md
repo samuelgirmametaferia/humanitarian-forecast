@@ -371,6 +371,53 @@ The later-block CE improves over the best individual expert (kernel 3.12161) wit
 
 Artifact: `models/location/broad_area_ensemble/v1/`. Registered system: `location.broad_area.ensemble`.
 
+#### 2026-08-24 v9-preserving Ethiopia v10 experiment
+
+The Ethiopia program returned to the validated v9 architecture rather than replacing it wholesale. A conservative v10 challenger now starts from the exact 70%-trained v9 phase-1 checkpoint, freezes the temporal Transformer representation, and fine-tunes only the late context/candidate scoring modules and Ethiopia-relevant embeddings on Ethiopia rows from the pre-validation training era. Training uses a 100 km Gaussian distance-soft target, a small hard-candidate term, and KL distillation back to frozen v9 so specialization cannot discard the parent prior.
+
+Artifact: `models/location/candidate_ranker_ethiopia/v10_v9_adapter_frozen/`. Trainer: `src/humanitarian_forecast/location/training/train_v9_ethiopia_adapter_v10.py`. The earlier stochastic-frozen-encoder attempt remains preserved at `models/location/candidate_ranker_ethiopia/v10_v9_adapter/` and is not overwritten.
+
+Against an Ethiopia-only temperature-calibrated reproduction of v9 on the aligned chronology:
+
+```text
+                                  v9 parent       v10 adapter
+validation distance-soft CE       3.11299          3.08088
+validation mean top-1 error km     194.95           190.52
+validation broad-area score          .38611           .39222
+
+development distance-soft CE      3.27969          3.26152
+development mean top-1 error km    208.72           204.48
+development within 100 km            25.21%           27.27%
+development broad-area score          .27030           .27844
+```
+
+The v10 adapter therefore improves its v9 parent on both chronological validation and the later development block. It is **not promoted yet**: the development block has been repeatedly inspected, and Ethiopia rolling-origin / prospective confirmation remains mandatory.
+
+Recalibrating the propagation kernel specifically for Ethiopia revealed a stronger proper-score baseline than previously recorded (validation CE about 3.06470; development CE about 3.23668). A validation-only three-expert mixture of the strongest Ethiopia candidate-family experts selected 70.0% multiradius, 22.5% v10 adapter, and 7.5% propagation kernel. It reached validation CE 3.04434 and development mean/median error about 198.99 / 171.27 km, but development CE 3.23956 remains fractionally worse than the recalibrated kernel. Therefore the current strict probabilistic champion remains the Ethiopia-calibrated propagation kernel, while v10 is retained as a useful independent expert and the correct v9-preserving research direction.
+
+Process lesson: after v9, too much research budget was spent on replacement representations before exhausting conservative v9-preserving Ethiopia adaptation. Continue architecture exploration only when it addresses a measured residual error or produces independent ensemble value.
+
+##### Direct-v9 mainline supersession — 2026-08-24
+
+The primary Ethiopia location program is now explicitly **v9 -> v10 -> v11**, not replacement-model exploration. Receipt: `reports/location/v10_direct_v9lineage_receipts.json`.
+
+- Production weights: `models/location/candidate_ranker/v10/`, trained with the v9 architecture/objective on all **157,932** available labels, including all **2,669** Ethiopia labels through **2025-12-29**.
+- Ethiopia production wrapper: `models/location/candidate_ranker_ethiopia/v10/`; tensor-state SHA-256 is identical to the global v10 checkpoint.
+- Accepted Ethiopia calibration: weighted geometric median, temperature `0.8`, 50% model center + 50% causal `recent_8_mean`, selected by minimum validation mean subject to no validation regression at <=50 km and <=100 km. Frozen later-block mean/median/P90: **178.33 / 153.62 / 343.25 km**, versus v9 **181.85 / 158.58 / 357.31 km**; <=100 km improves **30.68% -> 31.71%**.
+- Rejected: simply swapping in the 25/60-dimensional actor-transfer tensor; Ethiopia geomedian mean regressed to about **182.90 km**.
+- Rejected as negligible: direct v9 Ethiopia weight fine-tune; later-block mean gain only about **0.10 km**.
+- Production inference now reads country/conflict identity maps from all-data checkpoints instead of reconstructing the obsolete 85% maps.
+
+##### v10-prized support expansion and final all-data package — 2026-08-24
+
+The direct v9 line has now produced `models/location/candidate_ranker/v10_prized/`. The architecture remains `ConflictCandidateRanker`; the gain comes from preserving the sharp 32-candidate v9 view while adding a 64-candidate support view whose Ethiopia development oracle mean is **23.90 km** instead of **34.85 km**. A one-epoch late-layer Ethiopia adaptation is trained on all **2,669** Ethiopia labels from the existing all-data global v10 parent, while the global parent itself scores the expanded 64-candidate bank.
+
+Historical aligned Ethiopia development receipt (`reports/location/v10_prized_receipts.json`): v9 parent mean/median/P90 **178.59 / 156.83 / 340.68 km** versus v10-prized **177.20 / 155.97 / 334.17 km**. <=100 km moves **30.89% -> 30.99%**. <=50 km and <=25 km regress (**10.43% -> 9.61%**, **3.51% -> 2.27%**), so the next objective must explicitly recover local-hit precision without giving back the mean/tail gain. The historical final 15% is still development data, not prospective evidence.
+
+The final package uses a frozen 50/50 center blend: adapted 32-candidate geometric median (`T=1.0`) plus global 64-candidate weighted mean (`T=0.65`). Public inference snaps the internal center to a coarse >=0.2-degree humanitarian grid and never returns a ranked tactical candidate list.
+
+**Budget rule:** alternate H3/GeoFusion/Hawkes/etc. branches remain archived research evidence. Do not allocate primary experimentation to them unless they are being used as a feature/teacher for the v9 lineage or can beat the current Ethiopia v9-lineage model under the same contract. The immediate optimization target is the measured candidate-support/ranking gap.
+
 #### Rolling-origin Ethiopia location gate
 
 A fixed 75-tree LambdaRank probe now evaluates aligned geographic feature families at three expanding origins. This prevents a later-regime gain from silently becoming a universal claim.
@@ -417,9 +464,9 @@ This tag must remain immutable. Do not rewrite it or delete model artifacts prod
 - [x] Add WorldPop population adapter.
 - [ ] Add WorldCover land-cover adapter.
 - [x] Build motion-aware candidate dataset with the exact v9 examples/labels for apples-to-apples evaluation.
-- [ ] Add expanded neighbor/momentum candidates without changing evaluation targets.
+- [x] Expand the direct v9 support from 32 to 64 cutoff-safe historical candidates; Ethiopia development oracle mean falls 34.85 -> 23.90 km. Momentum/local-child support remains a later refinement.
 - [x] Implement `GeoFusionCandidateRanker` (v1/v2 research challengers; neither promoted).
-- [ ] Implement distance-soft + multiresolution training objective.
+- [x] Test distance-soft and multiresolution supervision inside the v9 family; soft100 improved validation strongly but only weakly generalized, so it is preserved as a rejected primary recipe rather than promoted.
 - [x] Add rolling-origin evaluator and experiment ledger.
 - [x] Train first GeoFusion challenger on existing data before external-geo augmentation.
 - [~] Add terrain/access/population/land-cover features one family at a time and run ablations. Terrain/access/population done; WorldCover remains.
@@ -2110,27 +2157,25 @@ Success requires:
 
 # Immediate next research sequence
 
-When work resumes, do **not** start by rewriting the model blindly.
+The Ethiopia location objective is now **direct v9-lineage improvement first**. Do not restart broad replacement-model exploration before exhausting this queue.
 
-Execute this order:
-
-1. [ ] Formalize forecast/outcome/feature snapshot schemas.
-2. [ ] Formalize official daily cutoff and horizon.
-3. [ ] Build a retrospective simulator that reproduces the exact realtime information boundary.
-4. [ ] Build canonical AI-event labeling evaluation using historical reports whose later outcomes are known.
-5. [ ] Measure AI location-label error before using those labels at scale.
-6. [ ] Build H3 historical baseline from existing UCDP data.
-7. [ ] Compare H3 oracle/coverage against the v9 candidate oracle.
-8. [ ] Add current ReliefWeb-derived features to the H3 representation.
-9. [ ] Add simulated Telegram/AI event features from historical public reports where available.
-10. [ ] Train first spatiotemporal H3 model.
-11. [ ] Ensemble it with v9 and persistence.
-12. [ ] Run rolling-origin Ethiopia evaluation.
-13. [ ] Perform ablations until the largest remaining error sources are identified.
+1. [x] Retrain the v9 architecture on all available labels as production `v10`.
+2. [x] Select and materialize Ethiopia-specific v10 inference calibration without changing the all-data weights.
+3. [x] Write exact v9->v10 experiment receipts and preserve rejected direct variants.
+4. [x] Expand the **v9 candidate support** to 64 while preserving the candidate-ranker architecture; Ethiopia development oracle mean improves **34.85 -> 23.90 km**.
+5. [ ] Add local/child candidates around high-probability v9 candidates so the ~35 km candidate-oracle floor can fall materially.
+6. [x] Train the v9 scorer on expanded support with 50/100/multiradius distance-aware labels. Soft100 is a validation win but not a strong later-block win; v10-prized instead uses the unmodified global v9 scorer on 64 support plus the adapted 32-support view.
+7. [ ] Sweep v9-family capacity (history length, width, layers, candidate-interaction capacity) only after candidate-support ablations identify the bottleneck.
+8. [ ] Add actor/motion/terrain/population/accessibility/ReliefWeb features **one family at a time into the v9 contract**; retain only features that improve Ethiopia under the fixed chronology.
+9. [ ] Test warm-start/distillation from v9/v10 against fresh training; final winning recipe is retrained on **100% of available labels**.
+10. [ ] Build rolling-origin Ethiopia evaluation for the winning v9-family recipe and keep prospective forecasts immutable.
+11. [ ] Formalize forecast/outcome/feature snapshot schemas and the official daily cutoff/horizon.
+12. [ ] Build the retrospective simulator and AI-event labeling evaluation needed for realtime ingestion.
+13. [ ] Continue ReliefWeb/Telegram/public-web corroboration work and measure source/location-label error before scaling it.
 14. [ ] Implement the experiment ledger + outcome reward vector + automatic challenger proposal engine offline.
 15. [ ] Implement adaptive web/agent call allocation and evaluate it retrospectively against verified outcomes.
-16. [ ] Run the autonomous researcher in shadow mode: propose/train/score challengers without production promotion.
-17. [ ] Only after the offline architecture and reward-integrity checks are strong, activate the realtime autonomous loop.
-18. [ ] Finally enable automatic weekly challenger/promotion decisions under the fixed gates.
+16. [ ] Run the autonomous researcher in shadow mode: propose/train/score **v9-lineage-first** challengers without production promotion.
+17. [ ] Only after reward-integrity checks are strong, activate the realtime autonomous loop.
+18. [ ] Enable automatic weekly challenger/promotion decisions under fixed Ethiopia gates.
 
-The goal is not simply to make the system autonomous. The goal is to make autonomy operate on top of a forecasting process that is **causal, measurable, reversible, calibrated, and demonstrably improving**.
+H3, GeoFusion, Hawkes, and other replacement representations remain available as archived experiments or auxiliary teachers, but they are **not the default next step**. The goal remains a forecasting process that is causal, measurable, reversible, calibrated, and demonstrably improving while using all available labels for the final production retrain.
