@@ -1,0 +1,21 @@
+{
+  "selected_epochs": 12,
+  "precision_weights": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 233.7554473876953,
+    "median_error_km": 69.36743927001953,
+    "within_25km": 0.3301815092563629
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 205.04208374023438,
+    "median_error_km": 62.65922546386719,
+    "within_25km": 0.3540734350681305
+  },
+  "protocol": "phase1 train70/validate15 precision-weighted; phase2 fresh train85/test15"
+}

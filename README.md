@@ -87,11 +87,21 @@ dataset (`location.candidates.build.v7` — oracle rises to 0.744 with
 ReliefWeb mention-site candidates and Hawkes kernels, but ranking dilutes;
 realized accuracy matched, not beat, the 64-candidate ensemble), and
 5-model seed ensembling (0.131/0.310 — no gain over the 2-model blend).
+Three further variants closed the model-side search: geolocation-precision
+weighting (`location.rank.train.precision`, weights 1/0.4/0.1 → 0.112;
+exact-rows-only 1/0/0 → 0.108 — the ±25-100 km named-place labels still
+carry ranking signal that filtering throws away) and a d_model-192
+capacity variant (0.118). Ten recipes now converge at 0.10-0.13 top-1:
+the constraint is the feature information, not the architecture.
 
-Half of the remaining gap is data, not model: ~50% of Ethiopia validation
-targets are geolocated by UCDP to a named-place radius (`where_prec >= 2`),
-so 20 km hits on those rows are partly coordinate noise — a ceiling no
-ranker can train through.
+Two data findings bound the remaining gap (`reports/eval_precision_split.py`):
+on the 401 exactly-geolocated Ethiopia validation rows (where_prec==1) the
+packaged layer reaches 0.157 top-1 / 0.696 oracle — so UCDP's named-place
+coordinate noise costs real accuracy, but even on clean ground truth the
+model recovers only a sixth of the achievable coverage. Half the ceiling
+is label precision; five-sixths of the *gap* is missing signal — real-time
+escalation data (the deferred Telegram/Groq ingestion), not another
+ranker.
 
 ```bash
 .venv/bin/python main.py run location.theswarm.fine.predict -- --index -1

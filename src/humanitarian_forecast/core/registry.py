@@ -75,6 +75,7 @@ _builtin("location.rank.train.ethiopia_ft", "humanitarian_forecast.location.trai
 _builtin("location.rank.train.soft", "humanitarian_forecast.location.training.train_candidate_ranker_soft", "location", "Distance-softened-label candidate-ranker trainer (evaluation variant).")
 _builtin("location.rank.train.lambdarank", "humanitarian_forecast.location.training.train_candidate_ranker_lambdarank", "location", "LambdaRank listwise candidate-ranker trainer (evaluation variant).")
 _builtin("location.rank.train.cascade", "humanitarian_forecast.location.training.train_candidate_cascade", "location", "Two-stage cascade: stage-1 shortlist, stage-2 reranker (evaluation variant).")
+_builtin("location.rank.train.precision", "humanitarian_forecast.location.training.train_candidate_ranker_precision", "location", "Geolocation-precision-weighted candidate-ranker trainer (evaluation variant).")
 
 # --- Inference -----------------------------------------------------------
 _builtin("location.v10_prized.predict", "humanitarian_forecast.location.inference.predict_v10_prized", "inference", "Run v10-prized and emit only a coarse humanitarian early-warning zone.", True)

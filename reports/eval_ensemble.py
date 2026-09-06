@@ -45,7 +45,8 @@ def main() -> None:
             conflicts = {z: i + 1 for i, z in enumerate(sorted({m["conflict_id"] for m in meta[:ve]}))}
         cfg = state["model_config"]
         model = ConflictCandidateRanker(cfg["event_dim"], cfg["candidate_dim"], cfg["sequence_length"],
-                                        cfg["countries"], cfg["conflicts"])
+                                        cfg["countries"], cfg["conflicts"],
+                                        d_model=cfg.get("d_model", 128), layers=cfg.get("layers", 3))
         model.load_state_dict(state["model_state"])
         model = model.to(device).eval()
         probs = []
