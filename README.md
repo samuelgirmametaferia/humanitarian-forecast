@@ -90,9 +90,11 @@ realized accuracy matched, not beat, the 64-candidate ensemble), and
 Three further variants closed the model-side search: geolocation-precision
 weighting (`location.rank.train.precision`, weights 1/0.4/0.1 → 0.112;
 exact-rows-only 1/0/0 → 0.108 — the ±25-100 km named-place labels still
-carry ranking signal that filtering throws away) and a d_model-192
-capacity variant (0.118). Ten recipes now converge at 0.10-0.13 top-1:
-the constraint is the feature information, not the architecture.
+carry ranking signal that filtering throws away), a d_model-192 capacity
+variant (0.118), and a 25-epoch run (0.111; early stopping picks epoch 11
+even given the longer budget — training length was never the constraint).
+Eleven recipes now converge at 0.10-0.13 top-1: the constraint is the
+feature information, not the architecture.
 
 Two data findings bound the remaining gap (`reports/eval_precision_split.py`):
 on the 401 exactly-geolocated Ethiopia validation rows (where_prec==1) the
