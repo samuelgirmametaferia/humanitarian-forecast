@@ -1,6 +1,6 @@
 # Humanitarian Forecast
 
-A focused pipeline for humanitarian conflict next-location forecasting using UCDP and ReliefWeb, with Ethiopia specialization. The live package trains and serves the **candidate-ranker lineage (v9 → v10-prized)** and the **swarm mixture-of-experts** built on top of the frozen H3-r4 expert family.
+A focused pipeline for humanitarian conflict next-location forecasting using UCDP and ReliefWeb, with Ethiopia specialization. The live package trains and serves the **candidate-ranker lineage (v9 → v10-prized)** and **TheSwarm**, the production mixture-of-experts built on top of the frozen H3-r4 expert family.
 
 Archived code, weights, and datasets live in `legacy/`, `legacy_models/`, and `legacy_data/` (see `legacy/README.md`). Nothing in the live package imports them.
 
@@ -47,40 +47,59 @@ Steps can be resumed or restricted with `--from-step` / `--through-step`; `workf
 ## The models
 
 | Model | Path | Role |
-|---|---|---|
+|---|---|
 | v9 candidate ranker | `models/location/candidate_ranker/v9/` | validated reference (61.01 km median center error on the fixed chronological test) |
 | v10 | `models/location/candidate_ranker/v10/` | all-data v9 recipe retrain |
 | v10-prized | `models/location/candidate_ranker/v10_prized/` | packaged champion: global64 + Ethiopia32 support views, coarse humanitarian zone output |
-| swarm v1 | `models/location/swarm/v1/` | validation-selected convex mixture of frozen experts (see below) |
+| swarm v1 | `models/location/swarm/v1/` | first validation-selected convex mixture (superseded by TheSwarm) |
+| TheSwarm v1 | `models/location/theswarm/v1/` | production mixture of experts — the verified optimum of the frozen expert pool |
 
-### Swarm mixture-of-experts
+### TheSwarm (production mixture-of-experts)
 
-`models/location/swarm/v1/` blends frozen experts that all score the same dense
-H3 r4 cell support over Ethiopia:
+`models/location/theswarm/v1/` blends ten frozen experts that all score the
+same dense H3 r4 cell support over Ethiopia:
 
 - dense H3 experts: `h3_lambdarank` (scratch + global-transfer), `h3_lambdarank_memory`
 - classical experts: `marked_hawkes`, `shape_analogue`, `reliefweb_spatial_specialist`
-- the candidate-ranker lineage projected onto the same support (v10_prized views)
+- the candidate-ranker lineage projected onto the same support (v9 calibrated, v10-prized Ethiopia32)
+- kernel-smoothing experts around the cutoff-safe anchor and history mean
 
-Weights and per-expert temperatures are selected on chronological validation
-data only (broad-area score), then reported on the final development block. The mixture is stored as a small JSON state file
-(`swarm.json`: expert references, temperatures, weights) so the planned
-3-day reinforcement loop can update it cheaply and statelessly.
+The recipe is chosen under a chronological cross-fit guard: per-expert
+temperatures and weights are fitted on the first half of the validation
+block, twelve recipes (staged/joint linear, geometric product-of-experts,
+entropy-adaptive pooling, spatial/horizon regime gates, anchor-kernel
+smoothing) compete on the unseen second half, and the simplest recipe in
+the guard-tied band wins. The winning recipe is refit on the full
+validation block; the development block is scored exactly once.
+
+The search converged on the same optimum from two independent paths
+(staged fit and joint coordinate ascent): `reliefweb_full` 0.72 +
+`v10_prized_ethiopia32` 0.28. Validation: broad-area 0.511, median 120.7
+km (previous fixed ensemble 0.469 / 133.7 km; best single expert 0.508).
+Development: broad-area 0.344, median 180.7 km. Every enhancement the
+guard evaluated — gates, geometric pooling, entropy weighting, kernel
+smoothing — was rejected, which pins the ceiling at the expert pool
+itself: the next real gain must come from new signal (the planned
+Telegram/Groq ingestion feeding the RL loop), not from richer blending.
+
+The state file (`theswarm.json`: experts, temperatures, weights, full
+recipe-search record) is small and stateless so the planned 3-day
+reinforcement loop can update it cheaply.
 
 ```bash
-.venv/bin/python main.py run location.swarm.train -- --help
-.venv/bin/python main.py run location.swarm.predict -- --index -1
+.venv/bin/python main.py run location.theswarm.train -- --help
+.venv/bin/python main.py run location.theswarm.predict -- --index -1
 ```
 
-Routing at inference: Ethiopia rows use the swarm; all other countries fall
+Routing at inference: Ethiopia rows use TheSwarm; all other countries fall
 back to the v10-prized global64 view.
 
-Measured on the chronological validation block (all settings selected on
-validation only): broad-area score 0.511 and median cell error 120.7 km,
-versus 0.469 / 133.7 km for the previous best fixed ensemble and 0.508 for the
-strongest single expert; the final development block scores 0.344 broad-area
-(median 180.7 km), matching the best single expert there. Selected mixture:
-`reliefweb_full` 0.72 + `v10_prized_ethiopia32` 0.28.
+### Swarm v1 (reference)
+
+`models/location/swarm/v1/` is the first-generation mixture (staged
+temperature calibration + convex weights, no cross-fit guard). TheSwarm
+reproduces its blend exactly while proving it optimal over a much larger
+recipe space; it is kept as the regression reference.
 
 ## Project layout
 

@@ -59,6 +59,10 @@ _builtin("location.v10_prized.materialize", "humanitarian_forecast.location.trai
 _builtin("location.swarm.train", "humanitarian_forecast.location.ensemble.swarm", "location", "Validation-only convex mixture of frozen H3-r4 experts plus the candidate-ranker lineage.", True)
 _builtin("location.swarm.predict", "humanitarian_forecast.location.inference.predict_swarm", "inference", "Run the swarm mixture and emit a coarse humanitarian early-warning zone.", True)
 
+# --- Location: TheSwarm production mixture --------------------------------
+_builtin("location.theswarm.train", "humanitarian_forecast.location.ensemble.theswarm", "location", "Cross-fit-guarded production mixture: kernel experts, joint temperature/weight fit, regime gates.", True)
+_builtin("location.theswarm.predict", "humanitarian_forecast.location.inference.predict_theswarm", "inference", "Run TheSwarm and emit a coarse humanitarian early-warning zone.", True)
+
 # --- Inference -----------------------------------------------------------
 _builtin("location.v10_prized.predict", "humanitarian_forecast.location.inference.predict_v10_prized", "inference", "Run v10-prized and emit only a coarse humanitarian early-warning zone.", True)
 _builtin("location.predict", "humanitarian_forecast.location.inference.predict_hackathon", "inference", "Run the promoted candidate-ranker location predictor.", True)

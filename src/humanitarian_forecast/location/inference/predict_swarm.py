@@ -64,11 +64,11 @@ def _prized_view(state: dict, x, features, coordinates, valid, country, conflict
     return float(view["temperature"]), center
 
 
-def main() -> None:
+def main(default_swarm_dir: str = "models/location/swarm/v1", state_file: str = "swarm.json", model_label: str = "swarm") -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data32", type=Path, default=Path("data/location/conflict_candidates_32_spatial_v5.npz"))
     parser.add_argument("--data64", type=Path, default=Path("data/location/conflict_candidates_64_spatial_v10.npz"))
-    parser.add_argument("--swarm-dir", type=Path, default=Path("models/location/swarm/v1"))
+    parser.add_argument("--swarm-dir", type=Path, default=Path(default_swarm_dir))
     parser.add_argument("--checkpoint", type=Path, default=Path("models/location/candidate_ranker/v10_prized/model.pt"))
     parser.add_argument("--index", type=int, default=-1)
     parser.add_argument("--zone-degrees", type=float, default=0.25, help="Output grid size; defaults to ~25 km scale.")
@@ -76,7 +76,7 @@ def main() -> None:
     if args.zone_degrees < 0.2:
         raise SystemExit("coarse humanitarian output requires --zone-degrees >= 0.2")
 
-    swarm = json.loads((args.swarm_dir / "swarm.json").read_text())
+    swarm = json.loads((args.swarm_dir / state_file).read_text())
     blend = np.load(args.swarm_dir / "probabilities.npz", allow_pickle=True)
     cells = blend["cells"].astype(np.float64)
     covered = {}
@@ -103,7 +103,7 @@ def main() -> None:
     if i in covered:
         split, position = covered[i]
         probability = blend[split][position].astype(np.float64)
-        source = "swarm"
+        source = model_label
         zone = _zone(probability, cells, args.zone_degrees)
         center = (probability[:, None] * cells).sum(0)
         lat, lon = float(center[0]), float(center[1])
@@ -136,7 +136,7 @@ def main() -> None:
         "observation_cutoff": cutoff,
         "forecast_horizon_days": int(m["gap_days"]),
         "model": source,
-        "swarm_weights": swarm.get("weights") if source == "swarm" else None,
+        "swarm_weights": swarm.get("weights") if source == model_label else None,
         "zone": zone,
         "warning": "Coarse humanitarian early-warning research signal, not a tactical coordinate forecast.",
     }, indent=2))
