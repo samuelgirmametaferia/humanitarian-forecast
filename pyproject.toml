@@ -14,7 +14,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-web = ["flask>=3.0"]
 geo = ["rasterio>=1.4", "shapely>=2.0", "pyproj>=3.7", "pyogrio>=0.11", "h3>=4.5"]
 
 [project.scripts]
@@ -28,4 +27,4 @@ include-package-data = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-humanitarian_forecast = ["web/templates/*.html"]
+humanitarian_forecast = []

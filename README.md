@@ -1,10 +1,12 @@
 # Humanitarian Forecast
 
-A structured research/production pipeline for humanitarian conflict-risk and next-location forecasting using UCDP and ReliefWeb, with Ethiopia specialization.
+A focused pipeline for humanitarian conflict next-location forecasting using UCDP and ReliefWeb, with Ethiopia specialization. The live package trains and serves the **candidate-ranker lineage (v9 → v10-prized)** and the **swarm mixture-of-experts** built on top of the frozen H3-r4 expert family.
+
+Archived code, weights, and datasets live in `legacy/`, `legacy_models/`, and `legacy_data/` (see `legacy/README.md`). Nothing in the live package imports them.
 
 ## One controller
 
-Use `main.py` from the repository root. It adds `src/` to the Python path automatically, so the project does not depend on the current working directory or a collection of loose scripts.
+Use `main.py` from the repository root. It adds `src/` to the Python path automatically.
 
 ```bash
 # Show every registered subsystem.
@@ -14,9 +16,6 @@ Use `main.py` from the repository root. It adds `src/` to the Python path automa
 .venv/bin/python main.py workflow plan
 
 # Run global all-data training, then Ethiopia fine-tuning.
-.venv/bin/python main.py workflow full
-
-# Reuse an already-downloaded ReliefWeb corpus.
 .venv/bin/python main.py workflow full --skip-download
 
 # Inspect model versions and their metadata.
@@ -25,13 +24,14 @@ Use `main.py` from the repository root. It adds `src/` to the Python path automa
 
 # Run any registered subsystem directly.
 .venv/bin/python main.py run location.predict -- --index -1 --top 5
+.venv/bin/python main.py run location.swarm.predict -- --index -1
 ```
 
 The Ethiopia database defaults to `/Users/sam/Documents/wfp/database.sqlite`. Override it with `--ethiopia-db PATH` or the `HUMANITARIAN_ETHIOPIA_DB` environment variable.
 
 ## Production workflow
 
-`main.py workflow full` is intentionally split into global training and Ethiopia specialization:
+`main.py workflow full` runs eight steps:
 
 1. Download the configured full ReliefWeb corpus (unless `--skip-download`).
 2. Build international and Ethiopia risk datasets from UCDP + ReliefWeb.
@@ -39,14 +39,42 @@ The Ethiopia database defaults to `/Users/sam/Documents/wfp/database.sqlite`. Ov
 4. Build 32 cutoff-safe historical candidates with the spatial-ring feature system.
 5. Train the international temporal-risk model on every available global row.
 6. Retrain the validated v9 candidate-location recipe on every available global location label.
-7. Fine-tune the temporal-risk model on every available Ethiopia row.
-8. Fine-tune the candidate-location model on every Ethiopia location row while preserving the global country/conflict embedding IDs.
+7. Fine-tune the temporal-risk model on all Ethiopia rows.
+8. Fine-tune the candidate-location model on all Ethiopia rows while preserving global embedding IDs.
 
-Production checkpoints intentionally use all currently available labels. They therefore **do not claim a fresh holdout score**. Their `info.blt` files retain the measured performance of their validated ancestors and explicitly mark the production artifact as all-data training.
+Steps can be resumed or restricted with `--from-step` / `--through-step`; `workflow plan` shows the order. Versioned model directories are protected against overwrite unless `--force` is supplied.
 
-Using post-cutoff rows for production means those rows become additional training examples. Feature/candidate construction remains causal for each historical example: an example never sees observations occurring after its own observation cutoff.
+## The models
 
-The workflow can be resumed or restricted with `--from-step` and `--through-step`; use `workflow plan` to see the order. Versioned model directories are protected against accidental overwrite unless `--force` is supplied.
+| Model | Path | Role |
+|---|---|---|
+| v9 candidate ranker | `models/location/candidate_ranker/v9/` | validated reference (61.01 km median center error on the fixed chronological test) |
+| v10 | `models/location/candidate_ranker/v10/` | all-data v9 recipe retrain |
+| v10-prized | `models/location/candidate_ranker/v10_prized/` | packaged champion: global64 + Ethiopia32 support views, coarse humanitarian zone output |
+| swarm v1 | `models/location/swarm/v1/` | validation-selected convex mixture of frozen experts (see below) |
+
+### Swarm mixture-of-experts
+
+`models/location/swarm/v1/` blends frozen experts that all score the same dense
+H3 r4 cell support over Ethiopia:
+
+- dense H3 experts: `h3_lambdarank` (scratch + global-transfer), `h3_lambdarank_memory`
+- classical experts: `marked_hawkes`, `shape_analogue`, `reliefweb_spatial_specialist`
+- the candidate-ranker lineage projected onto the same support (v10_prized views)
+
+Weights are selected on chronological validation data only (broad-area soft
+cross-entropy against distance-soft targets), then reported on the final
+development block. The mixture is stored as a small JSON state file
+(`swarm.json`: expert references, temperatures, weights) so the planned
+3-day reinforcement loop can update it cheaply and statelessly.
+
+```bash
+.venv/bin/python main.py run location.swarm.train -- --help
+.venv/bin/python main.py run location.swarm.predict -- --index -1
+```
+
+Routing at inference: Ethiopia rows use the swarm; all other countries fall
+back to the v10-prized global64 view.
 
 ## Project layout
 
@@ -56,89 +84,31 @@ The workflow can be resumed or restricted with `--from-step` and `--through-step
 ├── pyproject.toml                  # installable src-layout package
 ├── src/humanitarian_forecast/
 │   ├── cli.py
-│   ├── core/                       # registry, paths, runners, model metadata
+│   ├── core/                       # registry, paths, runner, model metadata
 │   ├── data/                       # ReliefWeb/UCDP ingestion + dataset builders
 │   ├── risk/                       # global/Ethiopia temporal-risk system
 │   ├── location/
-│   │   ├── models/                 # model architectures
-│   │   ├── training/               # evaluation + all-data production trainers
+│   │   ├── models/                 # candidate-ranker architecture
+│   │   ├── training/               # train / calibrate / materialize
+│   │   ├── ensemble/               # swarm mixture-of-experts
 │   │   └── inference/              # promoted inference paths
-│   ├── evaluation/                 # baselines, audits, diagnostics
-│   ├── workflows/                  # composed end-to-end workflows
-│   ├── web/                        # web presentation layer
-│   └── experimental/               # preserved historical/experimental systems
-├── models/
-│   ├── risk/base/vN/
-│   ├── risk/ethiopia/vN/
-│   ├── location/candidate_ranker/vN/
-│   ├── location/candidate_ranker_ethiopia/vN/
-│   └── ...
-├── data/                           # ignored raw/processed datasets
-└── reports/                        # research/evaluation reports
+│   ├── evaluation/                 # candidate-ranker evaluation
+│   └── workflows/                  # composed end-to-end workflow
+├── models/location/                # live lineage + swarm + frozen experts
+├── legacy/                         # archived source (see legacy/README.md)
+├── legacy_models/                  # archived weights (~440 MB)
+├── legacy_data/                    # archived datasets (~11 GB, git-ignored)
+├── data/                           # canonical datasets (git-ignored)
+└── reports/                        # evaluation reports
 ```
 
 ## Model store and `info.blt`
 
-Every migrated or newly trained model version lives in its own `vN` directory. Each version contains `info.blt`, a machine-readable JSON metadata file with:
-
-- subsystem and version
-- status (`historical`, `validated-promoted`, `production-all-data`, etc.)
-- measured performance where an honest held-out result exists
-- training configuration and dataset lineage
-- calibration configuration
-- model artifact filenames
-- warnings/notes about what the metrics mean
-
-The validated next-location reference is:
-
-```text
-models/location/candidate_ranker/v9/candidate_ranker_calibrated.pt
-```
-
-Its fixed chronological test result is 61.01 km median center error, 194.36 km mean error, 435.09 km p90, and 34.39% within 25 km. It uses the spatial-ring candidate Transformer with 32 cutoff-safe candidates and validation-selected weighted geometric-median aggregation at temperature 1.0.
-
-The latest **coarse humanitarian-risk challenger** is `models/risk/ethiopia/v6/`. It combines the calibrated v5 local-history predictor with a low-weight causal PRIO-neighborhood expert, uses a separately optimized spatial intensity model, and reports split-conformal intensity uncertainty. The final historical block is explicitly a development benchmark rather than a fresh prospective test.
-
-```bash
-# Rebuild v6's causal spatial context from the canonical Ethiopia risk tensor.
-.venv/bin/python main.py run data.risk.spatial.build -- \
-  --input data/processed_v3/ethiopia.npz \
-  --output data/processed_v6/ethiopia_spatial.npz
-
-# Reproduce the v6 challenger from v5 + the spatial tensor.
-.venv/bin/python main.py run risk.train.v6 -- \
-  --base-data data/processed_v3/ethiopia.npz \
-  --spatial-data data/processed_v6/ethiopia_spatial.npz \
-  --base-model-dir models/risk/ethiopia/v5 \
-  --output-dir models/risk/ethiopia/v6_reproduction
-
-# Run calibrated v6 inference on one prepared coarse-area history.
-.venv/bin/python main.py run risk.predict.v6 -- \
-  --model-dir models/risk/ethiopia/v6 \
-  --input data/processed_v6/ethiopia_spatial.npz \
-  --index 0
-```
-
-## Adding a future subsystem
-
-Place its implementation under the appropriate `src/humanitarian_forecast/<subsystem>/` package, then register one `SystemSpec` in:
-
-```text
-src/humanitarian_forecast/core/registry.py
-```
-
-It immediately becomes visible through:
-
-```bash
-.venv/bin/python main.py systems
-.venv/bin/python main.py run <new-system> -- <arguments>
-```
-
-If it belongs in the production sequence, add a `PipelineStep` in `src/humanitarian_forecast/workflows/production.py`. The controller itself does not need a new one-off command for every experiment.
+Every model version lives in its own directory with `info.blt`, a machine-readable JSON metadata file: subsystem, version, status, measured performance where an honest held-out result exists, lineage, calibration, artifacts, and notes/warnings. Production artifacts trained on all data do not claim a fresh holdout score; their `info.blt` records the measured performance of their validated ancestors.
 
 ## Evaluation versus production
 
-Chronological holdout trainers remain in the package for honest model selection and regression testing. Production trainers are separate modules that consume all labeled data only after a recipe has been selected. Do not compare a production training loss to the v9 test error or treat it as a generalization metric.
+Chronological holdout trainers stay in the package for honest model selection and regression testing. Production trainers consume all labeled data only after a recipe has been selected. Do not compare a production training loss to the v9 test error.
 
 ## Safety and interpretation
 

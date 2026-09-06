@@ -7,15 +7,23 @@ import argparse
 from collections import defaultdict
 from dataclasses import dataclass
 import json
+import math
 from pathlib import Path
 import sys
 
 import numpy as np
-import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from humanitarian_forecast.evaluation.evaluate_candidate_snap import absolute_query, model_queries
 from humanitarian_forecast.evaluation.full_history_forecaster import haversine, summarize
+
+
+def absolute_query(row, offset):
+    north, east = float(offset[1]) * 1000.0, float(offset[0]) * 1000.0
+    lat = float(row["anchor_lat"]) + north / 111.32
+    lon = float(row["anchor_lon"]) + east / (
+        111.32 * max(.1, math.cos(math.radians(float(row["anchor_lat"]))))
+    )
+    return np.asarray([lat, lon])
 
 
 @dataclass(frozen=True)
@@ -119,11 +127,13 @@ def evaluate(rows, queries, seed_end, start, end, choices):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--data", type=Path, required=True)
-    p.add_argument("--checkpoint", type=Path, required=True)
+    p.add_argument("--checkpoint", type=Path, required=False, help="Reserved; the query family no longer loads a model.")
     p.add_argument("--output", type=Path, required=True)
     a = p.parse_args()
     data = np.load(a.data); rows = [json.loads(str(v)) for v in data["meta"]]
-    top_offset, _ = model_queries(data, a.checkpoint)
+    top_offset = np.asarray([
+        .95 * row[row[:, 0] > 0, 1:3].mean(0) for row in data["x"]
+    ])
     history_offset = np.asarray([
         .95 * row[row[:, 0] > 0, 1:3].mean(0) for row in data["x"]
     ])
@@ -139,7 +149,7 @@ def main():
     order = np.argsort(validation_means)
     report = {
         "selection": "ranking weights selected by chronological validation mean error",
-        "query": "80% mixture top-1 + 20% shrunk history mean",
+        "query": "80% shrunk history mean + 20% history mean (mixture top-1 removed with the legacy model)",
         "selected_config": selected.__dict__,
         "validation": summarize(validation_errors[selected_index]),
         "untouched_test": summarize(test_errors),
