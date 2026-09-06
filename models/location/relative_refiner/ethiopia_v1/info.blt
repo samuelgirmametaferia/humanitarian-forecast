@@ -1,0 +1,74 @@
+{
+  "artifacts": [
+    "relative_refiner_metrics.json",
+    "relative_refiner_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:06:41.190296+00:00",
+  "description": "Relative-feature candidate rank probabilities composed with continuous coarse-to-fine coordinate refinement.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "ranker": "models/location/geo_lambdarank_relative/ethiopia_v1/geo_lambdarank.txt",
+    "refiner_metrics": "models/location/candidate_refiner/actor_transfer_v1/candidate_refiner_metrics.json",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.35777008522424436,
+      "candidate_oracle_mean_km": 43.469276428222656,
+      "mean_entropy": 2.0454649069934243,
+      "mean_error_km": 194.11695861816406,
+      "median_error_km": 170.9124755859375,
+      "p90_error_km": 390.335205078125,
+      "probability_mass_within_100km": 0.28341412590666376,
+      "probability_mass_within_200km": 0.5735111666547558,
+      "probability_mass_within_25km": 0.03311144405150271,
+      "probability_mass_within_50km": 0.11204735365463868,
+      "samples": 968.0,
+      "top3_within_100km": 0.4318181818181818,
+      "top3_within_200km": 0.7241735537190083,
+      "top5_within_100km": 0.5278925619834711,
+      "top5_within_200km": 0.78099173553719,
+      "within_100km": 0.29338842975206614,
+      "within_200km": 0.59400826446281,
+      "within_25km": 0.03512396694214876,
+      "within_50km": 0.11983471074380166
+    },
+    "validation": {
+      "broad_area_score": 0.5197076052868519,
+      "candidate_oracle_mean_km": 46.61004638671875,
+      "mean_entropy": 1.5443992615148368,
+      "mean_error_km": 179.23916625976562,
+      "median_error_km": 105.48854064941406,
+      "p90_error_km": 457.616455078125,
+      "probability_mass_within_100km": 0.46188686188036787,
+      "probability_mass_within_200km": 0.6815338696390435,
+      "probability_mass_within_25km": 0.07377825823108475,
+      "probability_mass_within_50km": 0.23626163532737535,
+      "samples": 785.0,
+      "top3_within_100km": 0.5732484076433121,
+      "top3_within_200km": 0.7796178343949045,
+      "top5_within_100km": 0.6471337579617834,
+      "top5_within_200km": 0.8343949044585988,
+      "within_100km": 0.4802547770700637,
+      "within_200km": 0.686624203821656,
+      "within_25km": 0.07770700636942675,
+      "within_50km": 0.25095541401273885
+    }
+  },
+  "notes": [
+    "No production champion is changed by this artifact.",
+    "Development is diagnostic and has been repeatedly inspected; prospective gates remain mandatory.",
+    "Composition improves broad-area placement but does not yet recover the coarse model\u2019s <=25 km hit rate."
+  ],
+  "status": "research-champion-ethiopia-coarse-to-fine",
+  "subsystem": "location/relative_refiner",
+  "training": {
+    "alpha": 1.25,
+    "cap_km": 50.0,
+    "rank_iteration": 325,
+    "temperature": 0.2
+  },
+  "version": "v1"
+}

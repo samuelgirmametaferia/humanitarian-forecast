@@ -1,0 +1,64 @@
+{
+  "artifacts": [
+    "regime_gate_metrics.json",
+    "regime_gate_model.npz",
+    "regime_gate_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T21:47:09.810343+00:00",
+  "description": "Validation-only contextual gate over heterogeneous Ethiopia location experts.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.27068468543126395,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "distance_soft_cross_entropy": 3.281124416318776,
+      "mean_entropy": 3.2200828130791495,
+      "mean_error_km": 208.66839599609375,
+      "median_error_km": 175.83837890625,
+      "p90_error_km": 410.5777893066406,
+      "probability_mass_within_100km": 0.19082018892481686,
+      "probability_mass_within_200km": 0.43636418860480874,
+      "probability_mass_within_25km": 0.030715066745999966,
+      "probability_mass_within_50km": 0.07785294120478264,
+      "samples": 968.0,
+      "top3_within_100km": 0.3987603305785124,
+      "top3_within_200km": 0.6859504132231405,
+      "within_100km": 0.2572314049586777,
+      "within_200km": 0.5547520661157025,
+      "within_25km": 0.05371900826446281,
+      "within_50km": 0.10537190082644628
+    },
+    "validation": {
+      "broad_area_score": 0.4233631832133968,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "distance_soft_cross_entropy": 2.9679089099613685,
+      "mean_entropy": 3.0240779023768956,
+      "mean_error_km": 177.00393676757812,
+      "median_error_km": 107.42411041259766,
+      "p90_error_km": 455.40618896484375,
+      "probability_mass_within_100km": 0.3269584868911513,
+      "probability_mass_within_200km": 0.5753233892182281,
+      "probability_mass_within_25km": 0.06170109447691283,
+      "probability_mass_within_50km": 0.14524627492822342,
+      "samples": 785.0,
+      "top3_within_100km": 0.5834394904458599,
+      "top3_within_200km": 0.7834394904458599,
+      "within_100km": 0.467515923566879,
+      "within_200km": 0.7006369426751592,
+      "within_25km": 0.13248407643312102,
+      "within_50km": 0.2484076433121019
+    }
+  },
+  "notes": [
+    "Rejected: validation CE improved while development CE regressed, indicating regime-gate overfit."
+  ],
+  "status": "research-rejected-gate",
+  "subsystem": "location/regime_gate",
+  "training": {},
+  "version": "v1"
+}

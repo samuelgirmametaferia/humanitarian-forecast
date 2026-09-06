@@ -1,0 +1,8 @@
+{
+  "model_type": "LightGBM LambdaRank local expert",
+  "country": "Ethiopia",
+  "selected_iteration": 200,
+  "probability_temperature": 0.2,
+  "feature_dim": 248,
+  "training_queries": 916
+}

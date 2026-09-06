@@ -1,0 +1,292 @@
+{
+  "schema": "dense-h3-geostate-v1",
+  "parameter_count": 14585617,
+  "preset": "M",
+  "selected_epoch": 29,
+  "validation": {
+    "r3": {
+      "samples": 776,
+      "mean_error_km": 478.6755065917969,
+      "median_error_km": 509.95416259765625,
+      "p90_error_km": 850.6389770507812,
+      "within_25km": 0.011597938144329897,
+      "within_50km": 0.04252577319587629,
+      "within_100km": 0.10309278350515463,
+      "within_200km": 0.20231958762886598,
+      "top3_within_100km": 0.24871134020618557,
+      "cross_entropy": 4.326446533203125,
+      "mean_entropy": 3.704324960708618
+    },
+    "r4": {
+      "samples": 767,
+      "mean_error_km": 413.0828857421875,
+      "median_error_km": 449.5721740722656,
+      "p90_error_km": 689.7765502929688,
+      "within_25km": 0.01955671447196871,
+      "within_50km": 0.03650586701434159,
+      "within_100km": 0.10299869621903521,
+      "within_200km": 0.2633637548891786,
+      "top3_within_100km": 0.2816166883963494,
+      "cross_entropy": 5.87411642074585,
+      "mean_entropy": 5.412351131439209
+    },
+    "r5": {
+      "samples": 783,
+      "mean_error_km": 439.05975341796875,
+      "median_error_km": 489.76123046875,
+      "p90_error_km": 697.087890625,
+      "within_25km": 0.016602809706257982,
+      "within_50km": 0.0280970625798212,
+      "within_100km": 0.07279693486590039,
+      "within_200km": 0.19540229885057472,
+      "top3_within_100km": 0.25798212005108556,
+      "cross_entropy": 7.490462779998779,
+      "mean_entropy": 7.248547077178955
+    }
+  },
+  "development": {
+    "r3": {
+      "samples": 965,
+      "mean_error_km": 481.1790771484375,
+      "median_error_km": 464.43817138671875,
+      "p90_error_km": 869.93017578125,
+      "within_25km": 0.004145077720207254,
+      "within_50km": 0.025906735751295335,
+      "within_100km": 0.07150259067357513,
+      "within_200km": 0.19481865284974093,
+      "top3_within_100km": 0.1844559585492228,
+      "cross_entropy": 4.669630527496338,
+      "mean_entropy": 3.642198085784912
+    },
+    "r4": {
+      "samples": 960,
+      "mean_error_km": 444.77569580078125,
+      "median_error_km": 422.13055419921875,
+      "p90_error_km": 792.25244140625,
+      "within_25km": 0.010416666666666666,
+      "within_50km": 0.03229166666666667,
+      "within_100km": 0.071875,
+      "within_200km": 0.20833333333333334,
+      "top3_within_100km": 0.13854166666666667,
+      "cross_entropy": 6.543228626251221,
+      "mean_entropy": 5.36818790435791
+    },
+    "r5": {
+      "samples": 968,
+      "mean_error_km": 428.1153259277344,
+      "median_error_km": 372.358154296875,
+      "p90_error_km": 773.2080078125,
+      "within_25km": 0.007231404958677686,
+      "within_50km": 0.029958677685950414,
+      "within_100km": 0.07644628099173553,
+      "within_200km": 0.21487603305785125,
+      "top3_within_100km": 0.16115702479338842,
+      "cross_entropy": 8.228654861450195,
+      "mean_entropy": 7.2113752365112305
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 9.371578778762483,
+      "validation_finest_ce": 8.297276496887207
+    },
+    {
+      "epoch": 2,
+      "train_loss": 9.008297066501134,
+      "validation_finest_ce": 8.167501449584961
+    },
+    {
+      "epoch": 3,
+      "train_loss": 8.744063402367471,
+      "validation_finest_ce": 8.084932327270508
+    },
+    {
+      "epoch": 4,
+      "train_loss": 8.540072070459091,
+      "validation_finest_ce": 8.020467758178711
+    },
+    {
+      "epoch": 5,
+      "train_loss": 8.387160955037613,
+      "validation_finest_ce": 7.9929656982421875
+    },
+    {
+      "epoch": 6,
+      "train_loss": 8.229709154653758,
+      "validation_finest_ce": 7.950450897216797
+    },
+    {
+      "epoch": 7,
+      "train_loss": 8.075095588983928,
+      "validation_finest_ce": 7.948746204376221
+    },
+    {
+      "epoch": 8,
+      "train_loss": 7.950208166280688,
+      "validation_finest_ce": 7.79982852935791
+    },
+    {
+      "epoch": 9,
+      "train_loss": 7.822563483725468,
+      "validation_finest_ce": 7.789247035980225
+    },
+    {
+      "epoch": 10,
+      "train_loss": 7.702224883450171,
+      "validation_finest_ce": 7.752600193023682
+    },
+    {
+      "epoch": 11,
+      "train_loss": 7.5798808018713535,
+      "validation_finest_ce": 7.798391819000244
+    },
+    {
+      "epoch": 12,
+      "train_loss": 7.471699092065403,
+      "validation_finest_ce": 7.764931678771973
+    },
+    {
+      "epoch": 13,
+      "train_loss": 7.3757542585181355,
+      "validation_finest_ce": 7.647824287414551
+    },
+    {
+      "epoch": 14,
+      "train_loss": 7.2777988171473345,
+      "validation_finest_ce": 7.679884433746338
+    },
+    {
+      "epoch": 15,
+      "train_loss": 7.2023270702778515,
+      "validation_finest_ce": 7.727020263671875
+    },
+    {
+      "epoch": 16,
+      "train_loss": 7.114366377284954,
+      "validation_finest_ce": 7.577578067779541
+    },
+    {
+      "epoch": 17,
+      "train_loss": 7.044006439275616,
+      "validation_finest_ce": 7.638938903808594
+    },
+    {
+      "epoch": 18,
+      "train_loss": 6.975722475343396,
+      "validation_finest_ce": 7.577587604522705
+    },
+    {
+      "epoch": 19,
+      "train_loss": 6.930691238053501,
+      "validation_finest_ce": 7.614053249359131
+    },
+    {
+      "epoch": 20,
+      "train_loss": 6.877074955852792,
+      "validation_finest_ce": 7.5812087059021
+    },
+    {
+      "epoch": 21,
+      "train_loss": 6.830867463324267,
+      "validation_finest_ce": 7.634416580200195
+    },
+    {
+      "epoch": 22,
+      "train_loss": 6.801296690145434,
+      "validation_finest_ce": 7.566404819488525
+    },
+    {
+      "epoch": 23,
+      "train_loss": 6.752812002423549,
+      "validation_finest_ce": 7.5394744873046875
+    },
+    {
+      "epoch": 24,
+      "train_loss": 6.724372674284023,
+      "validation_finest_ce": 7.528713703155518
+    },
+    {
+      "epoch": 25,
+      "train_loss": 6.69442654697135,
+      "validation_finest_ce": 7.512210369110107
+    },
+    {
+      "epoch": 26,
+      "train_loss": 6.6673479101022775,
+      "validation_finest_ce": 7.513085842132568
+    },
+    {
+      "epoch": 27,
+      "train_loss": 6.642603678474259,
+      "validation_finest_ce": 7.527034282684326
+    },
+    {
+      "epoch": 28,
+      "train_loss": 6.625267670144161,
+      "validation_finest_ce": 7.524903774261475
+    },
+    {
+      "epoch": 29,
+      "train_loss": 6.60649458289667,
+      "validation_finest_ce": 7.490462779998779
+    },
+    {
+      "epoch": 30,
+      "train_loss": 6.592417921041297,
+      "validation_finest_ce": 7.53083610534668
+    },
+    {
+      "epoch": 31,
+      "train_loss": 6.58435413202344,
+      "validation_finest_ce": 7.4990410804748535
+    },
+    {
+      "epoch": 32,
+      "train_loss": 6.571200083436924,
+      "validation_finest_ce": 7.517982006072998
+    },
+    {
+      "epoch": 33,
+      "train_loss": 6.5647315354326405,
+      "validation_finest_ce": 7.495467662811279
+    },
+    {
+      "epoch": 34,
+      "train_loss": 6.556245185402283,
+      "validation_finest_ce": 7.506280899047852
+    },
+    {
+      "epoch": 35,
+      "train_loss": 6.550315567499686,
+      "validation_finest_ce": 7.5012335777282715
+    },
+    {
+      "epoch": 36,
+      "train_loss": 6.553514070385929,
+      "validation_finest_ce": 7.5030083656311035
+    },
+    {
+      "epoch": 37,
+      "train_loss": 6.5485293105179565,
+      "validation_finest_ce": 7.500990390777588
+    },
+    {
+      "epoch": 38,
+      "train_loss": 6.545467385038018,
+      "validation_finest_ce": 7.502690315246582
+    },
+    {
+      "epoch": 39,
+      "train_loss": 6.5435376625394195,
+      "validation_finest_ce": 7.5030107498168945
+    },
+    {
+      "epoch": 40,
+      "train_loss": 6.549455692674395,
+      "validation_finest_ce": 7.5029072761535645
+    }
+  ],
+  "protocol": "global 70/15/15 chronological boundaries applied to Ethiopia rows; validation selects epoch; final block is development-only",
+  "evaluation_caveat": "The historical final block has been repeatedly inspected by prior research and is not a pristine prospective test."
+}

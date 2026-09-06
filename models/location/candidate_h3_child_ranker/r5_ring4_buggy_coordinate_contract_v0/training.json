@@ -1,0 +1,12 @@
+{
+  "schema": "candidate-h3-child-ranker-v1",
+  "resolution": 5,
+  "ring": 4,
+  "parents_per_query": 2,
+  "train_queries_sampled": 20768,
+  "ranking_groups": 36529,
+  "train_rows": 2228269,
+  "feature_dim": 154,
+  "estimators": 600,
+  "protocol": "ranker fit only on global first70%; target used only to choose local training parents and distance-relevance labels; no validation/development labels used"
+}

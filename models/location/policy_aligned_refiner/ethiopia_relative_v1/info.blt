@@ -1,0 +1,87 @@
+{
+  "artifacts": [
+    "east_refiner.txt",
+    "metrics.json",
+    "north_refiner.txt",
+    "probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T08:05:31.940480+00:00",
+  "description": "Continuous residual refiner trained on the frozen multiradius policy's own top-ranked candidates.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "parent": "models/location/geo_multiradius_relative/ethiopia_v2",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.3857049108850275,
+      "candidate_oracle_mean_km": 48.265987396240234,
+      "mean_entropy": 0.5695814895811372,
+      "mean_error_km": 189.86013793945312,
+      "median_error_km": 164.34194946289062,
+      "p90_error_km": 382.8226623535156,
+      "probability_mass_within_100km": 0.3145298082598922,
+      "probability_mass_within_200km": 0.6185779122889461,
+      "probability_mass_within_25km": 0.0285788608779746,
+      "probability_mass_within_50km": 0.1167076029674871,
+      "samples": 968.0,
+      "top3_within_100km": 0.41735537190082644,
+      "top3_within_200km": 0.7024793388429752,
+      "top5_within_100km": 0.4855371900826446,
+      "top5_within_200km": 0.7510330578512396,
+      "within_100km": 0.31508264462809915,
+      "within_200km": 0.6167355371900827,
+      "within_25km": 0.027892561983471075,
+      "within_50km": 0.11570247933884298
+    },
+    "validation": {
+      "broad_area_score": 0.5433624272790821,
+      "candidate_oracle_mean_km": 49.504974365234375,
+      "mean_entropy": 0.5339560196280265,
+      "mean_error_km": 171.6282501220703,
+      "median_error_km": 101.93917846679688,
+      "p90_error_km": 422.8813781738281,
+      "probability_mass_within_100km": 0.4924631937759671,
+      "probability_mass_within_200km": 0.7068058694350676,
+      "probability_mass_within_25km": 0.06645432233929754,
+      "probability_mass_within_50km": 0.23472014640787875,
+      "samples": 785.0,
+      "top3_within_100km": 0.5719745222929936,
+      "top3_within_200km": 0.7656050955414013,
+      "top5_within_100km": 0.6356687898089172,
+      "top5_within_200km": 0.8229299363057325,
+      "within_100km": 0.4929936305732484,
+      "within_200km": 0.7095541401273885,
+      "within_25km": 0.06751592356687898,
+      "within_50km": 0.23312101910828026
+    }
+  },
+  "notes": [
+    "Training rows are selected by frozen-parent rank before target-distance filtering.",
+    "Four parent policy features are appended: score, rank, top-score gap, and top1/top2 margin.",
+    "Only top-k parent candidates are moved at inference."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/policy_aligned_refiner",
+  "training": {
+    "broad_policy": {
+      "alpha": 0.75,
+      "cap_km": 100.0,
+      "topk": 32
+    },
+    "estimators": 700,
+    "ethiopia_weight": 10.0,
+    "mean_policy": {
+      "alpha": 1.375,
+      "cap_km": 100.0,
+      "topk": 1
+    },
+    "regional_weight": 2.0,
+    "seed": 20260824,
+    "train_parent_topk": 3,
+    "training_radius_km": 300.0
+  },
+  "version": "v1"
+}

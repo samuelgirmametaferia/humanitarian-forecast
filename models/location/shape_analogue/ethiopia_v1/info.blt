@@ -1,0 +1,62 @@
+{
+  "artifacts": [
+    "shape_analogue_metrics.json",
+    "shape_analogue_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T21:47:09.809257+00:00",
+  "description": "Cutoff-safe sliced-Wasserstein 3D historical conflict-shape analogue expert.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.280135605957435,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "mean_entropy": 2.632765028709986,
+      "mean_error_km": 221.5873565673828,
+      "median_error_km": 192.41709899902344,
+      "p90_error_km": 430.2074279785156,
+      "probability_mass_within_100km": 0.2091188886538262,
+      "probability_mass_within_200km": 0.47668579673295447,
+      "probability_mass_within_25km": 0.03382444216254832,
+      "probability_mass_within_50km": 0.0840552000503597,
+      "samples": 968.0,
+      "top3_within_100km": 0.35537190082644626,
+      "top3_within_200km": 0.6611570247933884,
+      "within_100km": 0.22830578512396693,
+      "within_200km": 0.515495867768595,
+      "within_25km": 0.04648760330578512,
+      "within_50km": 0.09607438016528926
+    },
+    "validation": {
+      "broad_area_score": 0.425272912226879,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "mean_entropy": 2.504619278913523,
+      "mean_error_km": 191.74464416503906,
+      "median_error_km": 126.32592010498047,
+      "p90_error_km": 483.1510009765625,
+      "probability_mass_within_100km": 0.34436636788047414,
+      "probability_mass_within_200km": 0.6003761577433457,
+      "probability_mass_within_25km": 0.0688828194751444,
+      "probability_mass_within_50km": 0.15567363088858274,
+      "samples": 785.0,
+      "top3_within_100km": 0.5312101910828025,
+      "top3_within_200km": 0.7388535031847133,
+      "within_100km": 0.4178343949044586,
+      "within_200km": 0.6522292993630573,
+      "within_25km": 0.11719745222929936,
+      "within_50km": 0.23821656050955414
+    }
+  },
+  "notes": [
+    "Not a standalone champion; validation-to-development regime degradation is preserved as a negative result.",
+    "Official shapefinder package was incompatible with Python 3.14 because of its pandas 1.1.5 pin."
+  ],
+  "status": "research-diversity-only",
+  "subsystem": "location/shape_analogue",
+  "training": {},
+  "version": "v1"
+}

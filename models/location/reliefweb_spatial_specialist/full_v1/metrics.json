@@ -1,0 +1,190 @@
+{
+  "selected_channels": 104,
+  "candidate_dim": 164,
+  "row_feature_dim": 504,
+  "best_iterations": [
+    1,
+    2,
+    8,
+    258
+  ],
+  "recipe": "balanced",
+  "radius_weights": [
+    2.0,
+    1.5,
+    1.0,
+    0.5
+  ],
+  "temperature": 0.1,
+  "baseline_blend_specialist_weight": 0.0,
+  "specialist_validation": {
+    "samples": 785.0,
+    "mean_error_km": 181.4826202392578,
+    "median_error_km": 120.7767562866211,
+    "p90_error_km": 447.20819091796875,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 0.9038886499902601,
+    "within_25km": 0.12356687898089172,
+    "probability_mass_within_25km": 0.12434278283303866,
+    "within_50km": 0.2318471337579618,
+    "probability_mass_within_50km": 0.2273052372329506,
+    "within_100km": 0.43821656050955415,
+    "probability_mass_within_100km": 0.4327356134487901,
+    "within_200km": 0.6713375796178344,
+    "probability_mass_within_200km": 0.6668964586863932,
+    "top3_within_100km": 0.5859872611464968,
+    "top3_within_200km": 0.7745222929936306,
+    "top5_within_100km": 0.6700636942675159,
+    "top5_within_200km": 0.8509554140127389,
+    "broad_area_score": 0.495715089325196,
+    "distance_soft_cross_entropy": 13.226085227413417
+  },
+  "specialist_development": {
+    "samples": 968.0,
+    "mean_error_km": 209.2010498046875,
+    "median_error_km": 182.35516357421875,
+    "p90_error_km": 409.1353759765625,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 0.7662249272841454,
+    "within_25km": 0.05268595041322314,
+    "probability_mass_within_25km": 0.0520713638176341,
+    "within_50km": 0.11776859504132231,
+    "probability_mass_within_50km": 0.11575178144463973,
+    "within_100km": 0.25516528925619836,
+    "probability_mass_within_100km": 0.25617709959621066,
+    "within_200km": 0.5402892561983471,
+    "probability_mass_within_200km": 0.5422603052788196,
+    "top3_within_100km": 0.42458677685950413,
+    "top3_within_200km": 0.7004132231404959,
+    "top5_within_100km": 0.5526859504132231,
+    "top5_within_200km": 0.7923553719008265,
+    "broad_area_score": 0.33008293690805995,
+    "distance_soft_cross_entropy": 15.374260844680144
+  },
+  "blended_validation": {
+    "samples": 785.0,
+    "mean_error_km": 178.91854858398438,
+    "median_error_km": 106.70135498046875,
+    "p90_error_km": 450.9593505859375,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 0.5339560196280265,
+    "within_25km": 0.10445859872611465,
+    "probability_mass_within_25km": 0.10450165478605283,
+    "within_50km": 0.2356687898089172,
+    "probability_mass_within_50km": 0.23774802326033084,
+    "within_100km": 0.4789808917197452,
+    "probability_mass_within_100km": 0.477369800847775,
+    "within_200km": 0.6840764331210191,
+    "probability_mass_within_200km": 0.6801615471235424,
+    "top3_within_100km": 0.5694267515923567,
+    "top3_within_200km": 0.7515923566878981,
+    "top5_within_100km": 0.6471337579617834,
+    "top5_within_200km": 0.821656050955414,
+    "broad_area_score": 0.5273755088081823,
+    "distance_soft_cross_entropy": 16.750984413261133
+  },
+  "blended_development": {
+    "samples": 968.0,
+    "mean_error_km": 198.20706176757812,
+    "median_error_km": 172.02403259277344,
+    "p90_error_km": 398.9419860839844,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 0.5695814895811372,
+    "within_25km": 0.045454545454545456,
+    "probability_mass_within_25km": 0.04514569813064809,
+    "within_50km": 0.11673553719008264,
+    "probability_mass_within_50km": 0.11670700294404576,
+    "within_100km": 0.29958677685950413,
+    "probability_mass_within_100km": 0.2990754175971516,
+    "within_200km": 0.5826446280991735,
+    "probability_mass_within_200km": 0.5850504130466374,
+    "top3_within_100km": 0.4214876033057851,
+    "top3_within_200km": 0.6973140495867769,
+    "top5_within_100km": 0.5165289256198347,
+    "top5_within_200km": 0.7520661157024794,
+    "broad_area_score": 0.368588339147265,
+    "distance_soft_cross_entropy": 17.454627611181884
+  },
+  "top_reliefweb_raw_features_by_gain": [
+    {
+      "feature": "rw_log_peace_200km_hl7d",
+      "gain": 1296.4866971969604
+    },
+    {
+      "feature": "rw_log_infrastructure_200km_hl7d",
+      "gain": 1179.8831372261047
+    },
+    {
+      "feature": "rw_log_mobilization_200km_hl7d",
+      "gain": 1146.2098112106323
+    },
+    {
+      "feature": "rw_log_harm_200km_hl7d",
+      "gain": 993.9206295013428
+    },
+    {
+      "feature": "rw_log_territory_200km_hl7d",
+      "gain": 991.2990856170654
+    },
+    {
+      "feature": "rw_log_mobilization_200km_hl30d",
+      "gain": 871.861988067627
+    },
+    {
+      "feature": "rw_mention_count_200km_hl7d",
+      "gain": 814.5309934616089
+    },
+    {
+      "feature": "rw_mention_count_100km_hl7d",
+      "gain": 785.7358956336975
+    },
+    {
+      "feature": "rw_log_peace_200km_hl30d",
+      "gain": 777.3287000656128
+    },
+    {
+      "feature": "rw_mention_count_200km_hl30d",
+      "gain": 760.1358327865601
+    },
+    {
+      "feature": "rw_log_peace_200km_hl90d",
+      "gain": 719.3465204238892
+    },
+    {
+      "feature": "rw_mention_count_100km_recent14_minus_bg90",
+      "gain": 687.8477830886841
+    },
+    {
+      "feature": "rw_log_attack_200km_hl7d",
+      "gain": 662.9518957138062
+    },
+    {
+      "feature": "rw_log_infrastructure_100km_recent14_minus_bg90",
+      "gain": 661.8647909164429
+    },
+    {
+      "feature": "rw_log_harm_200km_hl30d",
+      "gain": 657.4445085525513
+    },
+    {
+      "feature": "rw_log_peace_100km_hl7d",
+      "gain": 630.9469423294067
+    },
+    {
+      "feature": "rw_log_territory_200km_hl30d",
+      "gain": 624.0265874862671
+    },
+    {
+      "feature": "rw_log_territory_200km_hl90d",
+      "gain": 621.1876029968262
+    },
+    {
+      "feature": "rw_log_displacement_100km_recent14_minus_bg90",
+      "gain": 618.3359336853027
+    },
+    {
+      "feature": "rw_log_harm_200km_hl90d",
+      "gain": 611.8125991821289
+    }
+  ]
+}

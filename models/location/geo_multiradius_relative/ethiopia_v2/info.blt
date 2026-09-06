@@ -1,0 +1,137 @@
+{
+  "artifacts": [
+    "multiradius_metrics.json",
+    "multiradius_probabilities.npz",
+    "within_100km.txt",
+    "within_200km.txt",
+    "within_25km.txt",
+    "within_50km.txt"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:15:36.265150+00:00",
+  "description": "Nested 25/50/100/200 km proximity classifiers with explicit within-query relative candidate features.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.640167337846564,
+      "candidate_oracle_mean_km": 35.99437713623047,
+      "mean_entropy": 1.0480365965947664,
+      "mean_error_km": 235.1780548095703,
+      "median_error_km": 59.71720886230469,
+      "p90_error_km": 516.2501220703125,
+      "probability_mass_within_100km": 0.6080696770530349,
+      "probability_mass_within_200km": 0.7390925235167962,
+      "probability_mass_within_25km": 0.32424285248104034,
+      "probability_mass_within_50km": 0.46099461863770325,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6659349936682144,
+      "top3_within_200km": 0.7857323765301815,
+      "top5_within_100km": 0.705994090333474,
+      "top5_within_200km": 0.8182777543267201,
+      "within_100km": 0.6087800759814268,
+      "within_200km": 0.7398480371464753,
+      "within_25km": 0.33013929928239766,
+      "within_50km": 0.4614605318699873
+    },
+    "development_ethiopia": {
+      "broad_area_score": 0.368691644932389,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "mean_entropy": 0.5695814895811372,
+      "mean_error_km": 198.20706176757812,
+      "median_error_km": 172.02403259277344,
+      "p90_error_km": 398.9419860839844,
+      "probability_mass_within_100km": 0.2990754175971516,
+      "probability_mass_within_200km": 0.5850504130466374,
+      "probability_mass_within_25km": 0.04514569813064809,
+      "probability_mass_within_50km": 0.11670700294404576,
+      "samples": 968.0,
+      "top3_within_100km": 0.4225206611570248,
+      "top3_within_200km": 0.6973140495867769,
+      "top5_within_100km": 0.5175619834710744,
+      "top5_within_200km": 0.753099173553719,
+      "within_100km": 0.29958677685950413,
+      "within_200km": 0.5826446280991735,
+      "within_25km": 0.045454545454545456,
+      "within_50km": 0.11673553719008264
+    },
+    "validation": {
+      "broad_area_score": 0.6325447792243002,
+      "candidate_oracle_mean_km": 36.495914459228516,
+      "mean_entropy": 0.9285079606561303,
+      "mean_error_km": 253.031005859375,
+      "median_error_km": 64.6038818359375,
+      "p90_error_km": 515.69873046875,
+      "probability_mass_within_100km": 0.6013756329987641,
+      "probability_mass_within_200km": 0.7279784739692436,
+      "probability_mass_within_25km": 0.29780916551887765,
+      "probability_mass_within_50km": 0.442610550257879,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6596454200084424,
+      "top3_within_200km": 0.7736175601519628,
+      "top5_within_100km": 0.7012241452089489,
+      "top5_within_200km": 0.8112705783030815,
+      "within_100km": 0.601519628535247,
+      "within_200km": 0.7278176445757704,
+      "within_25km": 0.30721823554242295,
+      "within_50km": 0.4434782608695652
+    },
+    "validation_ethiopia": {
+      "broad_area_score": 0.5275028973432141,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "mean_entropy": 0.5339560196280265,
+      "mean_error_km": 178.91854858398438,
+      "median_error_km": 106.70135498046875,
+      "p90_error_km": 450.9593505859375,
+      "probability_mass_within_100km": 0.477369800847775,
+      "probability_mass_within_200km": 0.6801615471235424,
+      "probability_mass_within_25km": 0.10450165478605283,
+      "probability_mass_within_50km": 0.23774802326033084,
+      "samples": 785.0,
+      "top3_within_100km": 0.5707006369426751,
+      "top3_within_200km": 0.7515923566878981,
+      "top5_within_100km": 0.6496815286624203,
+      "top5_within_200km": 0.8267515923566879,
+      "within_100km": 0.4789808917197452,
+      "within_200km": 0.6840764331210191,
+      "within_25km": 0.10445859872611465,
+      "within_50km": 0.2356687898089172
+    }
+  },
+  "notes": [
+    "Uses a different supervision objective from LambdaRank.",
+    "Adds within-query z-score/percentile features for recurrence, transition, raw-event and actor-transfer signals.",
+    "Development is diagnostic, not pristine prospective evaluation."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/geo_multiradius_relative",
+  "training": {
+    "best_iterations": [
+      6,
+      22,
+      222,
+      258
+    ],
+    "ethiopia_weight": 12.0,
+    "radii": [
+      25,
+      50,
+      100,
+      200
+    ],
+    "recipe": "broad",
+    "regional_weight": 2.0,
+    "seed": 20260824,
+    "temperature": 0.15,
+    "weights": [
+      1.0,
+      1.5,
+      2.0,
+      1.0
+    ]
+  },
+  "version": "v2"
+}

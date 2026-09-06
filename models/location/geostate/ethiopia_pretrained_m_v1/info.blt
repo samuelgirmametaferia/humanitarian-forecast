@@ -1,0 +1,115 @@
+{
+  "artifacts": [
+    "geostate_best.pt",
+    "geostate_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T06:35:04.856091+00:00",
+  "description": "Dense multiresolution H3 spatial Transformer with distance-soft supervision.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/ethiopia_h3_multiscale_v1.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "r3": {
+        "cross_entropy": 4.669630527496338,
+        "mean_entropy": 3.642198085784912,
+        "mean_error_km": 481.1790771484375,
+        "median_error_km": 464.43817138671875,
+        "p90_error_km": 869.93017578125,
+        "samples": 965,
+        "top3_within_100km": 0.1844559585492228,
+        "within_100km": 0.07150259067357513,
+        "within_200km": 0.19481865284974093,
+        "within_25km": 0.004145077720207254,
+        "within_50km": 0.025906735751295335
+      },
+      "r4": {
+        "cross_entropy": 6.543228626251221,
+        "mean_entropy": 5.36818790435791,
+        "mean_error_km": 444.77569580078125,
+        "median_error_km": 422.13055419921875,
+        "p90_error_km": 792.25244140625,
+        "samples": 960,
+        "top3_within_100km": 0.13854166666666667,
+        "within_100km": 0.071875,
+        "within_200km": 0.20833333333333334,
+        "within_25km": 0.010416666666666666,
+        "within_50km": 0.03229166666666667
+      },
+      "r5": {
+        "cross_entropy": 8.228654861450195,
+        "mean_entropy": 7.2113752365112305,
+        "mean_error_km": 428.1153259277344,
+        "median_error_km": 372.358154296875,
+        "p90_error_km": 773.2080078125,
+        "samples": 968,
+        "top3_within_100km": 0.16115702479338842,
+        "within_100km": 0.07644628099173553,
+        "within_200km": 0.21487603305785125,
+        "within_25km": 0.007231404958677686,
+        "within_50km": 0.029958677685950414
+      }
+    },
+    "validation": {
+      "r3": {
+        "cross_entropy": 4.326446533203125,
+        "mean_entropy": 3.704324960708618,
+        "mean_error_km": 478.6755065917969,
+        "median_error_km": 509.95416259765625,
+        "p90_error_km": 850.6389770507812,
+        "samples": 776,
+        "top3_within_100km": 0.24871134020618557,
+        "within_100km": 0.10309278350515463,
+        "within_200km": 0.20231958762886598,
+        "within_25km": 0.011597938144329897,
+        "within_50km": 0.04252577319587629
+      },
+      "r4": {
+        "cross_entropy": 5.87411642074585,
+        "mean_entropy": 5.412351131439209,
+        "mean_error_km": 413.0828857421875,
+        "median_error_km": 449.5721740722656,
+        "p90_error_km": 689.7765502929688,
+        "samples": 767,
+        "top3_within_100km": 0.2816166883963494,
+        "within_100km": 0.10299869621903521,
+        "within_200km": 0.2633637548891786,
+        "within_25km": 0.01955671447196871,
+        "within_50km": 0.03650586701434159
+      },
+      "r5": {
+        "cross_entropy": 7.490462779998779,
+        "mean_entropy": 7.248547077178955,
+        "mean_error_km": 439.05975341796875,
+        "median_error_km": 489.76123046875,
+        "p90_error_km": 697.087890625,
+        "samples": 783,
+        "top3_within_100km": 0.25798212005108556,
+        "within_100km": 0.07279693486590039,
+        "within_200km": 0.19540229885057472,
+        "within_25km": 0.016602809706257982,
+        "within_50km": 0.0280970625798212
+      }
+    }
+  },
+  "notes": [
+    "Dense output support is independent of historically observed candidate coordinates.",
+    "Public interpretation remains broad humanitarian geography; exact point errors are diagnostics.",
+    "Rejected: global-pretrained M backbone plus H3 population/accessibility context remained far below existing location experts on Ethiopia validation/development. Do not escalate to GeoState-L until the dense head/representation changes materially."
+  ],
+  "status": "research-rejected-transfer",
+  "subsystem": "location/geostate",
+  "training": {
+    "epochs": 40,
+    "expected_distance_weight": 0.1,
+    "hard_weight": 1.0,
+    "parameters": 14585617,
+    "preset": "M",
+    "selected_epoch": 29,
+    "soft_weight": 0.35
+  },
+  "version": "v1"
+}

@@ -1,0 +1,34 @@
+{
+  "artifacts": [
+    "h3_child_ranker.txt",
+    "training.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:56:45.981949+00:00",
+  "description": "Hierarchical local H3 child ranker under frozen coarse candidate support.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {},
+  "notes": [
+    "Parent regional probabilities are not trained here.",
+    "Evaluation must tune conditional temperature/mass allocation on validation only."
+  ],
+  "status": "research-pretrain",
+  "subsystem": "location/candidate_h3_child_ranker",
+  "training": {
+    "estimators": 600,
+    "feature_dim": 154,
+    "parents_per_query": 2,
+    "protocol": "ranker fit only on global first70%; target used only to choose local training parents and distance-relevance labels; no validation/development labels used",
+    "ranking_groups": 38749,
+    "resolution": 5,
+    "ring": 4,
+    "schema": "candidate-h3-child-ranker-v1",
+    "train_queries_sampled": 20768,
+    "train_rows": 2363689
+  },
+  "version": "v1"
+}

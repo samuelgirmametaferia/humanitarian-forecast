@@ -1,0 +1,7 @@
+{
+  "cap_km": 75.0,
+  "alpha": 1.25,
+  "gate_threshold": 0.5,
+  "parent_probability_max": 0.25,
+  "child_mass_fraction": 0.9
+}

@@ -1,0 +1,100 @@
+{
+  "artifacts": [
+    "mdn_refiner.pt",
+    "metrics.json",
+    "modes.npz",
+    "policy.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:24:29.820352+00:00",
+  "description": "Multimodal Gaussian-mixture local residual density beneath the frozen actor-transfer LambdaRank coarse distribution.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "coarse_model": "models/location/geo_lambdarank_actor_transfer_ethiopia/v1",
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.34229595992182665,
+      "mean_error_km": 206.68252563476562,
+      "median_error_km": 179.60647583007812,
+      "p90_error_km": 406.8049011230469,
+      "probability_mass_within_100km": 0.2709373001085194,
+      "probability_mass_within_200km": 0.5464642077817791,
+      "probability_mass_within_25km": 0.04007141907290245,
+      "probability_mass_within_50km": 0.11358037971007935,
+      "samples": 968.0,
+      "top3_within_100km": 0.4152892561983471,
+      "within_100km": 0.2830578512396694,
+      "within_200km": 0.5464876033057852,
+      "within_25km": 0.049586776859504134,
+      "within_50km": 0.11570247933884298
+    },
+    "development_global": {
+      "broad_area_score": 0.6251041323685339,
+      "mean_error_km": 237.955810546875,
+      "median_error_km": 60.41038513183594,
+      "p90_error_km": 530.9668579101562,
+      "probability_mass_within_100km": 0.5892835288554097,
+      "probability_mass_within_200km": 0.7278803623024497,
+      "probability_mass_within_25km": 0.3314057667144751,
+      "probability_mass_within_50km": 0.4544154855299583,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6642887294216969,
+      "within_100km": 0.5932883073026594,
+      "within_200km": 0.7281975517095821,
+      "within_25km": 0.3597298438159561,
+      "within_50km": 0.4640776699029126
+    },
+    "validation": {
+      "broad_area_score": 0.49425172460700884,
+      "mean_error_km": 191.87088012695312,
+      "median_error_km": 118.95751190185547,
+      "p90_error_km": 484.2496032714844,
+      "probability_mass_within_100km": 0.43664996774447556,
+      "probability_mass_within_200km": 0.6596431862600292,
+      "probability_mass_within_25km": 0.09924153320727941,
+      "probability_mass_within_50km": 0.2342880935312522,
+      "samples": 785.0,
+      "top3_within_100km": 0.5605095541401274,
+      "within_100km": 0.4407643312101911,
+      "within_200km": 0.6522292993630573,
+      "within_25km": 0.12738853503184713,
+      "within_50km": 0.24203821656050956
+    },
+    "validation_global": {
+      "broad_area_score": 0.616852625393463,
+      "mean_error_km": 256.9257507324219,
+      "median_error_km": 66.34420776367188,
+      "p90_error_km": 530.0841064453125,
+      "probability_mass_within_100km": 0.5810480257149154,
+      "probability_mass_within_200km": 0.7190214108312888,
+      "probability_mass_within_25km": 0.3028139132839901,
+      "probability_mass_within_50km": 0.4345259575719398,
+      "samples": 23690.0,
+      "top3_within_100km": 0.6583368509919797,
+      "within_100km": 0.5842549598986915,
+      "within_200km": 0.7194596876319121,
+      "within_25km": 0.3336006753904601,
+      "within_50km": 0.44744617982271
+    }
+  },
+  "notes": [
+    "Preserves the frozen coarse top-1 coordinates; redistributes secondary local probability mass into learned mixture modes.",
+    "Improves broad-area probability score but is not promoted because the development block is diagnostic and prospective confirmation is required."
+  ],
+  "status": "research-challenger-shadow",
+  "subsystem": "location/candidate_mdn_refiner",
+  "training": {
+    "components": 5,
+    "policy": {
+      "mean_scale": 1.25,
+      "mixture_temperature": 1.6,
+      "parent_keep_mass": 0.35,
+      "parent_probability_max": 0.5
+    },
+    "selected_epoch": 6
+  },
+  "version": "v1"
+}

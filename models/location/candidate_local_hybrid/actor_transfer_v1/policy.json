@@ -1,0 +1,13 @@
+{
+  "gate_threshold": 0.5,
+  "parent_probability_max": 0.25,
+  "fraction_of_remaining_parent_mass_to_sharp_child": 0.35,
+  "residual_cap_km": 75.0,
+  "residual_alpha": 1.25,
+  "mdn_policy": {
+    "parent_keep_mass": 0.35,
+    "mean_scale": 1.25,
+    "parent_probability_max": 0.5,
+    "mixture_temperature": 1.6
+  }
+}

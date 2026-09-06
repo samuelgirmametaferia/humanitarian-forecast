@@ -1,0 +1,73 @@
+{
+  "artifacts": [
+    "multiradius_refiner_metrics.json",
+    "multiradius_refiner_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:08:24.927917+00:00",
+  "description": "Nested-radius candidate probability ranker composed with continuous local coordinate refinement.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "multiradius": "models/location/geo_multiradius/ethiopia_v1/multiradius_probabilities.npz",
+    "refiner": "models/location/candidate_refiner/actor_transfer_v1/candidate_refiner_metrics.json",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.3884272571961024,
+      "candidate_oracle_mean_km": 43.469276428222656,
+      "mean_entropy": 0.7376358367178488,
+      "mean_error_km": 190.37733459472656,
+      "median_error_km": 161.6444091796875,
+      "p90_error_km": 386.2779235839844,
+      "probability_mass_within_100km": 0.31960821402280537,
+      "probability_mass_within_200km": 0.6115091519632516,
+      "probability_mass_within_25km": 0.03630607926816131,
+      "probability_mass_within_50km": 0.12188952261313785,
+      "samples": 968.0,
+      "top3_within_100km": 0.41838842975206614,
+      "top3_within_200km": 0.6911157024793388,
+      "top5_within_100km": 0.4927685950413223,
+      "top5_within_200km": 0.7396694214876033,
+      "within_100km": 0.32334710743801653,
+      "within_200km": 0.6157024793388429,
+      "within_25km": 0.038223140495867766,
+      "within_50km": 0.11880165289256199
+    },
+    "validation": {
+      "broad_area_score": 0.5434703826260604,
+      "candidate_oracle_mean_km": 46.61004638671875,
+      "mean_entropy": 0.7052138367921418,
+      "mean_error_km": 174.4046630859375,
+      "median_error_km": 99.92514038085938,
+      "p90_error_km": 437.4703063964844,
+      "probability_mass_within_100km": 0.49525231427556404,
+      "probability_mass_within_200km": 0.6977647367705897,
+      "probability_mass_within_25km": 0.08288533553636664,
+      "probability_mass_within_50km": 0.23247045594649948,
+      "samples": 785.0,
+      "top3_within_100km": 0.5643312101910828,
+      "top3_within_200km": 0.7464968152866241,
+      "top5_within_100km": 0.6343949044585987,
+      "top5_within_200km": 0.8165605095541402,
+      "within_100km": 0.5006369426751592,
+      "within_200km": 0.6980891719745222,
+      "within_25km": 0.08025477707006369,
+      "within_50km": 0.23057324840764332
+    }
+  },
+  "notes": [
+    "Current strongest Ethiopia broad-area research composition in the production-boost branch.",
+    "Keep unrefined multiradius output available because it preserves more <=25 km top-1 hits.",
+    "No production promotion without rolling/prospective gates."
+  ],
+  "status": "research-champion-ethiopia-broad-area",
+  "subsystem": "location/multiradius_refiner",
+  "training": {
+    "alpha": 1.25,
+    "cap_km": 50.0,
+    "temperature": 0.15
+  },
+  "version": "v1"
+}

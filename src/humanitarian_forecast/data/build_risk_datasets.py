@@ -79,7 +79,11 @@ def reliefweb_daily(path: Path) -> dict[str, dict[date, np.ndarray]]:
     with gzip.open(path, "rt", encoding="utf-8") as stream:
         for line in stream:
             row = json.loads(line)
-            dt_raw = (row.get("date") or {}).get("original")
+            dates = row.get("date") or {}
+            # Publication time is the causal availability timestamp. ``original``
+            # may refer to an earlier event and cannot be used to place a report
+            # into a historical feature window.
+            dt_raw = dates.get("created") or dates.get("original")
             country = row.get("primary_country") or {}
             entity = country.get("iso3") or country.get("name")
             if not dt_raw or not entity:

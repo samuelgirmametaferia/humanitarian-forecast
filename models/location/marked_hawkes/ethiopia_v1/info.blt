@@ -1,0 +1,64 @@
+{
+  "artifacts": [
+    "marked_hawkes_metrics.json",
+    "marked_hawkes_model.json",
+    "marked_hawkes_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T21:47:09.809941+00:00",
+  "description": "Marked spatiotemporal Hawkes-style broad-area expert.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.28026046781665415,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "distance_soft_cross_entropy": 3.248092618934473,
+      "mean_entropy": 3.2156085016209426,
+      "mean_error_km": 203.66575622558594,
+      "median_error_km": 168.33377075195312,
+      "p90_error_km": 397.65789794921875,
+      "probability_mass_within_100km": 0.1989665022153058,
+      "probability_mass_within_200km": 0.45047710261927887,
+      "probability_mass_within_25km": 0.03168048970655778,
+      "probability_mass_within_50km": 0.08080174779443301,
+      "samples": 968.0,
+      "top3_within_100km": 0.4059917355371901,
+      "top3_within_200km": 0.6735537190082644,
+      "within_100km": 0.2675619834710744,
+      "within_200km": 0.5816115702479339,
+      "within_25km": 0.04442148760330578,
+      "within_50km": 0.10433884297520661
+    },
+    "validation": {
+      "broad_area_score": 0.4087699706910213,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "distance_soft_cross_entropy": 3.035382918964048,
+      "mean_entropy": 3.039984490443294,
+      "mean_error_km": 176.47543334960938,
+      "median_error_km": 108.9696044921875,
+      "p90_error_km": 441.69390869140625,
+      "probability_mass_within_100km": 0.3121079553976695,
+      "probability_mass_within_200km": 0.5597567977675659,
+      "probability_mass_within_25km": 0.05472551334455235,
+      "probability_mass_within_50km": 0.13537135936057015,
+      "samples": 785.0,
+      "top3_within_100km": 0.5694267515923567,
+      "top3_within_200km": 0.7554140127388536,
+      "within_100km": 0.4547770700636943,
+      "within_200km": 0.6853503184713375,
+      "within_25km": 0.12356687898089172,
+      "within_50km": 0.2394904458598726
+    }
+  },
+  "notes": [
+    "Not a standalone champion; optimizer reached iteration limit but produced a usable frozen diversity expert."
+  ],
+  "status": "research-diversity-only",
+  "subsystem": "location/marked_hawkes",
+  "training": {},
+  "version": "v1"
+}

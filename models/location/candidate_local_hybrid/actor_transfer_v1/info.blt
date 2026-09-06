@@ -1,0 +1,105 @@
+{
+  "artifacts": [
+    "metrics.json",
+    "policy.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:24:29.822090+00:00",
+  "description": "Hybrid coarse-to-local support: MDN density plus chronological sharp child hypotheses under frozen actor-transfer coarse ranking.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "child_gate": "models/location/candidate_child_gate/actor_transfer_v1",
+    "coarse_model": "models/location/geo_lambdarank_actor_transfer_ethiopia/v1",
+    "mdn": "models/location/candidate_mdn_refiner/actor_transfer_v1",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.34803412524066857,
+      "mean_error_km": 202.10910034179688,
+      "median_error_km": 173.37179565429688,
+      "p90_error_km": 396.345947265625,
+      "probability_mass_within_100km": 0.27759573482812633,
+      "probability_mass_within_200km": 0.55606954550864,
+      "probability_mass_within_25km": 0.03775670524291475,
+      "probability_mass_within_50km": 0.11407680047373323,
+      "samples": 968.0,
+      "top3_within_100km": 0.4090909090909091,
+      "within_100km": 0.2882231404958678,
+      "within_200km": 0.5568181818181818,
+      "within_25km": 0.04338842975206612,
+      "within_50km": 0.11673553719008264
+    },
+    "development_global": {
+      "broad_area_score": 0.6280789603270767,
+      "mean_error_km": 236.080078125,
+      "median_error_km": 59.91413497924805,
+      "p90_error_km": 526.229736328125,
+      "probability_mass_within_100km": 0.5927251715694724,
+      "probability_mass_within_200km": 0.7312849192030404,
+      "probability_mass_within_25km": 0.32802383009067915,
+      "probability_mass_within_50km": 0.45524456231097493,
+      "samples": 23690.0,
+      "top3_within_100km": 0.663360067539046,
+      "within_100km": 0.5965808357956944,
+      "within_200km": 0.7335584634867033,
+      "within_25km": 0.3463908822287885,
+      "within_50km": 0.4624314056563951
+    },
+    "validation": {
+      "broad_area_score": 0.5026407703439513,
+      "mean_error_km": 189.2956085205078,
+      "median_error_km": 118.15570831298828,
+      "p90_error_km": 483.1459655761719,
+      "probability_mass_within_100km": 0.44583816236729035,
+      "probability_mass_within_200km": 0.6642189689039749,
+      "probability_mass_within_25km": 0.09737400753392322,
+      "probability_mass_within_50km": 0.23752060975750852,
+      "samples": 785.0,
+      "top3_within_100km": 0.5732484076433121,
+      "within_100km": 0.4484076433121019,
+      "within_200km": 0.6522292993630573,
+      "within_25km": 0.1286624203821656,
+      "within_50km": 0.24076433121019108
+    },
+    "validation_global": {
+      "broad_area_score": 0.6211700688597612,
+      "mean_error_km": 255.17025756835938,
+      "median_error_km": 65.44966125488281,
+      "p90_error_km": 521.1614379882812,
+      "probability_mass_within_100km": 0.5856758220789076,
+      "probability_mass_within_200km": 0.7223946406734101,
+      "probability_mass_within_25km": 0.29966159600234515,
+      "probability_mass_within_50km": 0.4357154763871397,
+      "samples": 23690.0,
+      "top3_within_100km": 0.660067539046011,
+      "within_100km": 0.5904178978471929,
+      "within_200km": 0.7244406922752216,
+      "within_25km": 0.32211903756859434,
+      "within_50km": 0.4457577036724356
+    }
+  },
+  "notes": [
+    "Validation selects only support-mass calibration; all constituent predictive models use training-era labels only.",
+    "Development is diagnostic and has been repeatedly inspected by architecture research; do not promote without prospective or fresh rolling-origin evidence.",
+    "The hybrid improves broad-area probability placement but still slightly regresses Ethiopia <=25 km top-1 accuracy."
+  ],
+  "status": "research-challenger-shadow",
+  "subsystem": "location/candidate_local_hybrid",
+  "training": {
+    "policy": {
+      "fraction_of_remaining_parent_mass_to_sharp_child": 0.35,
+      "gate_threshold": 0.5,
+      "mdn_policy": {
+        "mean_scale": 1.25,
+        "mixture_temperature": 1.6,
+        "parent_keep_mass": 0.35,
+        "parent_probability_max": 0.5
+      },
+      "parent_probability_max": 0.25,
+      "residual_alpha": 1.25,
+      "residual_cap_km": 75.0
+    }
+  },
+  "version": "v1"
+}

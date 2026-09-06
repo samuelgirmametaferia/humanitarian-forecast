@@ -1,0 +1,162 @@
+{
+  "selected_channels": 13,
+  "candidate_dim": 73,
+  "row_feature_dim": 231,
+  "best_iterations": [
+    1,
+    2,
+    10,
+    271
+  ],
+  "recipe": "broad",
+  "radius_weights": [
+    1.0,
+    1.5,
+    2.0,
+    1.0
+  ],
+  "temperature": 0.1,
+  "baseline_blend_specialist_weight": 0.0,
+  "specialist_validation": {
+    "samples": 785.0,
+    "mean_error_km": 176.08168029785156,
+    "median_error_km": 115.71287536621094,
+    "p90_error_km": 440.29644775390625,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 0.7299819043120195,
+    "within_25km": 0.12484076433121019,
+    "probability_mass_within_25km": 0.12035890527981842,
+    "within_50km": 0.24203821656050956,
+    "probability_mass_within_50km": 0.24229675596272104,
+    "within_100km": 0.4496815286624204,
+    "probability_mass_within_100km": 0.45261288304832364,
+    "within_200km": 0.6840764331210191,
+    "probability_mass_within_200km": 0.682483529030842,
+    "top3_within_100km": 0.5859872611464968,
+    "top3_within_200km": 0.7681528662420383,
+    "top5_within_100km": 0.6509554140127388,
+    "top5_within_200km": 0.824203821656051,
+    "broad_area_score": 0.5114847468967592,
+    "distance_soft_cross_entropy": 13.740601260963047
+  },
+  "specialist_development": {
+    "samples": 968.0,
+    "mean_error_km": 207.43292236328125,
+    "median_error_km": 180.68576049804688,
+    "p90_error_km": 409.6431579589844,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 0.6810054916163905,
+    "within_25km": 0.0506198347107438,
+    "probability_mass_within_25km": 0.04864594154477755,
+    "within_50km": 0.11983471074380166,
+    "probability_mass_within_50km": 0.1180805391714439,
+    "within_100km": 0.26859504132231404,
+    "probability_mass_within_100km": 0.26848347546271095,
+    "within_200km": 0.5464876033057852,
+    "probability_mass_within_200km": 0.5497836985397595,
+    "top3_within_100km": 0.4214876033057851,
+    "top3_within_200km": 0.6900826446280992,
+    "top5_within_100km": 0.5227272727272727,
+    "top5_within_200km": 0.765495867768595,
+    "broad_area_score": 0.34006066774136856,
+    "distance_soft_cross_entropy": 16.020035731041364
+  },
+  "blended_validation": {
+    "samples": 785.0,
+    "mean_error_km": 178.91854858398438,
+    "median_error_km": 106.70135498046875,
+    "p90_error_km": 450.9593505859375,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 0.5339560196280265,
+    "within_25km": 0.10445859872611465,
+    "probability_mass_within_25km": 0.10450165478605283,
+    "within_50km": 0.2356687898089172,
+    "probability_mass_within_50km": 0.23774802326033084,
+    "within_100km": 0.4789808917197452,
+    "probability_mass_within_100km": 0.477369800847775,
+    "within_200km": 0.6840764331210191,
+    "probability_mass_within_200km": 0.6801615471235424,
+    "top3_within_100km": 0.5694267515923567,
+    "top3_within_200km": 0.7515923566878981,
+    "top5_within_100km": 0.6471337579617834,
+    "top5_within_200km": 0.821656050955414,
+    "broad_area_score": 0.5273755088081823,
+    "distance_soft_cross_entropy": 16.750984413261133
+  },
+  "blended_development": {
+    "samples": 968.0,
+    "mean_error_km": 198.20706176757812,
+    "median_error_km": 172.02403259277344,
+    "p90_error_km": 398.9419860839844,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 0.5695814895811372,
+    "within_25km": 0.045454545454545456,
+    "probability_mass_within_25km": 0.04514569813064809,
+    "within_50km": 0.11673553719008264,
+    "probability_mass_within_50km": 0.11670700294404576,
+    "within_100km": 0.29958677685950413,
+    "probability_mass_within_100km": 0.2990754175971516,
+    "within_200km": 0.5826446280991735,
+    "probability_mass_within_200km": 0.5850504130466374,
+    "top3_within_100km": 0.4214876033057851,
+    "top3_within_200km": 0.6973140495867769,
+    "top5_within_100km": 0.5165289256198347,
+    "top5_within_200km": 0.7520661157024794,
+    "broad_area_score": 0.368588339147265,
+    "distance_soft_cross_entropy": 17.454627611181884
+  },
+  "top_reliefweb_raw_features_by_gain": [
+    {
+      "feature": "rw_mention_count_200km_hl90d",
+      "gain": 2532.2466735839844
+    },
+    {
+      "feature": "rw_mention_count_200km_hl7d",
+      "gain": 2254.3267045021057
+    },
+    {
+      "feature": "rw_mention_count_200km_hl30d",
+      "gain": 1854.6920981407166
+    },
+    {
+      "feature": "rw_mention_count_100km_recent14_minus_bg90",
+      "gain": 1671.2055611610413
+    },
+    {
+      "feature": "rw_mention_count_100km_hl7d",
+      "gain": 1380.0452647209167
+    },
+    {
+      "feature": "rw_mention_count_100km_hl90d",
+      "gain": 690.0291986465454
+    },
+    {
+      "feature": "rw_mention_count_25km_hl90d",
+      "gain": 546.4257650375366
+    },
+    {
+      "feature": "rw_mention_count_100km_hl30d",
+      "gain": 507.9310703277588
+    },
+    {
+      "feature": "rw_mention_count_50km_hl90d",
+      "gain": 331.31273651123047
+    },
+    {
+      "feature": "rw_mention_count_25km_hl7d",
+      "gain": 206.0862512588501
+    },
+    {
+      "feature": "rw_mention_count_50km_hl7d",
+      "gain": 165.7316198348999
+    },
+    {
+      "feature": "rw_mention_count_50km_hl30d",
+      "gain": 141.6427812576294
+    },
+    {
+      "feature": "rw_mention_count_25km_hl30d",
+      "gain": 34.75040054321289
+    }
+  ]
+}

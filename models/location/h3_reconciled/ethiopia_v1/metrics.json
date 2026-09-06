@@ -1,0 +1,665 @@
+{
+  "schema": "h3-multiresolution-reconciliation-v1",
+  "r4": "models/location/h3_lambdarank/ethiopia_r4_global_transfer_v1/h3_lambdarank_probabilities.npz",
+  "r5": "models/location/h3_lambdarank/ethiopia_v1/h3_lambdarank_probabilities.npz",
+  "r5_cells": 4752,
+  "missing_parent_cells": 89,
+  "selected_strength": 1.05,
+  "validation": {
+    "samples": 785.0,
+    "mean_error_km": 197.2771759033203,
+    "median_error_km": 129.59933471679688,
+    "p90_error_km": 471.6793518066406,
+    "mean_entropy": 2.2355880831218506,
+    "within_25km": 0.09426751592356689,
+    "probability_mass_within_25km": 0.0860124916355765,
+    "within_50km": 0.20127388535031848,
+    "probability_mass_within_50km": 0.19251552633590316,
+    "within_100km": 0.42420382165605097,
+    "probability_mass_within_100km": 0.40219668382075974,
+    "within_200km": 0.6420382165605095,
+    "probability_mass_within_200km": 0.6398785191949637,
+    "top3_within_100km": 0.5273885350318471,
+    "broad_area_score": 0.465553306692003
+  },
+  "development": {
+    "samples": 968.0,
+    "mean_error_km": 220.4168701171875,
+    "median_error_km": 188.5701904296875,
+    "p90_error_km": 443.3880310058594,
+    "mean_entropy": 2.1708953513105116,
+    "within_25km": 0.05475206611570248,
+    "probability_mass_within_25km": 0.04758268774076146,
+    "within_50km": 0.11363636363636363,
+    "probability_mass_within_50km": 0.11158943892929842,
+    "within_100km": 0.27169421487603307,
+    "probability_mass_within_100km": 0.2610367719294737,
+    "within_200km": 0.5371900826446281,
+    "probability_mass_within_200km": 0.5225440079779707,
+    "top3_within_100km": 0.3822314049586777,
+    "broad_area_score": 0.32705629888407745
+  },
+  "trials": [
+    {
+      "strength": 0.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 212.58111572265625,
+        "median_error_km": 137.94911193847656,
+        "p90_error_km": 507.4803161621094,
+        "mean_entropy": 1.803525572181522,
+        "within_25km": 0.08535031847133757,
+        "probability_mass_within_25km": 0.07929667036923113,
+        "within_50km": 0.16687898089171974,
+        "probability_mass_within_50km": 0.16711698330709746,
+        "within_100km": 0.39363057324840767,
+        "probability_mass_within_100km": 0.3894176002828068,
+        "within_200km": 0.6178343949044586,
+        "probability_mass_within_200km": 0.6172544757487809,
+        "top3_within_100km": 0.46878980891719746,
+        "broad_area_score": 0.44355414218428085
+      }
+    },
+    {
+      "strength": 0.05,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 209.02052307128906,
+        "median_error_km": 136.27406311035156,
+        "p90_error_km": 498.24517822265625,
+        "mean_entropy": 1.827981069720011,
+        "within_25km": 0.08662420382165605,
+        "probability_mass_within_25km": 0.07995056174400182,
+        "within_50km": 0.17197452229299362,
+        "probability_mass_within_50km": 0.16865285681826428,
+        "within_100km": 0.4012738853503185,
+        "probability_mass_within_100km": 0.3909492496052444,
+        "within_200km": 0.6267515923566879,
+        "probability_mass_within_200km": 0.6190710886810205,
+        "top3_within_100km": 0.4751592356687898,
+        "broad_area_score": 0.44654331138851533
+      }
+    },
+    {
+      "strength": 0.1,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 209.08145141601562,
+        "median_error_km": 136.27406311035156,
+        "p90_error_km": 496.3408508300781,
+        "mean_entropy": 1.8514870344032568,
+        "within_25km": 0.08535031847133757,
+        "probability_mass_within_25km": 0.08064163721506937,
+        "within_50km": 0.1732484076433121,
+        "probability_mass_within_50km": 0.17015937231483053,
+        "within_100km": 0.4,
+        "probability_mass_within_100km": 0.3923992928262213,
+        "within_200km": 0.6242038216560509,
+        "probability_mass_within_200km": 0.6208921339572651,
+        "top3_within_100km": 0.48280254777070064,
+        "broad_area_score": 0.44827829262294483
+      }
+    },
+    {
+      "strength": 0.15000000000000002,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 208.45457458496094,
+        "median_error_km": 135.4086151123047,
+        "p90_error_km": 498.24517822265625,
+        "mean_entropy": 1.87391170262435,
+        "within_25km": 0.08535031847133757,
+        "probability_mass_within_25km": 0.0813530934079801,
+        "within_50km": 0.17452229299363056,
+        "probability_mass_within_50km": 0.17162017891578224,
+        "within_100km": 0.4050955414012739,
+        "probability_mass_within_100km": 0.39375781681647953,
+        "within_200km": 0.6292993630573248,
+        "probability_mass_within_200km": 0.6227271756625414,
+        "top3_within_100km": 0.48152866242038217,
+        "broad_area_score": 0.4500294318338014
+      }
+    },
+    {
+      "strength": 0.2,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 209.15577697753906,
+        "median_error_km": 135.92149353027344,
+        "p90_error_km": 498.24517822265625,
+        "mean_entropy": 1.8952053926057468,
+        "within_25km": 0.08789808917197452,
+        "probability_mass_within_25km": 0.08205917650199673,
+        "within_50km": 0.1770700636942675,
+        "probability_mass_within_50km": 0.1730069768780542,
+        "within_100km": 0.40382165605095544,
+        "probability_mass_within_100km": 0.39500128061105894,
+        "within_200km": 0.6292993630573248,
+        "probability_mass_within_200km": 0.6245535833294654,
+        "top3_within_100km": 0.48152866242038217,
+        "broad_area_score": 0.4508875356516571
+      }
+    },
+    {
+      "strength": 0.25,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 209.05067443847656,
+        "median_error_km": 136.07357788085938,
+        "p90_error_km": 496.3408508300781,
+        "mean_entropy": 1.915449967295093,
+        "within_25km": 0.08662420382165605,
+        "probability_mass_within_25km": 0.08274276448123771,
+        "within_50km": 0.1770700636942675,
+        "probability_mass_within_50km": 0.1742988325792529,
+        "within_100km": 0.40382165605095544,
+        "probability_mass_within_100km": 0.3961088678495632,
+        "within_200km": 0.6280254777070063,
+        "probability_mass_within_200km": 0.6263274782845183,
+        "top3_within_100km": 0.49171974522292994,
+        "broad_area_score": 0.4528705959040998
+      }
+    },
+    {
+      "strength": 0.30000000000000004,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 207.35581970214844,
+        "median_error_km": 136.07357788085938,
+        "p90_error_km": 490.5897521972656,
+        "mean_entropy": 1.9348653270089127,
+        "within_25km": 0.08789808917197452,
+        "probability_mass_within_25km": 0.08338243199470383,
+        "within_50km": 0.17834394904458598,
+        "probability_mass_within_50km": 0.17547289082576836,
+        "within_100km": 0.40382165605095544,
+        "probability_mass_within_100km": 0.3970535622068998,
+        "within_200km": 0.6280254777070063,
+        "probability_mass_within_200km": 0.6279820100636332,
+        "top3_within_100km": 0.4853503184713376,
+        "broad_area_score": 0.45308414148129866
+      }
+    },
+    {
+      "strength": 0.35000000000000003,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 206.53097534179688,
+        "median_error_km": 133.34503173828125,
+        "p90_error_km": 485.0408020019531,
+        "mean_entropy": 1.9538057253701728,
+        "within_25km": 0.08662420382165605,
+        "probability_mass_within_25km": 0.08394913080187388,
+        "within_50km": 0.17452229299363056,
+        "probability_mass_within_50km": 0.17650981075197453,
+        "within_100km": 0.40382165605095544,
+        "probability_mass_within_100km": 0.3978109530279854,
+        "within_200km": 0.6292993630573248,
+        "probability_mass_within_200km": 0.6294515503268124,
+        "top3_within_100km": 0.49171974522292994,
+        "broad_area_score": 0.4544315571606908
+      }
+    },
+    {
+      "strength": 0.4,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 203.47042846679688,
+        "median_error_km": 130.57322692871094,
+        "p90_error_km": 478.2400817871094,
+        "mean_entropy": 1.9726654887862343,
+        "within_25km": 0.09044585987261146,
+        "probability_mass_within_25km": 0.08443239607684545,
+        "within_50km": 0.1770700636942675,
+        "probability_mass_within_50km": 0.1774280342522713,
+        "within_100km": 0.40764331210191085,
+        "probability_mass_within_100km": 0.3983965025261948,
+        "within_200km": 0.6356687898089172,
+        "probability_mass_within_200km": 0.6307190835782781,
+        "top3_within_100km": 0.4942675159235669,
+        "broad_area_score": 0.45583514151270615
+      }
+    },
+    {
+      "strength": 0.45,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 202.55712890625,
+        "median_error_km": 130.73660278320312,
+        "p90_error_km": 476.9302673339844,
+        "mean_entropy": 1.9917505496278973,
+        "within_25km": 0.09044585987261146,
+        "probability_mass_within_25km": 0.08484715089232209,
+        "within_50km": 0.17834394904458598,
+        "probability_mass_within_50km": 0.178288436205171,
+        "within_100km": 0.4063694267515924,
+        "probability_mass_within_100km": 0.39887023941428296,
+        "within_200km": 0.6331210191082802,
+        "probability_mass_within_200km": 0.6318227706105882,
+        "top3_within_100km": 0.49554140127388535,
+        "broad_area_score": 0.45625273994010074
+      }
+    },
+    {
+      "strength": 0.5,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 201.96559143066406,
+        "median_error_km": 130.86183166503906,
+        "p90_error_km": 475.2956237792969,
+        "mean_entropy": 2.0112257515801875,
+        "within_25km": 0.0929936305732484,
+        "probability_mass_within_25km": 0.0852143171666806,
+        "within_50km": 0.17834394904458598,
+        "probability_mass_within_50km": 0.17916312394233894,
+        "within_100km": 0.4063694267515924,
+        "probability_mass_within_100km": 0.39930371739807663,
+        "within_200km": 0.6318471337579618,
+        "probability_mass_within_200km": 0.6328202797063278,
+        "top3_within_100km": 0.5057324840764331,
+        "broad_area_score": 0.4577097629305899
+      }
+    },
+    {
+      "strength": 0.55,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 200.91253662109375,
+        "median_error_km": 130.73660278320312,
+        "p90_error_km": 473.20947265625,
+        "mean_entropy": 2.0311126980135525,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.08554645528895871,
+        "within_50km": 0.17961783439490445,
+        "probability_mass_within_50km": 0.18010837126632914,
+        "within_100km": 0.4063694267515924,
+        "probability_mass_within_100km": 0.39975136848095666,
+        "within_200km": 0.6356687898089172,
+        "probability_mass_within_200km": 0.6337567314494493,
+        "top3_within_100km": 0.5044585987261146,
+        "broad_area_score": 0.45801587283976636
+      }
+    },
+    {
+      "strength": 0.6000000000000001,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 199.62586975097656,
+        "median_error_km": 130.05088806152344,
+        "p90_error_km": 470.4440002441406,
+        "mean_entropy": 2.0513128804162095,
+        "within_25km": 0.09681528662420383,
+        "probability_mass_within_25km": 0.08584691781494366,
+        "within_50km": 0.17961783439490445,
+        "probability_mass_within_50km": 0.18115604670019606,
+        "within_100km": 0.4063694267515924,
+        "probability_mass_within_100km": 0.40024083159983453,
+        "within_200km": 0.6394904458598726,
+        "probability_mass_within_200km": 0.6346550279490557,
+        "top3_within_100km": 0.5082802547770701,
+        "broad_area_score": 0.458846902460166
+      }
+    },
+    {
+      "strength": 0.65,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.57398986816406,
+        "median_error_km": 130.05088806152344,
+        "p90_error_km": 465.5991516113281,
+        "mean_entropy": 2.0716864134248256,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.08611357249334253,
+        "within_50km": 0.17961783439490445,
+        "probability_mass_within_50km": 0.18231424759584305,
+        "within_100km": 0.40764331210191085,
+        "probability_mass_within_100km": 0.4007722227077417,
+        "within_200km": 0.643312101910828,
+        "probability_mass_within_200km": 0.6355200602108614,
+        "top3_within_100km": 0.5070063694267516,
+        "broad_area_score": 0.45937586828939203
+      }
+    },
+    {
+      "strength": 0.7000000000000001,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.6675567626953,
+        "median_error_km": 130.57322692871094,
+        "p90_error_km": 464.7225341796875,
+        "mean_entropy": 2.0921682123331435,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.08633946718058735,
+        "within_50km": 0.17961783439490445,
+        "probability_mass_within_50km": 0.1835697158493421,
+        "within_100km": 0.40764331210191085,
+        "probability_mass_within_100km": 0.4013198739055963,
+        "within_200km": 0.6445859872611465,
+        "probability_mass_within_200km": 0.6363447355118969,
+        "top3_within_100km": 0.5070063694267516,
+        "broad_area_score": 0.45984201150841914
+      }
+    },
+    {
+      "strength": 0.75,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.30364990234375,
+        "median_error_km": 129.94151306152344,
+        "p90_error_km": 465.5991516113281,
+        "mean_entropy": 2.1128125097665733,
+        "within_25km": 0.09554140127388536,
+        "probability_mass_within_25km": 0.08651118647930202,
+        "within_50km": 0.18343949044585986,
+        "probability_mass_within_50km": 0.1848940488461993,
+        "within_100km": 0.4089171974522293,
+        "probability_mass_within_100km": 0.40183996856529214,
+        "within_200km": 0.6471337579617834,
+        "probability_mass_within_200km": 0.637112844688088,
+        "top3_within_100km": 0.513375796178344,
+        "broad_area_score": 0.4611097108841971
+      }
+    },
+    {
+      "strength": 0.8,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 198.3985137939453,
+        "median_error_km": 130.1103973388672,
+        "p90_error_km": 468.5861511230469,
+        "mean_entropy": 2.13369314600008,
+        "within_25km": 0.0929936305732484,
+        "probability_mass_within_25km": 0.08661132963368674,
+        "within_50km": 0.18089171974522292,
+        "probability_mass_within_50km": 0.18625396623941293,
+        "within_100km": 0.40764331210191085,
+        "probability_mass_within_100km": 0.4022834372418417,
+        "within_200km": 0.6458598726114649,
+        "probability_mass_within_200km": 0.6378013027054157,
+        "top3_within_100km": 0.5171974522292994,
+        "broad_area_score": 0.4616823930623126
+      }
+    },
+    {
+      "strength": 0.8500000000000001,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.23768615722656,
+        "median_error_km": 129.94151306152344,
+        "p90_error_km": 467.1629333496094,
+        "mean_entropy": 2.15474582301329,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.08662757480502448,
+        "within_50km": 0.1821656050955414,
+        "probability_mass_within_50km": 0.18761821477740928,
+        "within_100km": 0.4063694267515924,
+        "probability_mass_within_100km": 0.40260562228451113,
+        "within_200km": 0.6496815286624203,
+        "probability_mass_within_200km": 0.638388705578068,
+        "top3_within_100km": 0.5210191082802548,
+        "broad_area_score": 0.46216815821285906
+      }
+    },
+    {
+      "strength": 0.9,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 196.70053100585938,
+        "median_error_km": 129.30874633789062,
+        "p90_error_km": 468.0552978515625,
+        "mean_entropy": 2.1757106501816805,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.08656270451296685,
+        "within_50km": 0.1859872611464968,
+        "probability_mass_within_50km": 0.18895779468098917,
+        "within_100km": 0.41146496815286626,
+        "probability_mass_within_100km": 0.40277087311060644,
+        "within_200km": 0.6445859872611465,
+        "probability_mass_within_200km": 0.6388712991332265,
+        "top3_within_100km": 0.5222929936305732,
+        "broad_area_score": 0.46324728462346615
+      }
+    },
+    {
+      "strength": 0.9500000000000001,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.79493713378906,
+        "median_error_km": 130.74461364746094,
+        "p90_error_km": 470.7313232421875,
+        "mean_entropy": 2.196250632800839,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.08643434488747793,
+        "within_50km": 0.18980891719745224,
+        "probability_mass_within_50km": 0.19024401563365337,
+        "within_100km": 0.4140127388535032,
+        "probability_mass_within_100km": 0.40275818973760075,
+        "within_200km": 0.6369426751592356,
+        "probability_mass_within_200km": 0.639270216184859,
+        "top3_within_100km": 0.5210191082802548,
+        "broad_area_score": 0.46357486924870317
+      }
+    },
+    {
+      "strength": 1.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 196.78868103027344,
+        "median_error_km": 129.6707305908203,
+        "p90_error_km": 468.0552978515625,
+        "mean_entropy": 2.216177455091729,
+        "within_25km": 0.09681528662420383,
+        "probability_mass_within_25km": 0.0862556988676196,
+        "within_50km": 0.2,
+        "probability_mass_within_50km": 0.1914447650033492,
+        "within_100km": 0.42165605095541403,
+        "probability_mass_within_100km": 0.40256560995014407,
+        "within_200km": 0.6394904458598726,
+        "probability_mass_within_200km": 0.6396101625368387,
+        "top3_within_100km": 0.5235668789808917,
+        "broad_area_score": 0.4649382135213483
+      }
+    },
+    {
+      "strength": 1.05,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.2771759033203,
+        "median_error_km": 129.59933471679688,
+        "p90_error_km": 471.6793518066406,
+        "mean_entropy": 2.2355880831218506,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.0860124916355765,
+        "within_50km": 0.20127388535031848,
+        "probability_mass_within_50km": 0.19251552633590316,
+        "within_100km": 0.42420382165605097,
+        "probability_mass_within_100km": 0.40219668382075974,
+        "within_200km": 0.6420382165605095,
+        "probability_mass_within_200km": 0.6398785191949637,
+        "top3_within_100km": 0.5273885350318471,
+        "broad_area_score": 0.465553306692003
+      }
+    },
+    {
+      "strength": 1.1,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 199.57823181152344,
+        "median_error_km": 134.09349060058594,
+        "p90_error_km": 472.87335205078125,
+        "mean_entropy": 2.254743395170227,
+        "within_25km": 0.09171974522292993,
+        "probability_mass_within_25km": 0.0856635643785757,
+        "within_50km": 0.2,
+        "probability_mass_within_50km": 0.1933806130712529,
+        "within_100km": 0.41656050955414015,
+        "probability_mass_within_100km": 0.40161362691164787,
+        "within_200km": 0.6343949044585987,
+        "probability_mass_within_200km": 0.6399985940050177,
+        "top3_within_100km": 0.5222929936305732,
+        "broad_area_score": 0.4636005893985883
+      }
+    },
+    {
+      "strength": 1.1500000000000001,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.23338317871094,
+        "median_error_km": 130.74461364746094,
+        "p90_error_km": 470.7313232421875,
+        "mean_entropy": 2.2737736448064574,
+        "within_25km": 0.0929936305732484,
+        "probability_mass_within_25km": 0.08515298905019272,
+        "within_50km": 0.20636942675159237,
+        "probability_mass_within_50km": 0.19389637745212393,
+        "within_100km": 0.4229299363057325,
+        "probability_mass_within_100km": 0.4006719068055561,
+        "within_200km": 0.6394904458598726,
+        "probability_mass_within_200km": 0.6398337079284957,
+        "top3_within_100km": 0.5184713375796178,
+        "broad_area_score": 0.4636229145325767
+      }
+    },
+    {
+      "strength": 1.2000000000000002,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.67335510253906,
+        "median_error_km": 130.74461364746094,
+        "p90_error_km": 472.87335205078125,
+        "mean_entropy": 2.2924813082907063,
+        "within_25km": 0.09681528662420383,
+        "probability_mass_within_25km": 0.08441236704557238,
+        "within_50km": 0.21019108280254778,
+        "probability_mass_within_50km": 0.1938342301954283,
+        "within_100km": 0.42038216560509556,
+        "probability_mass_within_100km": 0.3991012742411222,
+        "within_200km": 0.6394904458598726,
+        "probability_mass_within_200km": 0.639217810727266,
+        "top3_within_100km": 0.5222929936305732,
+        "broad_area_score": 0.4626358871818921
+      }
+    },
+    {
+      "strength": 1.25,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 196.8730926513672,
+        "median_error_km": 131.523681640625,
+        "p90_error_km": 458.8019104003906,
+        "mean_entropy": 2.3103316676547343,
+        "within_25km": 0.09554140127388536,
+        "probability_mass_within_25km": 0.08336751284090689,
+        "within_50km": 0.21146496815286625,
+        "probability_mass_within_50km": 0.19293810043495155,
+        "within_100km": 0.4178343949044586,
+        "probability_mass_within_100km": 0.3965975786671187,
+        "within_200km": 0.6356687898089172,
+        "probability_mass_within_200km": 0.6380131212233565,
+        "top3_within_100km": 0.5261146496815287,
+        "broad_area_score": 0.4610179167154083
+      }
+    },
+    {
+      "strength": 1.3,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 195.9317626953125,
+        "median_error_km": 130.44418334960938,
+        "p90_error_km": 456.8258056640625,
+        "mean_entropy": 2.3266049467764915,
+        "within_25km": 0.09554140127388536,
+        "probability_mass_within_25km": 0.0819492095234119,
+        "within_50km": 0.2140127388535032,
+        "probability_mass_within_50km": 0.1910055132418098,
+        "within_100km": 0.4140127388535032,
+        "probability_mass_within_100km": 0.3929632175732651,
+        "within_200km": 0.640764331210191,
+        "probability_mass_within_200km": 0.636161902479561,
+        "top3_within_100km": 0.5273885350318471,
+        "broad_area_score": 0.45820291449241823
+      }
+    },
+    {
+      "strength": 1.35,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 196.35821533203125,
+        "median_error_km": 131.523681640625,
+        "p90_error_km": 456.193115234375,
+        "mean_entropy": 2.34041063669209,
+        "within_25km": 0.09681528662420383,
+        "probability_mass_within_25km": 0.08009475109293616,
+        "within_50km": 0.21656050955414013,
+        "probability_mass_within_50km": 0.1879225998731407,
+        "within_100km": 0.40764331210191085,
+        "probability_mass_within_100km": 0.3881450284263827,
+        "within_200km": 0.6394904458598726,
+        "probability_mass_within_200km": 0.6336593231308013,
+        "top3_within_100km": 0.5286624203821656,
+        "broad_area_score": 0.45422436911417396
+      }
+    },
+    {
+      "strength": 1.4000000000000001,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 197.35177612304688,
+        "median_error_km": 132.9211883544922,
+        "p90_error_km": 456.8258056640625,
+        "mean_entropy": 2.3504249034430074,
+        "within_25km": 0.09044585987261146,
+        "probability_mass_within_25km": 0.0777703539989418,
+        "within_50km": 0.20127388535031848,
+        "probability_mass_within_50km": 0.1837083730194649,
+        "within_100km": 0.3961783439490446,
+        "probability_mass_within_100km": 0.3822419887458331,
+        "within_200km": 0.6394904458598726,
+        "probability_mass_within_200km": 0.6305400559544827,
+        "top3_within_100km": 0.5299363057324841,
+        "broad_area_score": 0.4487614871667099
+      }
+    },
+    {
+      "strength": 1.4500000000000002,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 201.2992401123047,
+        "median_error_km": 137.98358154296875,
+        "p90_error_km": 472.87335205078125,
+        "mean_entropy": 2.3554060306110487,
+        "within_25km": 0.0840764331210191,
+        "probability_mass_within_25km": 0.07502909380366571,
+        "within_50km": 0.1961783439490446,
+        "probability_mass_within_50km": 0.17859330135079043,
+        "within_100km": 0.3923566878980892,
+        "probability_mass_within_100km": 0.3755536849050631,
+        "within_200km": 0.6280254777070063,
+        "probability_mass_within_200km": 0.626957540270109,
+        "top3_within_100km": 0.5248407643312102,
+        "broad_area_score": 0.4432836143696409
+      }
+    },
+    {
+      "strength": 1.5,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 202.3662872314453,
+        "median_error_km": 137.2849578857422,
+        "p90_error_km": 476.0706787109375,
+        "mean_entropy": 2.355266001625303,
+        "within_25km": 0.08152866242038216,
+        "probability_mass_within_25km": 0.07201658905116372,
+        "within_50km": 0.18980891719745224,
+        "probability_mass_within_50km": 0.17296676507059036,
+        "within_100km": 0.3885350318471338,
+        "probability_mass_within_100km": 0.36844837840700395,
+        "within_200km": 0.6254777070063694,
+        "probability_mass_within_200km": 0.6231446551881484,
+        "top3_within_100km": 0.5197452229299363,
+        "broad_area_score": 0.4375303162315456
+      }
+    }
+  ],
+  "protocol": "reconciliation strength selected only on validation; development diagnostic only"
+}

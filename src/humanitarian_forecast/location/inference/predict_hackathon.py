@@ -31,7 +31,7 @@ def main():
     if a.post_cutoff_assist and a.retrospective_reconstruction:raise SystemExit('choose only one assisted mode')
     d=np.load(a.data);meta=[json.loads(str(z)) for z in d['meta']];n=len(meta);train_end=int(.85*n);i=a.index if a.index>=0 else n+a.index
     if not 0<=i<n:raise SystemExit(f'index must be in [0,{n-1}]')
-    countries={z:j+1 for j,z in enumerate(sorted({m['country'] for m in meta[:train_end]}))};conflicts={z:j+1 for j,z in enumerate(sorted({m['conflict_id'] for m in meta[:train_end]}))};state=torch.load(a.checkpoint,map_location='cpu',weights_only=False);model=ConflictCandidateRanker(**state['model_config']);model.load_state_dict(state['model_state']);model.eval();m=meta[i]
+    state=torch.load(a.checkpoint,map_location='cpu',weights_only=False);countries={str(k):int(v) for k,v in dict(state.get('country_to_id',{})).items()};conflicts={str(k):int(v) for k,v in dict(state.get('conflict_to_id',{})).items()};countries=countries or {z:j+1 for j,z in enumerate(sorted({m['country'] for m in meta[:train_end]}))};conflicts=conflicts or {z:j+1 for j,z in enumerate(sorted({m['conflict_id'] for m in meta[:train_end]}))};model=ConflictCandidateRanker(**state['model_config']);model.load_state_dict(state['model_state']);model.eval();m=meta[i]
     x=torch.from_numpy(d['x'][i:i+1]).float();f=torch.from_numpy(d['candidate_features'][i:i+1]).float();c=torch.from_numpy(d['candidate_coordinates'][i:i+1]).float();v=torch.from_numpy(d['candidate_valid'][i:i+1]);country=torch.tensor([countries.get(m['country'],0)]);conflict=torch.tensor([conflicts.get(m['conflict_id'],0)])
     with torch.no_grad():logits=model(x,f,v,country,conflict)[0]
     future_note='not used'

@@ -1,0 +1,70 @@
+{
+  "artifacts": [
+    "candidate_refiner_metrics.json",
+    "east_refiner.txt",
+    "north_refiner.txt"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T06:53:26.357284+00:00",
+  "description": "Continuous coarse-to-fine residual refinement of frozen actor-transfer LambdaRank candidate mass.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "coarse_model": "models/location/geo_lambdarank_actor_transfer_ethiopia/v1/geo_lambdarank.txt",
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.35530419177235084,
+      "mean_entropy": 2.246680130010012,
+      "mean_error_km": 197.38441467285156,
+      "median_error_km": 171.41278076171875,
+      "p90_error_km": 393.04901123046875,
+      "probability_mass_within_100km": 0.28191680836969224,
+      "probability_mass_within_200km": 0.5591009755145218,
+      "probability_mass_within_25km": 0.0334148662960613,
+      "probability_mass_within_50km": 0.1124579824003695,
+      "samples": 968.0,
+      "support_oracle_mean_km": 43.469276428222656,
+      "top3_within_100km": 0.4380165289256198,
+      "within_100km": 0.2975206611570248,
+      "within_200km": 0.5764462809917356,
+      "within_25km": 0.030991735537190084,
+      "within_50km": 0.11880165289256199
+    },
+    "validation": {
+      "broad_area_score": 0.5114856610418208,
+      "mean_entropy": 1.7633959648495683,
+      "mean_error_km": 182.5578155517578,
+      "median_error_km": 109.37674713134766,
+      "p90_error_km": 458.26513671875,
+      "probability_mass_within_100km": 0.45240373681053203,
+      "probability_mass_within_200km": 0.6706428697444721,
+      "probability_mass_within_25km": 0.07191533043838053,
+      "probability_mass_within_50km": 0.23037014947184567,
+      "samples": 785.0,
+      "support_oracle_mean_km": 46.61004638671875,
+      "top3_within_100km": 0.5821656050955414,
+      "within_100km": 0.46878980891719746,
+      "within_200km": 0.6713375796178344,
+      "within_25km": 0.07898089171974522,
+      "within_50km": 0.2484076433121019
+    }
+  },
+  "notes": [
+    "The coarse ranking/order and probabilities are frozen; only candidate coordinates are locally refined.",
+    "alpha=0 is included as an explicit validation fallback.",
+    "Development is diagnostic, not pristine prospective evaluation."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/candidate_refiner",
+  "training": {
+    "estimators": 500,
+    "k_near": 4,
+    "seed": 20260824,
+    "selected_alpha": 1.25,
+    "selected_cap_km": 50.0,
+    "training_radius_km": 200.0
+  },
+  "version": "v1"
+}

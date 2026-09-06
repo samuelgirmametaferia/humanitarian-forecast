@@ -1,0 +1,49 @@
+{
+  "schema": "h3-r4-ensemble-v1",
+  "experts": [
+    "transfer",
+    "memory",
+    "scratch"
+  ],
+  "weights": {
+    "transfer": 0.8,
+    "memory": 0.15,
+    "scratch": 0.05
+  },
+  "validation": {
+    "samples": 785.0,
+    "mean_error_km": 196.42344665527344,
+    "median_error_km": 133.68943786621094,
+    "p90_error_km": 463.66717529296875,
+    "mean_entropy": 1.3371302450384945,
+    "within_25km": 0.09936305732484077,
+    "probability_mass_within_25km": 0.08536130141906959,
+    "within_50km": 0.2050955414012739,
+    "probability_mass_within_50km": 0.19391148419333082,
+    "within_100km": 0.42165605095541403,
+    "probability_mass_within_100km": 0.3989120716274075,
+    "within_200km": 0.6394904458598726,
+    "probability_mass_within_200km": 0.6343204971154586,
+    "top3_within_100km": 0.597452229299363,
+    "broad_area_score": 0.4692593693914143
+  },
+  "development": {
+    "samples": 968.0,
+    "mean_error_km": 220.0658721923828,
+    "median_error_km": 189.81759643554688,
+    "p90_error_km": 442.3153991699219,
+    "mean_entropy": 1.282847854222726,
+    "within_25km": 0.045454545454545456,
+    "probability_mass_within_25km": 0.04524827997025952,
+    "within_50km": 0.10847107438016529,
+    "probability_mass_within_50km": 0.1102587509212218,
+    "within_100km": 0.2644628099173554,
+    "probability_mass_within_100km": 0.2625755550668737,
+    "within_200km": 0.5330578512396694,
+    "probability_mass_within_200km": 0.5216435085721696,
+    "top3_within_100km": 0.4617768595041322,
+    "broad_area_score": 0.334592364439231
+  },
+  "step": 0.05,
+  "protocol": "convex weights selected on validation broad-area score only; development diagnostic"
+}

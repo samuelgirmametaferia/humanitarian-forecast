@@ -1,0 +1,43 @@
+{
+  "schema": "dense-h3-actor-lambdarank-v1",
+  "resolution": 5,
+  "cells": 4752,
+  "selected_iteration": 700,
+  "temperature": 0.1,
+  "feature_dim": 127,
+  "validation": {
+    "samples": 785.0,
+    "mean_error_km": 211.447021484375,
+    "median_error_km": 136.0835723876953,
+    "p90_error_km": 502.3959045410156,
+    "mean_entropy": 1.5164087275796907,
+    "within_25km": 0.08280254777070063,
+    "probability_mass_within_25km": 0.07987048951937468,
+    "within_50km": 0.18343949044585986,
+    "probability_mass_within_50km": 0.17153102829825864,
+    "within_100km": 0.38980891719745225,
+    "probability_mass_within_100km": 0.38365006653704326,
+    "within_200km": 0.6280254777070063,
+    "probability_mass_within_200km": 0.6177991920342093,
+    "top3_within_100km": 0.4713375796178344,
+    "broad_area_score": 0.44017247054361697
+  },
+  "development": {
+    "samples": 968.0,
+    "mean_error_km": 230.381103515625,
+    "median_error_km": 199.373046875,
+    "p90_error_km": 457.1922302246094,
+    "mean_entropy": 1.605366103508105,
+    "within_25km": 0.05578512396694215,
+    "probability_mass_within_25km": 0.04853595061573645,
+    "within_50km": 0.12190082644628099,
+    "probability_mass_within_50km": 0.11003403761479423,
+    "within_100km": 0.25516528925619836,
+    "probability_mass_within_100km": 0.2461905007648526,
+    "within_200km": 0.5051652892561983,
+    "probability_mass_within_200km": 0.49444624709916746,
+    "top3_within_100km": 0.3367768595041322,
+    "broad_area_score": 0.3062465041793454
+  },
+  "protocol": "same chronological Ethiopia gate as dense H3 v1; actor geography uses only events at/before each cutoff and subtracts current-conflict activity"
+}

@@ -1,0 +1,62 @@
+{
+  "weights": {
+    "v10": 0.225,
+    "kernel": 0.075,
+    "multiradius": 0.7
+  },
+  "temperatures": {
+    "v10": 1.1035085664118633,
+    "kernel": 1.096478196143185,
+    "multiradius": 4.570881896148752
+  },
+  "selection": "Ethiopia chronological validation distance-soft CE only",
+  "validation": {
+    "samples": 785.0,
+    "distance_soft_cross_entropy": 3.0443444826865065,
+    "mean_error_km": 183.64080810546875,
+    "median_error_km": 115.35433959960938,
+    "p90_error_km": 459.87811279296875,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 3.074518477320596,
+    "within_25km": 0.1286624203821656,
+    "probability_mass_within_25km": 0.057677350604431486,
+    "within_50km": 0.24076433121019108,
+    "probability_mass_within_50km": 0.14018688386379644,
+    "within_100km": 0.4636942675159236,
+    "probability_mass_within_100km": 0.31671377241312443,
+    "within_200km": 0.6675159235668789,
+    "probability_mass_within_200km": 0.5491598856261859,
+    "top3_within_100km": 0.575796178343949,
+    "top3_within_200km": 0.7554140127388536,
+    "top5_within_100km": 0.6484076433121019,
+    "top5_within_200km": 0.8331210191082803,
+    "broad_area_score": 0.4111583099142391
+  },
+  "development": {
+    "samples": 968.0,
+    "distance_soft_cross_entropy": 3.2395622367303076,
+    "mean_error_km": 198.9931182861328,
+    "median_error_km": 171.27398681640625,
+    "p90_error_km": 396.7593994140625,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 3.2395217059673422,
+    "within_25km": 0.05371900826446281,
+    "probability_mass_within_25km": 0.032681459704987446,
+    "within_50km": 0.12190082644628099,
+    "probability_mass_within_50km": 0.08401139070420248,
+    "within_100km": 0.29855371900826444,
+    "probability_mass_within_100km": 0.2028203194073864,
+    "within_200km": 0.5836776859504132,
+    "probability_mass_within_200km": 0.4467932643731826,
+    "top3_within_100km": 0.4256198347107438,
+    "top3_within_200km": 0.6973140495867769,
+    "top5_within_100km": 0.5247933884297521,
+    "top5_within_200km": 0.7551652892561983,
+    "broad_area_score": 0.28825486987101306
+  },
+  "components": {
+    "kernel_validation_ce": 3.064701484307981,
+    "multiradius_validation_ce": 3.04913235031697
+  },
+  "caveat": "development reporting only; rolling/prospective confirmation required"
+}

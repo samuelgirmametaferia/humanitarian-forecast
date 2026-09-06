@@ -31,7 +31,11 @@ def reliefweb_context(path: Path | None) -> dict[tuple[str, str], np.ndarray]:
     with gzip.open(path, "rt", encoding="utf-8") as stream:
         for line in stream:
             row = json.loads(line)
-            dt = (row.get("date") or {}).get("original", "")[:10]
+            dates = row.get("date") or {}
+            # Causal information-time contract: a report can enter features only
+            # when it was published/created. ``original`` may describe an older
+            # event and would back-date later information into historical rows.
+            dt = (dates.get("created") or dates.get("original") or "")[:10]
             country = (row.get("primary_country") or {}).get("name", "").casefold()
             if not dt or not country:
                 continue

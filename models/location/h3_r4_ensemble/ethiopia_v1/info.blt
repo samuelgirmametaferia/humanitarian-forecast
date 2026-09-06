@@ -1,0 +1,69 @@
+{
+  "artifacts": [
+    "metrics.json",
+    "probabilities.npz"
+  ],
+  "calibration": {
+    "selection": "validation broad-area score",
+    "weights": {
+      "memory": 0.15,
+      "scratch": 0.05,
+      "transfer": 0.8
+    }
+  },
+  "created_at": "2026-08-24T06:55:01.281969+00:00",
+  "description": "Validation-selected convex ensemble of dense r4 Ethiopia experts.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "experts": [
+      "transfer=models/location/h3_lambdarank/ethiopia_r4_global_transfer_v1/h3_lambdarank_probabilities.npz",
+      "memory=models/location/h3_lambdarank_memory/ethiopia_r4_v1/h3_memory_lambdarank_probabilities.npz",
+      "scratch=models/location/h3_lambdarank/ethiopia_r4_v1/h3_lambdarank_probabilities.npz"
+    ],
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.334592364439231,
+      "mean_entropy": 1.282847854222726,
+      "mean_error_km": 220.0658721923828,
+      "median_error_km": 189.81759643554688,
+      "p90_error_km": 442.3153991699219,
+      "probability_mass_within_100km": 0.2625755550668737,
+      "probability_mass_within_200km": 0.5216435085721696,
+      "probability_mass_within_25km": 0.04524827997025952,
+      "probability_mass_within_50km": 0.1102587509212218,
+      "samples": 968.0,
+      "top3_within_100km": 0.4617768595041322,
+      "within_100km": 0.2644628099173554,
+      "within_200km": 0.5330578512396694,
+      "within_25km": 0.045454545454545456,
+      "within_50km": 0.10847107438016529
+    },
+    "validation": {
+      "broad_area_score": 0.4692593693914143,
+      "mean_entropy": 1.3371302450384945,
+      "mean_error_km": 196.42344665527344,
+      "median_error_km": 133.68943786621094,
+      "p90_error_km": 463.66717529296875,
+      "probability_mass_within_100km": 0.3989120716274075,
+      "probability_mass_within_200km": 0.6343204971154586,
+      "probability_mass_within_25km": 0.08536130141906959,
+      "probability_mass_within_50km": 0.19391148419333082,
+      "samples": 785.0,
+      "top3_within_100km": 0.597452229299363,
+      "within_100km": 0.42165605095541403,
+      "within_200km": 0.6394904458598726,
+      "within_25km": 0.09936305732484077,
+      "within_50km": 0.2050955414012739
+    }
+  },
+  "notes": [
+    "All experts share the same r4 H3 support.",
+    "Development remains diagnostic."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/h3_r4_ensemble",
+  "training": {},
+  "version": "v1"
+}

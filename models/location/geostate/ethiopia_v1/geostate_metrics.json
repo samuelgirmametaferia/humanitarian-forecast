@@ -1,0 +1,242 @@
+{
+  "schema": "dense-h3-geostate-v1",
+  "parameter_count": 14274488,
+  "preset": "M",
+  "selected_epoch": 5,
+  "validation": {
+    "r3": {
+      "samples": 776,
+      "mean_error_km": 717.2131958007812,
+      "median_error_km": 744.3523559570312,
+      "p90_error_km": 921.8099975585938,
+      "within_25km": 0.0,
+      "within_50km": 0.001288659793814433,
+      "within_100km": 0.001288659793814433,
+      "within_200km": 0.005154639175257732,
+      "top3_within_100km": 0.011597938144329897,
+      "cross_entropy": 4.891695976257324,
+      "mean_entropy": 3.8542187213897705
+    },
+    "r4": {
+      "samples": 767,
+      "mean_error_km": 712.0636596679688,
+      "median_error_km": 743.4495239257812,
+      "p90_error_km": 907.6259155273438,
+      "within_25km": 0.001303780964797914,
+      "within_50km": 0.001303780964797914,
+      "within_100km": 0.001303780964797914,
+      "within_200km": 0.005215123859191656,
+      "top3_within_100km": 0.05345501955671447,
+      "cross_entropy": 6.472299575805664,
+      "mean_entropy": 5.694685459136963
+    },
+    "r5": {
+      "samples": 783,
+      "mean_error_km": 704.607177734375,
+      "median_error_km": 731.2089233398438,
+      "p90_error_km": 908.7734985351562,
+      "within_25km": 0.0,
+      "within_50km": 0.0,
+      "within_100km": 0.0,
+      "within_200km": 0.005108556832694764,
+      "top3_within_100km": 0.08045977011494253,
+      "cross_entropy": 8.081345558166504,
+      "mean_entropy": 7.708409309387207
+    }
+  },
+  "development": {
+    "r3": {
+      "samples": 965,
+      "mean_error_km": 695.2553100585938,
+      "median_error_km": 699.3192138671875,
+      "p90_error_km": 939.6864013671875,
+      "within_25km": 0.0,
+      "within_50km": 0.0,
+      "within_100km": 0.0010362694300518134,
+      "within_200km": 0.0062176165803108805,
+      "top3_within_100km": 0.00932642487046632,
+      "cross_entropy": 4.942973613739014,
+      "mean_entropy": 3.8572640419006348
+    },
+    "r4": {
+      "samples": 960,
+      "mean_error_km": 694.4373779296875,
+      "median_error_km": 696.9916381835938,
+      "p90_error_km": 938.1824340820312,
+      "within_25km": 0.0,
+      "within_50km": 0.0,
+      "within_100km": 0.0010416666666666667,
+      "within_200km": 0.00625,
+      "top3_within_100km": 0.05625,
+      "cross_entropy": 6.6624064445495605,
+      "mean_entropy": 5.692233562469482
+    },
+    "r5": {
+      "samples": 968,
+      "mean_error_km": 680.4097290039062,
+      "median_error_km": 684.8182373046875,
+      "p90_error_km": 924.1082153320312,
+      "within_25km": 0.0,
+      "within_50km": 0.0,
+      "within_100km": 0.0010330578512396695,
+      "within_200km": 0.006198347107438017,
+      "top3_within_100km": 0.11570247933884298,
+      "cross_entropy": 8.352093696594238,
+      "mean_entropy": 7.708653926849365
+    }
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 9.550117909127447,
+      "validation_finest_ce": 8.405658721923828
+    },
+    {
+      "epoch": 2,
+      "train_loss": 9.356020706709815,
+      "validation_finest_ce": 8.3406982421875
+    },
+    {
+      "epoch": 3,
+      "train_loss": 8.971599920347789,
+      "validation_finest_ce": 8.220892906188965
+    },
+    {
+      "epoch": 4,
+      "train_loss": 8.385808599047266,
+      "validation_finest_ce": 8.085824012756348
+    },
+    {
+      "epoch": 5,
+      "train_loss": 7.801628591712385,
+      "validation_finest_ce": 8.081345558166504
+    },
+    {
+      "epoch": 6,
+      "train_loss": 7.434983045253171,
+      "validation_finest_ce": 8.291794776916504
+    },
+    {
+      "epoch": 7,
+      "train_loss": 7.292038576051137,
+      "validation_finest_ce": 8.267765045166016
+    },
+    {
+      "epoch": 8,
+      "train_loss": 7.22848945934179,
+      "validation_finest_ce": 8.505455017089844
+    },
+    {
+      "epoch": 9,
+      "train_loss": 7.1927080633338365,
+      "validation_finest_ce": 8.373706817626953
+    },
+    {
+      "epoch": 10,
+      "train_loss": 7.1601959295147894,
+      "validation_finest_ce": 8.304265975952148
+    },
+    {
+      "epoch": 11,
+      "train_loss": 7.13314171753596,
+      "validation_finest_ce": 8.389200210571289
+    },
+    {
+      "epoch": 12,
+      "train_loss": 7.109991506718131,
+      "validation_finest_ce": 8.383790016174316
+    },
+    {
+      "epoch": 13,
+      "train_loss": 7.092880823726738,
+      "validation_finest_ce": 8.277668952941895
+    },
+    {
+      "epoch": 14,
+      "train_loss": 7.067977978152479,
+      "validation_finest_ce": 8.217273712158203
+    },
+    {
+      "epoch": 15,
+      "train_loss": 7.051596087659811,
+      "validation_finest_ce": 8.193167686462402
+    },
+    {
+      "epoch": 16,
+      "train_loss": 7.041072143737926,
+      "validation_finest_ce": 8.304421424865723
+    },
+    {
+      "epoch": 17,
+      "train_loss": 7.017073483446279,
+      "validation_finest_ce": 8.263638496398926
+    },
+    {
+      "epoch": 18,
+      "train_loss": 7.001714356601498,
+      "validation_finest_ce": 8.204108238220215
+    },
+    {
+      "epoch": 19,
+      "train_loss": 6.9880453592825145,
+      "validation_finest_ce": 8.175942420959473
+    },
+    {
+      "epoch": 20,
+      "train_loss": 6.975297675903187,
+      "validation_finest_ce": 8.203439712524414
+    },
+    {
+      "epoch": 21,
+      "train_loss": 6.963827814077185,
+      "validation_finest_ce": 8.282869338989258
+    },
+    {
+      "epoch": 22,
+      "train_loss": 6.960190693884437,
+      "validation_finest_ce": 8.135188102722168
+    },
+    {
+      "epoch": 23,
+      "train_loss": 6.946285751709251,
+      "validation_finest_ce": 8.153948783874512
+    },
+    {
+      "epoch": 24,
+      "train_loss": 6.940329724524219,
+      "validation_finest_ce": 8.183591842651367
+    },
+    {
+      "epoch": 25,
+      "train_loss": 6.9371926128604,
+      "validation_finest_ce": 8.163625717163086
+    },
+    {
+      "epoch": 26,
+      "train_loss": 6.930734526121981,
+      "validation_finest_ce": 8.135143280029297
+    },
+    {
+      "epoch": 27,
+      "train_loss": 6.9271217912565675,
+      "validation_finest_ce": 8.16204833984375
+    },
+    {
+      "epoch": 28,
+      "train_loss": 6.924564638512624,
+      "validation_finest_ce": 8.160578727722168
+    },
+    {
+      "epoch": 29,
+      "train_loss": 6.923923527830032,
+      "validation_finest_ce": 8.152421951293945
+    },
+    {
+      "epoch": 30,
+      "train_loss": 6.922481953316901,
+      "validation_finest_ce": 8.151752471923828
+    }
+  ],
+  "protocol": "global 70/15/15 chronological boundaries applied to Ethiopia rows; validation selects epoch; final block is development-only",
+  "evaluation_caveat": "The historical final block has been repeatedly inspected by prior research and is not a pristine prospective test."
+}

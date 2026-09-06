@@ -1,0 +1,136 @@
+{
+  "schema": "marked-hawkes-mixture-v1",
+  "country": "Ethiopia",
+  "fit": {
+    "success": false,
+    "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+    "iterations": 150,
+    "objective": 2.986268398170166
+  },
+  "target_radius_km": 100.0,
+  "temperature": 1.2730501155464238,
+  "nonzero_features": 26,
+  "top_weights": [
+    {
+      "feature": "civilian_r400_h3",
+      "weight": 0.8845313676193278
+    },
+    {
+      "feature": "state_r400_h14",
+      "weight": 0.706369312178798
+    },
+    {
+      "feature": "state_r400_h60",
+      "weight": 0.7027006994738331
+    },
+    {
+      "feature": "state_r200_h60",
+      "weight": 0.4586377527875427
+    },
+    {
+      "feature": "state_r400_h180",
+      "weight": 0.43541813873610685
+    },
+    {
+      "feature": "event_r400_h180",
+      "weight": 0.39304921813336025
+    },
+    {
+      "feature": "onesided_r400_h180",
+      "weight": 0.25495693329699964
+    },
+    {
+      "feature": "state_r100_h14",
+      "weight": 0.21253646801773798
+    },
+    {
+      "feature": "state_r200_h3",
+      "weight": 0.2120016755225007
+    },
+    {
+      "feature": "state_r200_h180",
+      "weight": 0.17020957677659118
+    },
+    {
+      "feature": "state_r200_h14",
+      "weight": 0.14461162215338874
+    },
+    {
+      "feature": "onesided_r400_h3",
+      "weight": 0.13761889028575153
+    },
+    {
+      "feature": "civilian_r100_h3",
+      "weight": 0.11499605822606151
+    },
+    {
+      "feature": "nonstate_r100_h60",
+      "weight": 0.11209038240896187
+    },
+    {
+      "feature": "state_r100_h180",
+      "weight": 0.0891996317780035
+    },
+    {
+      "feature": "event_r400_h60",
+      "weight": 0.05426551850417477
+    },
+    {
+      "feature": "onesided_r100_h3",
+      "weight": 0.05305388762494381
+    },
+    {
+      "feature": "state_r100_h3",
+      "weight": 0.04522742510811296
+    },
+    {
+      "feature": "nonstate_r50_h60",
+      "weight": 0.03942525711942297
+    },
+    {
+      "feature": "state_r25_h180",
+      "weight": 0.027004105398994557
+    }
+  ],
+  "validation": {
+    "samples": 785.0,
+    "distance_soft_cross_entropy": 3.035382918964048,
+    "mean_error_km": 176.47543334960938,
+    "median_error_km": 108.9696044921875,
+    "p90_error_km": 441.69390869140625,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 3.039984490443294,
+    "within_25km": 0.12356687898089172,
+    "probability_mass_within_25km": 0.05472551334455235,
+    "within_50km": 0.2394904458598726,
+    "probability_mass_within_50km": 0.13537135936057015,
+    "within_100km": 0.4547770700636943,
+    "probability_mass_within_100km": 0.3121079553976695,
+    "within_200km": 0.6853503184713375,
+    "probability_mass_within_200km": 0.5597567977675659,
+    "top3_within_100km": 0.5694267515923567,
+    "top3_within_200km": 0.7554140127388536,
+    "broad_area_score": 0.4087699706910213
+  },
+  "development": {
+    "samples": 968.0,
+    "distance_soft_cross_entropy": 3.248092618934473,
+    "mean_error_km": 203.66575622558594,
+    "median_error_km": 168.33377075195312,
+    "p90_error_km": 397.65789794921875,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 3.2156085016209426,
+    "within_25km": 0.04442148760330578,
+    "probability_mass_within_25km": 0.03168048970655778,
+    "within_50km": 0.10433884297520661,
+    "probability_mass_within_50km": 0.08080174779443301,
+    "within_100km": 0.2675619834710744,
+    "probability_mass_within_100km": 0.1989665022153058,
+    "within_200km": 0.5816115702479339,
+    "probability_mass_within_200km": 0.45047710261927887,
+    "top3_within_100km": 0.4059917355371901,
+    "top3_within_200km": 0.6735537190082644,
+    "broad_area_score": 0.28026046781665415
+  },
+  "evaluation_caveat": "Final block is a development benchmark, not a pristine prospective test."
+}

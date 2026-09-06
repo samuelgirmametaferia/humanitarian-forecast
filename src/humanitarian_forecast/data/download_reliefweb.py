@@ -71,6 +71,10 @@ def main() -> None:
         help="Optional sampling cap per year; useful for broad temporal coverage",
     )
     parser.add_argument("--query", default=DEFAULT_QUERY)
+    parser.add_argument(
+        "--date-field", choices=("created", "original"), default="created",
+        help="Partition/sort by publication time by default. Use original only for legacy reproduction.",
+    )
     args = parser.parse_args()
     if not (1 <= args.page_size <= 1000):
         parser.error("--page-size must be between 1 and 1000")
@@ -110,13 +114,13 @@ def main() -> None:
                     "offset": offset,
                     "query": {"value": args.query, "fields": ["title", "body"]},
                     "filter": {
-                        "field": "date.original",
+                        "field": f"date.{args.date_field}",
                         "value": {
                             "from": f"{year}-01-01T00:00:00+00:00",
                             "to": f"{year}-12-31T23:59:59+00:00",
                         },
                     },
-                    "sort": ["date.original:asc", "id:asc"],
+                    "sort": [f"date.{args.date_field}:asc", "id:asc"],
                     "fields": {"include": FIELDS},
                 }
                 page = request_page(args.appname, payload)

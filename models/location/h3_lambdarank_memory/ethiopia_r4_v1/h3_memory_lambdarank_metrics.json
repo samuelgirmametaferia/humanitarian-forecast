@@ -1,0 +1,43 @@
+{
+  "schema": "dense-h3-memory-lambdarank-v1",
+  "resolution": 4,
+  "cells": 681,
+  "selected_iteration": 200,
+  "temperature": 0.1,
+  "feature_dim": 119,
+  "validation": {
+    "samples": 785.0,
+    "mean_error_km": 201.2605438232422,
+    "median_error_km": 132.11500549316406,
+    "p90_error_km": 482.89044189453125,
+    "mean_entropy": 1.0658443200229226,
+    "within_25km": 0.0929936305732484,
+    "probability_mass_within_25km": 0.08283151457131578,
+    "within_50km": 0.1910828025477707,
+    "probability_mass_within_50km": 0.18450165510732738,
+    "within_100km": 0.4050955414012739,
+    "probability_mass_within_100km": 0.4007060591054097,
+    "within_200km": 0.6229299363057325,
+    "probability_mass_within_200km": 0.6219890030816447,
+    "top3_within_100km": 0.5898089171974522,
+    "broad_area_score": 0.4645313560542406
+  },
+  "development": {
+    "samples": 968.0,
+    "mean_error_km": 222.23086547851562,
+    "median_error_km": 191.31907653808594,
+    "p90_error_km": 450.27972412109375,
+    "mean_entropy": 1.096073750754169,
+    "within_25km": 0.047520661157024795,
+    "probability_mass_within_25km": 0.04573013660757595,
+    "within_50km": 0.11260330578512397,
+    "probability_mass_within_50km": 0.11276765424739157,
+    "within_100km": 0.26859504132231404,
+    "probability_mass_within_100km": 0.26552932834939125,
+    "within_200km": 0.5206611570247934,
+    "probability_mass_within_200km": 0.5203954796760857,
+    "top3_within_100km": 0.45867768595041325,
+    "broad_area_score": 0.33627725132077074
+  },
+  "protocol": "full-conflict event/destination/transition memory is cutoff-safe; validation selects iteration/temperature; development diagnostic only"
+}

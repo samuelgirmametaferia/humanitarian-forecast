@@ -1,0 +1,210 @@
+{
+  "schema": "dense-h3-baselines-v1",
+  "source": "data/location/ethiopia_h3_multiscale_v1.npz",
+  "resolutions": {
+    "3": {
+      "historical_frequency": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 812.6492309570312,
+          "median_error_km": 846.1536254882812,
+          "p90_error_km": 1029.9708251953125,
+          "within_25km": 0.0,
+          "within_50km": 0.0012738853503184713,
+          "within_100km": 0.0025477707006369425,
+          "within_200km": 0.0025477707006369425
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 780.8650512695312,
+          "median_error_km": 789.8793334960938,
+          "p90_error_km": 1017.296142578125,
+          "within_25km": 0.0,
+          "within_50km": 0.0,
+          "within_100km": 0.0030991735537190084,
+          "within_200km": 0.0030991735537190084
+        }
+      },
+      "last_observed_cell": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 197.80767822265625,
+          "median_error_km": 136.33421325683594,
+          "p90_error_km": 469.4898376464844,
+          "within_25km": 0.03821656050955414,
+          "within_50km": 0.1821656050955414,
+          "within_100km": 0.4,
+          "within_200km": 0.643312101910828
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 232.08868408203125,
+          "median_error_km": 198.67950439453125,
+          "p90_error_km": 442.8797607421875,
+          "within_25km": 0.015495867768595042,
+          "within_50km": 0.07541322314049587,
+          "within_100km": 0.2128099173553719,
+          "within_200km": 0.5010330578512396
+        }
+      },
+      "recency_history_kernel": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 195.5198211669922,
+          "median_error_km": 133.15634155273438,
+          "p90_error_km": 473.9226379394531,
+          "within_25km": 0.05477707006369427,
+          "within_50km": 0.21528662420382166,
+          "within_100km": 0.42420382165605097,
+          "within_200km": 0.640764331210191
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 227.01693725585938,
+          "median_error_km": 194.76583862304688,
+          "p90_error_km": 423.14251708984375,
+          "within_25km": 0.01962809917355372,
+          "within_50km": 0.0878099173553719,
+          "within_100km": 0.22417355371900827,
+          "within_200km": 0.515495867768595
+        }
+      }
+    },
+    "4": {
+      "historical_frequency": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 802.2691040039062,
+          "median_error_km": 840.5145874023438,
+          "p90_error_km": 1017.572265625,
+          "within_25km": 0.0012738853503184713,
+          "within_50km": 0.0025477707006369425,
+          "within_100km": 0.0025477707006369425,
+          "within_200km": 0.003821656050955414
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 761.8968505859375,
+          "median_error_km": 774.2320556640625,
+          "p90_error_km": 993.9617309570312,
+          "within_25km": 0.0,
+          "within_50km": 0.002066115702479339,
+          "within_100km": 0.0030991735537190084,
+          "within_200km": 0.0030991735537190084
+        }
+      },
+      "last_observed_cell": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 193.07444763183594,
+          "median_error_km": 127.52965545654297,
+          "p90_error_km": 482.77691650390625,
+          "within_25km": 0.14777070063694267,
+          "within_50km": 0.25095541401273885,
+          "within_100km": 0.42420382165605097,
+          "within_200km": 0.6458598726114649
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 228.526123046875,
+          "median_error_km": 199.05853271484375,
+          "p90_error_km": 442.06640625,
+          "within_25km": 0.05578512396694215,
+          "within_50km": 0.09917355371900827,
+          "within_100km": 0.22933884297520662,
+          "within_200km": 0.503099173553719
+        }
+      },
+      "recency_history_kernel": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 194.8308868408203,
+          "median_error_km": 131.68612670898438,
+          "p90_error_km": 468.03436279296875,
+          "within_25km": 0.13121019108280255,
+          "within_50km": 0.23439490445859873,
+          "within_100km": 0.4229299363057325,
+          "within_200km": 0.6471337579617834
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 229.31463623046875,
+          "median_error_km": 199.05853271484375,
+          "p90_error_km": 449.3929138183594,
+          "within_25km": 0.056818181818181816,
+          "within_50km": 0.10640495867768596,
+          "within_100km": 0.23450413223140495,
+          "within_200km": 0.503099173553719
+        }
+      }
+    },
+    "5": {
+      "historical_frequency": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 802.2691040039062,
+          "median_error_km": 840.5145874023438,
+          "p90_error_km": 1017.572265625,
+          "within_25km": 0.0012738853503184713,
+          "within_50km": 0.0025477707006369425,
+          "within_100km": 0.0025477707006369425,
+          "within_200km": 0.003821656050955414
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 761.8968505859375,
+          "median_error_km": 774.2320556640625,
+          "p90_error_km": 993.9617309570312,
+          "within_25km": 0.0,
+          "within_50km": 0.002066115702479339,
+          "within_100km": 0.0030991735537190084,
+          "within_200km": 0.0030991735537190084
+        }
+      },
+      "last_observed_cell": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 189.53564453125,
+          "median_error_km": 126.33480072021484,
+          "p90_error_km": 472.2060852050781,
+          "within_25km": 0.1592356687898089,
+          "within_50km": 0.25095541401273885,
+          "within_100km": 0.42420382165605097,
+          "within_200km": 0.6471337579617834
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 227.94837951660156,
+          "median_error_km": 200.07730102539062,
+          "p90_error_km": 442.1785583496094,
+          "within_25km": 0.047520661157024795,
+          "within_50km": 0.1012396694214876,
+          "within_100km": 0.2334710743801653,
+          "within_200km": 0.5
+        }
+      },
+      "recency_history_kernel": {
+        "validation": {
+          "samples": 785.0,
+          "mean_error_km": 193.39764404296875,
+          "median_error_km": 128.05479431152344,
+          "p90_error_km": 476.04705810546875,
+          "within_25km": 0.14904458598726114,
+          "within_50km": 0.2484076433121019,
+          "within_100km": 0.4229299363057325,
+          "within_200km": 0.6458598726114649
+        },
+        "development": {
+          "samples": 968.0,
+          "mean_error_km": 231.01036071777344,
+          "median_error_km": 204.50112915039062,
+          "p90_error_km": 450.0361022949219,
+          "within_25km": 0.04855371900826446,
+          "within_50km": 0.10330578512396695,
+          "within_100km": 0.22933884297520662,
+          "within_200km": 0.490702479338843
+        }
+      }
+    }
+  }
+}

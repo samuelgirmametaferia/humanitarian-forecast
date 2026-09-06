@@ -1,0 +1,498 @@
+{
+  "schema": "sliced-wasserstein-conflict-shape-analogue-v1",
+  "country": "Ethiopia",
+  "signature": {
+    "projections": 24,
+    "quantiles_per_projection": 16
+  },
+  "selected": {
+    "neighbors": 24,
+    "analogue_temperature": 0.3,
+    "spatial_sigma_km": 50.0
+  },
+  "validation": {
+    "samples": 785.0,
+    "mean_error_km": 191.74464416503906,
+    "median_error_km": 126.32592010498047,
+    "p90_error_km": 483.1510009765625,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 2.504619278913523,
+    "within_25km": 0.11719745222929936,
+    "probability_mass_within_25km": 0.0688828194751444,
+    "within_50km": 0.23821656050955414,
+    "probability_mass_within_50km": 0.15567363088858274,
+    "within_100km": 0.4178343949044586,
+    "probability_mass_within_100km": 0.34436636788047414,
+    "within_200km": 0.6522292993630573,
+    "probability_mass_within_200km": 0.6003761577433457,
+    "top3_within_100km": 0.5312101910828025,
+    "top3_within_200km": 0.7388535031847133,
+    "broad_area_score": 0.425272912226879
+  },
+  "development": {
+    "samples": 968.0,
+    "mean_error_km": 221.5873565673828,
+    "median_error_km": 192.41709899902344,
+    "p90_error_km": 430.2074279785156,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 2.632765028709986,
+    "within_25km": 0.04648760330578512,
+    "probability_mass_within_25km": 0.03382444216254832,
+    "within_50km": 0.09607438016528926,
+    "probability_mass_within_50km": 0.0840552000503597,
+    "within_100km": 0.22830578512396693,
+    "probability_mass_within_100km": 0.2091188886538262,
+    "within_200km": 0.515495867768595,
+    "probability_mass_within_200km": 0.47668579673295447,
+    "top3_within_100km": 0.35537190082644626,
+    "top3_within_200km": 0.6611570247933884,
+    "broad_area_score": 0.280135605957435
+  },
+  "diagnostics": {
+    "validation": {
+      "country_fallback_fraction": 0.2318471337579618,
+      "mean_analogues_used": 24.0
+    },
+    "development": {
+      "country_fallback_fraction": 0.39359504132231404,
+      "mean_analogues_used": 22.83677685950413
+    }
+  },
+  "trials": [
+    {
+      "analogue_temperature": 0.15,
+      "spatial_sigma_km": 50.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 195.24586486816406,
+        "median_error_km": 127.00670623779297,
+        "p90_error_km": 485.7560119628906,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.470428188816248,
+        "within_25km": 0.10573248407643313,
+        "probability_mass_within_25km": 0.0679074947441392,
+        "within_50km": 0.20382165605095542,
+        "probability_mass_within_50km": 0.15469121926946708,
+        "within_100km": 0.4050955414012739,
+        "probability_mass_within_100km": 0.3446004691089782,
+        "within_200km": 0.6611464968152866,
+        "probability_mass_within_200km": 0.6022162335868633,
+        "top3_within_100km": 0.5273885350318471,
+        "top3_within_200km": 0.7426751592356687,
+        "broad_area_score": 0.4234766894406865
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.15,
+      "spatial_sigma_km": 100.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 192.03721618652344,
+        "median_error_km": 125.646728515625,
+        "p90_error_km": 468.76763916015625,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.7965317620076737,
+        "within_25km": 0.0929936305732484,
+        "probability_mass_within_25km": 0.056703625037009195,
+        "within_50km": 0.2050955414012739,
+        "probability_mass_within_50km": 0.13762066750437743,
+        "within_100km": 0.40254777070063696,
+        "probability_mass_within_100km": 0.3185401709995643,
+        "within_200km": 0.6573248407643312,
+        "probability_mass_within_200km": 0.5748396670190197,
+        "top3_within_100km": 0.5197452229299363,
+        "top3_within_200km": 0.729936305732484,
+        "broad_area_score": 0.40252171535165354
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.15,
+      "spatial_sigma_km": 175.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 186.71278381347656,
+        "median_error_km": 125.61595153808594,
+        "p90_error_km": 454.6288146972656,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.009224822568233,
+        "within_25km": 0.09426751592356689,
+        "probability_mass_within_25km": 0.04933670609060506,
+        "within_50km": 0.2050955414012739,
+        "probability_mass_within_50km": 0.12409062824131561,
+        "within_100km": 0.41656050955414015,
+        "probability_mass_within_100km": 0.2895730199659159,
+        "within_200km": 0.6611464968152866,
+        "probability_mass_within_200km": 0.5368403252465546,
+        "top3_within_100km": 0.535031847133758,
+        "top3_within_200km": 0.7312101910828025,
+        "broad_area_score": 0.3826204871770615
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.15,
+      "spatial_sigma_km": 250.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 182.76821899414062,
+        "median_error_km": 121.25419616699219,
+        "p90_error_km": 427.8343200683594,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.1226576089634284,
+        "within_25km": 0.09171974522292993,
+        "probability_mass_within_25km": 0.04583695737606472,
+        "within_50km": 0.20127388535031848,
+        "probability_mass_within_50km": 0.11661391419842008,
+        "within_100km": 0.42038216560509556,
+        "probability_mass_within_100km": 0.27164705757831764,
+        "within_200km": 0.6611464968152866,
+        "probability_mass_within_200km": 0.5083671284325374,
+        "top3_within_100km": 0.5388535031847134,
+        "top3_within_200km": 0.7363057324840764,
+        "broad_area_score": 0.3680219825138179
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.3,
+      "spatial_sigma_km": 50.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 191.74464416503906,
+        "median_error_km": 126.32592010498047,
+        "p90_error_km": 483.1510009765625,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.504619278913523,
+        "within_25km": 0.11719745222929936,
+        "probability_mass_within_25km": 0.0688828194751444,
+        "within_50km": 0.23821656050955414,
+        "probability_mass_within_50km": 0.15567363088858274,
+        "within_100km": 0.4178343949044586,
+        "probability_mass_within_100km": 0.34436636788047414,
+        "within_200km": 0.6522292993630573,
+        "probability_mass_within_200km": 0.6003761577433457,
+        "top3_within_100km": 0.5312101910828025,
+        "top3_within_200km": 0.7388535031847133,
+        "broad_area_score": 0.425272912226879
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.3,
+      "spatial_sigma_km": 100.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 187.0137939453125,
+        "median_error_km": 125.646728515625,
+        "p90_error_km": 467.71978759765625,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.813396500507636,
+        "within_25km": 0.11210191082802548,
+        "probability_mass_within_25km": 0.05719522878162486,
+        "within_50km": 0.2267515923566879,
+        "probability_mass_within_50km": 0.13776235569060385,
+        "within_100km": 0.42165605095541403,
+        "probability_mass_within_100km": 0.31753568529103826,
+        "within_200km": 0.6611464968152866,
+        "probability_mass_within_200km": 0.5732038908708662,
+        "top3_within_100km": 0.5184713375796178,
+        "top3_within_200km": 0.729936305732484,
+        "broad_area_score": 0.40438094648551826
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.3,
+      "spatial_sigma_km": 175.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 181.3275909423828,
+        "median_error_km": 123.46864318847656,
+        "p90_error_km": 447.9621887207031,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.015168401316375,
+        "within_25km": 0.10573248407643313,
+        "probability_mass_within_25km": 0.049579756359393996,
+        "within_50km": 0.2178343949044586,
+        "probability_mass_within_50km": 0.12406515054666856,
+        "within_100km": 0.42420382165605097,
+        "probability_mass_within_100km": 0.28870682895423067,
+        "within_200km": 0.6662420382165605,
+        "probability_mass_within_200km": 0.5355603441141085,
+        "top3_within_100km": 0.5273885350318471,
+        "top3_within_200km": 0.7312101910828025,
+        "broad_area_score": 0.382270251499241
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.3,
+      "spatial_sigma_km": 250.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 178.55833435058594,
+        "median_error_km": 117.46867370605469,
+        "p90_error_km": 437.1907653808594,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.1251873441392637,
+        "within_25km": 0.0980891719745223,
+        "probability_mass_within_25km": 0.04600078720661699,
+        "within_50km": 0.21019108280254778,
+        "probability_mass_within_50km": 0.11662365602356067,
+        "within_100km": 0.4356687898089172,
+        "probability_mass_within_100km": 0.2711322451972812,
+        "within_200km": 0.6675159235668789,
+        "probability_mass_within_200km": 0.5076380910206585,
+        "top3_within_100km": 0.5375796178343949,
+        "top3_within_200km": 0.7312101910828025,
+        "broad_area_score": 0.3697586333174135
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.6,
+      "spatial_sigma_km": 50.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 192.42434692382812,
+        "median_error_km": 127.16710662841797,
+        "p90_error_km": 480.8915100097656,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.5099595330782405,
+        "within_25km": 0.11719745222929936,
+        "probability_mass_within_25km": 0.06938357335520409,
+        "within_50km": 0.2394904458598726,
+        "probability_mass_within_50km": 0.15628845668860816,
+        "within_100km": 0.41146496815286626,
+        "probability_mass_within_100km": 0.34450817477309614,
+        "within_200km": 0.6484076433121019,
+        "probability_mass_within_200km": 0.5998998066009038,
+        "top3_within_100km": 0.5286624203821656,
+        "top3_within_200km": 0.7388535031847133,
+        "broad_area_score": 0.42404544470653016
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.6,
+      "spatial_sigma_km": 100.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 186.93153381347656,
+        "median_error_km": 125.14109802246094,
+        "p90_error_km": 470.7223815917969,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.8147726315702326,
+        "within_25km": 0.11719745222929936,
+        "probability_mass_within_25km": 0.057502739644211355,
+        "within_50km": 0.23057324840764332,
+        "probability_mass_within_50km": 0.13800241918338038,
+        "within_100km": 0.4229299363057325,
+        "probability_mass_within_100km": 0.3173923934371179,
+        "within_200km": 0.6573248407643312,
+        "probability_mass_within_200km": 0.5729732825018018,
+        "top3_within_100km": 0.5210191082802548,
+        "top3_within_200km": 0.7261146496815286,
+        "broad_area_score": 0.40470187416466064
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.6,
+      "spatial_sigma_km": 175.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 181.8407440185547,
+        "median_error_km": 120.19561004638672,
+        "p90_error_km": 445.3343505859375,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.0143813967791493,
+        "within_25km": 0.10828025477707007,
+        "probability_mass_within_25km": 0.04972869403949297,
+        "within_50km": 0.21656050955414013,
+        "probability_mass_within_50km": 0.12412081939626335,
+        "within_100km": 0.43312101910828027,
+        "probability_mass_within_100km": 0.28844921914066274,
+        "within_200km": 0.6687898089171974,
+        "probability_mass_within_200km": 0.535232440688623,
+        "top3_within_100km": 0.5286624203821656,
+        "top3_within_200km": 0.7337579617834394,
+        "broad_area_score": 0.3835279535695477
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 0.6,
+      "spatial_sigma_km": 250.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 179.79737854003906,
+        "median_error_km": 120.19561004638672,
+        "p90_error_km": 440.892822265625,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.124557262244685,
+        "within_25km": 0.09936305732484077,
+        "probability_mass_within_25km": 0.0460939266753033,
+        "within_50km": 0.21273885350318472,
+        "probability_mass_within_50km": 0.11665862536185367,
+        "within_100km": 0.43312101910828027,
+        "probability_mass_within_100km": 0.2709641093535017,
+        "within_200km": 0.6662420382165605,
+        "probability_mass_within_200km": 0.5074346480153549,
+        "top3_within_100km": 0.5375796178343949,
+        "top3_within_200km": 0.729936305732484,
+        "broad_area_score": 0.36924330439717845
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 1.0,
+      "spatial_sigma_km": 50.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 192.7453155517578,
+        "median_error_km": 127.16710662841797,
+        "p90_error_km": 480.8915100097656,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.5099361630411647,
+        "within_25km": 0.1197452229299363,
+        "probability_mass_within_25km": 0.069565668881519,
+        "within_50km": 0.24076433121019108,
+        "probability_mass_within_50km": 0.15652720314566165,
+        "within_100km": 0.41273885350318473,
+        "probability_mass_within_100km": 0.34458926194708456,
+        "within_200km": 0.6471337579617834,
+        "probability_mass_within_200km": 0.5997535547537838,
+        "top3_within_100km": 0.5286624203821656,
+        "top3_within_200km": 0.7350318471337579,
+        "broad_area_score": 0.4242518750853475
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 1.0,
+      "spatial_sigma_km": 100.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 188.91384887695312,
+        "median_error_km": 125.14109802246094,
+        "p90_error_km": 472.14862060546875,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 2.8141889825612885,
+        "within_25km": 0.1159235668789809,
+        "probability_mass_within_25km": 0.057622230889460675,
+        "within_50km": 0.22802547770700637,
+        "probability_mass_within_50km": 0.13810701143785273,
+        "within_100km": 0.4191082802547771,
+        "probability_mass_within_100km": 0.31737033849646307,
+        "within_200km": 0.6547770700636942,
+        "probability_mass_within_200km": 0.5729378324993087,
+        "top3_within_100km": 0.5235668789808917,
+        "top3_within_200km": 0.7261146496815286,
+        "broad_area_score": 0.4043641826092222
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 1.0,
+      "spatial_sigma_km": 175.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 181.7647247314453,
+        "median_error_km": 120.19561004638672,
+        "p90_error_km": 444.6125793457031,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.013602171850589,
+        "within_25km": 0.10955414012738854,
+        "probability_mass_within_25km": 0.04978547682018007,
+        "within_50km": 0.21656050955414013,
+        "probability_mass_within_50km": 0.12414313764174197,
+        "within_100km": 0.43312101910828027,
+        "probability_mass_within_100km": 0.28835900485362476,
+        "within_200km": 0.6687898089171974,
+        "probability_mass_within_200km": 0.535124222525801,
+        "top3_within_100km": 0.5261146496815287,
+        "top3_within_200km": 0.732484076433121,
+        "broad_area_score": 0.38320191500904877
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    },
+    {
+      "analogue_temperature": 1.0,
+      "spatial_sigma_km": 250.0,
+      "validation": {
+        "samples": 785.0,
+        "mean_error_km": 180.47312927246094,
+        "median_error_km": 119.47725677490234,
+        "p90_error_km": 441.58331298828125,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 3.124097633902297,
+        "within_25km": 0.10318471337579618,
+        "probability_mass_within_25km": 0.04612815197020366,
+        "within_50km": 0.21273885350318472,
+        "probability_mass_within_50km": 0.11666987896496489,
+        "within_100km": 0.4318471337579618,
+        "probability_mass_within_100km": 0.27090066226664933,
+        "within_200km": 0.6675159235668789,
+        "probability_mass_within_200km": 0.5073589564758578,
+        "top3_within_100km": 0.535031847133758,
+        "top3_within_200km": 0.7312101910828025,
+        "broad_area_score": 0.36874741031889874
+      },
+      "diagnostics": {
+        "country_fallback_fraction": 0.2318471337579618,
+        "mean_analogues_used": 24.0
+      }
+    }
+  ],
+  "causality": "Each query can use only analogue outcomes whose target date is on or before that query's observation cutoff.",
+  "package_note": "Official shapefinder 0.1.0 pins pandas 1.1.5 and is not installable on this Python 3.14 runtime; this expert implements a compatible 3D historical-shape hypothesis using sliced-Wasserstein signatures.",
+  "evaluation_caveat": "Final historical block is development-only after prior model research."
+}

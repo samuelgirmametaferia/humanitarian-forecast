@@ -1,0 +1,12 @@
+{
+  "schema": "global-h3-scoring-pretrain-v1",
+  "train_queries": 110552,
+  "train_rows": 1046911,
+  "validation_queries": 7897,
+  "validation_rows": 74502,
+  "feature_dim": 103,
+  "selected_iteration": 15,
+  "samples_per_query": 10,
+  "protocol": "global first 70% training; chronological 70-85% validation subsample for NDCG early stopping; no development labels used",
+  "purpose": "initialize/furnish a universal propagation scoring rule for later dense-H3 Ethiopia continuation"
+}

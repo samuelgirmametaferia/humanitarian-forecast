@@ -1,0 +1,71 @@
+{
+  "artifacts": [
+    "h3_lambdarank.txt",
+    "h3_lambdarank_metrics.json",
+    "h3_lambdarank_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T06:51:41.083035+00:00",
+  "description": "Dense H3 propagation/motion LambdaRank expert with population/accessibility context.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "data": "data/location/ethiopia_h3_multiscale_v1.npz",
+    "init_model": "models/location/h3_lambdarank_global_pretrain/v1/global_h3_scoring_pretrain.txt",
+    "restore_tag": "production-boost-preflight-2026-08-24",
+    "static_context": "data/geo/derived/h3_static_population_accessibility_v1.npz"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.334125544189663,
+      "mean_entropy": 1.2340367932619873,
+      "mean_error_km": 219.9335174560547,
+      "median_error_km": 189.65432739257812,
+      "p90_error_km": 447.19879150390625,
+      "probability_mass_within_100km": 0.2620558961783486,
+      "probability_mass_within_200km": 0.5220297915818232,
+      "probability_mass_within_25km": 0.045242572178676464,
+      "probability_mass_within_50km": 0.10996477507998613,
+      "samples": 968.0,
+      "top3_within_100km": 0.45454545454545453,
+      "within_100km": 0.2675619834710744,
+      "within_200km": 0.5382231404958677,
+      "within_25km": 0.04855371900826446,
+      "within_50km": 0.11466942148760331
+    },
+    "validation": {
+      "broad_area_score": 0.4686808238748889,
+      "mean_entropy": 1.2965521569752902,
+      "mean_error_km": 195.7182159423828,
+      "median_error_km": 130.57203674316406,
+      "p90_error_km": 459.6697998046875,
+      "probability_mass_within_100km": 0.39903376480102887,
+      "probability_mass_within_200km": 0.6365071260442264,
+      "probability_mass_within_25km": 0.08636193045929927,
+      "probability_mass_within_50km": 0.19604827619864176,
+      "samples": 785.0,
+      "top3_within_100km": 0.5885350318471337,
+      "within_100km": 0.42038216560509556,
+      "within_200km": 0.6382165605095541,
+      "within_25km": 0.0980891719745223,
+      "within_50km": 0.20764331210191084
+    }
+  },
+  "notes": [
+    "Scores every H3 cell rather than historical candidate coordinates.",
+    "Development block is not a pristine prospective test.",
+    "Research champion as of 2026-08-24: global scoring pretrain + dense r4 continuation reached broad-area score 0.46868 validation / 0.33413 development. Production remains unchanged pending rolling/prospective gates."
+  ],
+  "status": "research-champion-ethiopia-broad-area",
+  "subsystem": "location/h3_lambdarank",
+  "training": {
+    "cells": 681,
+    "final_trees": 515,
+    "initial_trees": 15,
+    "resolution": 4,
+    "samples_per_query": 256,
+    "seed": 20260824,
+    "selected_iteration": 165,
+    "temperature": 0.12
+  },
+  "version": "v1"
+}

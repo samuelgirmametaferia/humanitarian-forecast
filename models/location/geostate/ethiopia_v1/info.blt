@@ -1,0 +1,115 @@
+{
+  "artifacts": [
+    "geostate_best.pt",
+    "geostate_metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-23T21:43:58.607088+00:00",
+  "description": "Dense multiresolution H3 spatial Transformer with distance-soft supervision.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/ethiopia_h3_multiscale_v1.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "r3": {
+        "cross_entropy": 4.942973613739014,
+        "mean_entropy": 3.8572640419006348,
+        "mean_error_km": 695.2553100585938,
+        "median_error_km": 699.3192138671875,
+        "p90_error_km": 939.6864013671875,
+        "samples": 965,
+        "top3_within_100km": 0.00932642487046632,
+        "within_100km": 0.0010362694300518134,
+        "within_200km": 0.0062176165803108805,
+        "within_25km": 0.0,
+        "within_50km": 0.0
+      },
+      "r4": {
+        "cross_entropy": 6.6624064445495605,
+        "mean_entropy": 5.692233562469482,
+        "mean_error_km": 694.4373779296875,
+        "median_error_km": 696.9916381835938,
+        "p90_error_km": 938.1824340820312,
+        "samples": 960,
+        "top3_within_100km": 0.05625,
+        "within_100km": 0.0010416666666666667,
+        "within_200km": 0.00625,
+        "within_25km": 0.0,
+        "within_50km": 0.0
+      },
+      "r5": {
+        "cross_entropy": 8.352093696594238,
+        "mean_entropy": 7.708653926849365,
+        "mean_error_km": 680.4097290039062,
+        "median_error_km": 684.8182373046875,
+        "p90_error_km": 924.1082153320312,
+        "samples": 968,
+        "top3_within_100km": 0.11570247933884298,
+        "within_100km": 0.0010330578512396695,
+        "within_200km": 0.006198347107438017,
+        "within_25km": 0.0,
+        "within_50km": 0.0
+      }
+    },
+    "validation": {
+      "r3": {
+        "cross_entropy": 4.891695976257324,
+        "mean_entropy": 3.8542187213897705,
+        "mean_error_km": 717.2131958007812,
+        "median_error_km": 744.3523559570312,
+        "p90_error_km": 921.8099975585938,
+        "samples": 776,
+        "top3_within_100km": 0.011597938144329897,
+        "within_100km": 0.001288659793814433,
+        "within_200km": 0.005154639175257732,
+        "within_25km": 0.0,
+        "within_50km": 0.001288659793814433
+      },
+      "r4": {
+        "cross_entropy": 6.472299575805664,
+        "mean_entropy": 5.694685459136963,
+        "mean_error_km": 712.0636596679688,
+        "median_error_km": 743.4495239257812,
+        "p90_error_km": 907.6259155273438,
+        "samples": 767,
+        "top3_within_100km": 0.05345501955671447,
+        "within_100km": 0.001303780964797914,
+        "within_200km": 0.005215123859191656,
+        "within_25km": 0.001303780964797914,
+        "within_50km": 0.001303780964797914
+      },
+      "r5": {
+        "cross_entropy": 8.081345558166504,
+        "mean_entropy": 7.708409309387207,
+        "mean_error_km": 704.607177734375,
+        "median_error_km": 731.2089233398438,
+        "p90_error_km": 908.7734985351562,
+        "samples": 783,
+        "top3_within_100km": 0.08045977011494253,
+        "within_100km": 0.0,
+        "within_200km": 0.005108556832694764,
+        "within_25km": 0.0,
+        "within_50km": 0.0
+      }
+    }
+  },
+  "notes": [
+    "Dense output support is independent of historically observed candidate coordinates.",
+    "Public interpretation remains broad humanitarian geography; exact point errors are diagnostics.",
+    "Rejected: dense H3 model trained from only 916 pre-cutoff Ethiopia rows collapsed geographically; use global pretraining before re-evaluation."
+  ],
+  "status": "research-rejected-local-scratch",
+  "subsystem": "location/geostate",
+  "training": {
+    "epochs": 30,
+    "expected_distance_weight": 0.1,
+    "hard_weight": 1.0,
+    "parameters": 14274488,
+    "preset": "M",
+    "selected_epoch": 5,
+    "soft_weight": 0.35
+  },
+  "version": "v1"
+}

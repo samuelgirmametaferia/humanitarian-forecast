@@ -1,0 +1,101 @@
+{
+  "selection_rows": 785,
+  "final_rows": 968,
+  "base_recipe": {
+    "aggregation": "weighted_geometric_median",
+    "temperature": 1.0,
+    "history_reference": "none",
+    "candidate_weight": 1.0
+  },
+  "base_validation": {
+    "samples": 785,
+    "mean_error_km": 166.35638427734375,
+    "median_error_km": 115.14903259277344,
+    "p90_error_km": 394.1524963378906,
+    "within_25km": 0.0904458612203598,
+    "within_50km": 0.19745223224163055,
+    "within_100km": 0.4331210255622864,
+    "within_200km": 0.7057324647903442
+  },
+  "base_final": {
+    "samples": 968,
+    "mean_error_km": 181.84591674804688,
+    "median_error_km": 158.58065795898438,
+    "p90_error_km": 357.3111877441406,
+    "within_25km": 0.03719008341431618,
+    "within_50km": 0.12293388694524765,
+    "within_100km": 0.3068181872367859,
+    "within_200km": 0.6280992031097412
+  },
+  "best_recipe": {
+    "aggregation": "weighted_mean",
+    "temperature": 0.65,
+    "history_reference": "recent_8_mean",
+    "candidate_weight": 0.6
+  },
+  "best_validation": {
+    "samples": 785,
+    "mean_error_km": 161.2544708251953,
+    "median_error_km": 117.71464538574219,
+    "p90_error_km": 363.8908386230469,
+    "within_25km": 0.052229300141334534,
+    "within_50km": 0.18853503465652466,
+    "within_100km": 0.4242038130760193,
+    "within_200km": 0.7197452187538147
+  },
+  "best_final": {
+    "samples": 968,
+    "mean_error_km": 178.55624389648438,
+    "median_error_km": 157.48764038085938,
+    "p90_error_km": 340.08489990234375,
+    "within_25km": 0.020661156624555588,
+    "within_50km": 0.08574379980564117,
+    "within_100km": 0.30268594622612,
+    "within_200km": 0.6404958963394165
+  },
+  "delta_final": {
+    "mean_error_km": -3.2896728515625,
+    "median_error_km": -1.093017578125,
+    "p90_error_km": -17.226287841796875,
+    "within_25km": -0.01652892678976059,
+    "within_50km": -0.037190087139606476,
+    "within_100km": -0.0041322410106658936,
+    "within_200km": 0.012396693229675293
+  },
+  "shipping_selection": {
+    "selection_contract": "minimum validation mean error subject to no validation regression at <=50 km and <=100 km versus v9 baseline",
+    "recipe": {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.8,
+      "history_reference": "recent_8_mean",
+      "candidate_weight": 0.5
+    },
+    "validation": {
+      "mean_error_km": 161.63717651367188,
+      "median_error_km": 114.47295379638672,
+      "p90_error_km": 372.81561279296875,
+      "within_25km": 0.06496815383434296,
+      "within_50km": 0.20382165908813477,
+      "within_100km": 0.4394904375076294,
+      "within_200km": 0.7133758068084717
+    },
+    "final15": {
+      "mean_error_km": 178.33309936523438,
+      "median_error_km": 153.615234375,
+      "p90_error_km": 343.2506103515625,
+      "within_25km": 0.019628100097179413,
+      "within_50km": 0.09607437998056412,
+      "within_100km": 0.31714877486228943,
+      "within_200km": 0.6404958963394165
+    },
+    "delta_final15": {
+      "mean_error_km": -3.5128173828125,
+      "median_error_km": -4.965423583984375,
+      "p90_error_km": -14.060577392578125,
+      "within_25km": -0.017561983317136765,
+      "within_50km": -0.026859506964683533,
+      "within_100km": 0.01033058762550354,
+      "within_200km": 0.012396693229675293
+    }
+  }
+}

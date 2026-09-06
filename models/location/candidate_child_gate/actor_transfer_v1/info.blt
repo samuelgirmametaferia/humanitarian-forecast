@@ -1,0 +1,71 @@
+{
+  "artifacts": [
+    "child_gate.txt",
+    "child_policy.json",
+    "metrics.json"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:11:04.783083+00:00",
+  "description": "Parent-preserving refined-child support with chronological out-of-sample benefit gate.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "coarse_model": "models/location/geo_lambdarank_actor_transfer_ethiopia/v1/geo_lambdarank.txt",
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_v8.npz",
+    "full_refiner": "models/location/candidate_refiner/actor_transfer_v1",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.3472658409441929,
+      "mean_error_km": 202.11521911621094,
+      "median_error_km": 173.37179565429688,
+      "p90_error_km": 395.9512939453125,
+      "probability_mass_within_100km": 0.27476066814392924,
+      "probability_mass_within_200km": 0.546078276416068,
+      "probability_mass_within_25km": 0.04130897994385883,
+      "probability_mass_within_50km": 0.11203036114408511,
+      "samples": 968.0,
+      "top3_within_100km": 0.4369834710743802,
+      "within_100km": 0.2882231404958678,
+      "within_200km": 0.5568181818181818,
+      "within_25km": 0.04338842975206612,
+      "within_50km": 0.11466942148760331
+    },
+    "validation": {
+      "broad_area_score": 0.498979011032999,
+      "mean_error_km": 189.08815002441406,
+      "median_error_km": 118.15570831298828,
+      "p90_error_km": 483.1459655761719,
+      "probability_mass_within_100km": 0.4395515095085442,
+      "probability_mass_within_200km": 0.6584213976470717,
+      "probability_mass_within_25km": 0.10595534558401676,
+      "probability_mass_within_50km": 0.2272209337846198,
+      "samples": 785.0,
+      "top3_within_100km": 0.5847133757961783,
+      "within_100km": 0.44713375796178345,
+      "within_200km": 0.6535031847133758,
+      "within_25km": 0.1286624203821656,
+      "within_50km": 0.24076433121019108
+    }
+  },
+  "notes": [
+    "Original candidate support is never removed; refined children only receive split probability mass.",
+    "Gate labels are generated from residual predictions out-of-sample in the training era.",
+    "Development remains diagnostic, not pristine prospective evaluation."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/candidate_child_gate",
+  "training": {
+    "early_fraction": 0.55,
+    "gate_rows": 659190,
+    "policy": {
+      "alpha": 1.25,
+      "cap_km": 75.0,
+      "child_mass_fraction": 0.9,
+      "gate_threshold": 0.5,
+      "parent_probability_max": 0.25
+    },
+    "seed": 20260824
+  },
+  "version": "v1"
+}

@@ -1,0 +1,86 @@
+{
+  "artifacts": [
+    "ensemble_config.json",
+    "geo_lambdarank_local.txt",
+    "geo_lambdarank_local_metrics.json"
+  ],
+  "calibration": {
+    "selection": "country validation",
+    "temperature": 0.2
+  },
+  "created_at": "2026-08-24T07:41:49.348499+00:00",
+  "description": "Strongly regularized country-local broad-area LambdaRank expert for Ethiopia.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_rw2023_validation_complete.npz",
+    "restore_tag": "geo-supercharge-phase1-2026-08-23"
+  },
+  "metrics": {
+    "configuration": {
+      "country": "Ethiopia",
+      "feature_dim": 248,
+      "model_type": "LightGBM LambdaRank local expert",
+      "probability_temperature": 0.2,
+      "selected_iteration": 200,
+      "training_queries": 916
+    },
+    "development": {
+      "broad_area_score": 0.30996206297950535,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "mean_entropy": 2.4752277625957566,
+      "mean_error_km": 217.10072326660156,
+      "median_error_km": 185.7974853515625,
+      "p90_error_km": 426.1964416503906,
+      "probability_mass_within_100km": 0.23044663151034725,
+      "probability_mass_within_200km": 0.4974353840291958,
+      "probability_mass_within_25km": 0.04431256753832734,
+      "probability_mass_within_50km": 0.10012301845094254,
+      "samples": 968.0,
+      "top3_within_100km": 0.46384297520661155,
+      "top3_within_200km": 0.7427685950413223,
+      "top5_within_100km": 0.5836776859504132,
+      "top5_within_200km": 0.8305785123966942,
+      "within_100km": 0.24896694214876033,
+      "within_200km": 0.5351239669421488,
+      "within_25km": 0.05268595041322314,
+      "within_50km": 0.10847107438016529
+    },
+    "evaluation_caveat": "Development period has been inspected during architecture research and is not prospective evidence.",
+    "protocol": "global chronological boundaries; country-only training, validation selection, and development reporting",
+    "validation": {
+      "broad_area_score": 0.45357984783974886,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "mean_entropy": 2.1857109833699093,
+      "mean_error_km": 189.06826782226562,
+      "median_error_km": 124.99446105957031,
+      "p90_error_km": 451.4273376464844,
+      "probability_mass_within_100km": 0.377107629034132,
+      "probability_mass_within_200km": 0.6184328771892762,
+      "probability_mass_within_25km": 0.0941999639788552,
+      "probability_mass_within_50km": 0.18658198888728067,
+      "samples": 785.0,
+      "top3_within_100km": 0.5885350318471337,
+      "top3_within_200km": 0.7872611464968153,
+      "top5_within_100km": 0.6929936305732484,
+      "top5_within_200km": 0.8598726114649682,
+      "within_100km": 0.42420382165605097,
+      "within_200km": 0.6509554140127388,
+      "within_25km": 0.12611464968152866,
+      "within_50km": 0.21528662420382166
+    }
+  },
+  "notes": [
+    "Intended only as a diversity/local specialization expert; global models remain preserved."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/geo_lambdarank_local",
+  "training": {
+    "country": "Ethiopia",
+    "development_queries": 968,
+    "seed": 20260824,
+    "selected_iteration": 200,
+    "train_queries": 916,
+    "validation_queries": 785
+  },
+  "version": "v1"
+}

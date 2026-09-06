@@ -1,0 +1,43 @@
+{
+  "schema": "dense-h3-lambdarank-v1",
+  "resolution": 4,
+  "cells": 681,
+  "selected_iteration": 200,
+  "temperature": 0.12,
+  "feature_dim": 103,
+  "validation": {
+    "samples": 785.0,
+    "mean_error_km": 197.72869873046875,
+    "median_error_km": 135.04673767089844,
+    "p90_error_km": 463.34124755859375,
+    "mean_entropy": 1.23774584397449,
+    "within_25km": 0.08535031847133757,
+    "probability_mass_within_25km": 0.07694059678351932,
+    "within_50km": 0.20764331210191084,
+    "probability_mass_within_50km": 0.18795230112244274,
+    "within_100km": 0.4,
+    "probability_mass_within_100km": 0.391583020478796,
+    "within_200km": 0.6382165605095541,
+    "probability_mass_within_200km": 0.6363289195889099,
+    "top3_within_100km": 0.5898089171974522,
+    "broad_area_score": 0.46161733690086504
+  },
+  "development": {
+    "samples": 968.0,
+    "mean_error_km": 222.04437255859375,
+    "median_error_km": 190.35726928710938,
+    "p90_error_km": 450.27972412109375,
+    "mean_entropy": 1.2081478229091287,
+    "within_25km": 0.04855371900826446,
+    "probability_mass_within_25km": 0.043894034986299596,
+    "within_50km": 0.1115702479338843,
+    "probability_mass_within_50km": 0.10743565468727913,
+    "within_100km": 0.2675619834710744,
+    "probability_mass_within_100km": 0.2620287791421806,
+    "within_200km": 0.5289256198347108,
+    "probability_mass_within_200km": 0.5192070715401085,
+    "top3_within_100km": 0.4462809917355372,
+    "broad_area_score": 0.33271963953043593
+  },
+  "protocol": "global 70/15/15 source cutoffs projected onto Ethiopia rows; training uses sampled dense H3 cells; validation selects iteration and temperature; development is diagnostic only"
+}

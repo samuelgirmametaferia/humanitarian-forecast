@@ -90,6 +90,25 @@ def _relevance(distance_km: np.ndarray) -> np.ndarray:
     return result
 
 
+def _flatten_inference_features(
+    events: np.ndarray,
+    candidates: np.ndarray,
+    valid: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Build the exact LambdaRank feature contract without requiring a target.
+
+    This is the production-safe form of the feature builder.  Targets belong
+    only to training/evaluation labels and must never be required at inference.
+    """
+    geometry = _motion_geometry(events, candidates)
+    recent_distance = _recent_distance_geometry(events, candidates)
+    history = _history_context(events)
+    full = np.concatenate([candidates, geometry, recent_distance], axis=-1).astype(np.float32, copy=False)
+    group = valid.sum(axis=1).astype(np.int32)
+    flat_x = np.concatenate([full[valid], np.repeat(history, group, axis=0)], axis=1).astype(np.float32, copy=False)
+    return flat_x, group
+
+
 def _flatten_features(
     events: np.ndarray,
     candidates: np.ndarray,
@@ -97,14 +116,8 @@ def _flatten_features(
     coordinates: np.ndarray,
     target: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    geometry = _motion_geometry(events, candidates)
-    recent_distance = _recent_distance_geometry(events, candidates)
-    history = _history_context(events)
-    # Repeat one compact history vector for each candidate only at flatten time.
-    full = np.concatenate([candidates, geometry, recent_distance], axis=-1).astype(np.float32, copy=False)
+    flat_x, group = _flatten_inference_features(events, candidates, valid)
     distance = np.linalg.norm(coordinates - target[:, None], axis=-1) * SCALE_KM
-    group = valid.sum(axis=1).astype(np.int32)
-    flat_x = np.concatenate([full[valid], np.repeat(history, group, axis=0)], axis=1).astype(np.float32, copy=False)
     flat_distance = distance[valid].astype(np.float32)
     flat_y = _relevance(flat_distance)
     return flat_x, flat_y, group, flat_distance

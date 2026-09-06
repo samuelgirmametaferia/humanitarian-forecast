@@ -20,7 +20,8 @@
       "url": "https://download.geofabrik.de/africa/ethiopia-260801.osm.pbf",
       "provider": "Geofabrik / OpenStreetMap",
       "license": "ODbL",
-      "citation_url": "https://download.geofabrik.de/"
+      "citation_url": "https://download.geofabrik.de/",
+      "historical_causality": "Current/vintage-specific snapshot. Do not use this artifact as a retrospective feature before its snapshot/estimate date; prospective/current inference only unless a historically available vintage is materialized."
     },
     "worldpop_ethiopia_2026": {
       "role": "population",
@@ -30,7 +31,8 @@
       "url": "https://data.worldpop.org/GIS/Population/Global_2015_2030/R2025A/2026/ETH/v1/100m/constrained/eth_pop_2026_CN_100m_R2025A_v1.tif",
       "license": "CC BY 4.0",
       "doi": "10.5258/SOTON/WP00839",
-      "citation_url": "https://hub.worldpop.org/geodata/summary?id=73280"
+      "citation_url": "https://hub.worldpop.org/geodata/summary?id=73280",
+      "historical_causality": "Current/vintage-specific snapshot. Do not use this artifact as a retrospective feature before its snapshot/estimate date; prospective/current inference only unless a historically available vintage is materialized."
     },
     "esa_worldcover_2021": {
       "role": "land_cover",
@@ -44,11 +46,39 @@
     },
     "viirs_monthly": {
       "role": "night_lights_optional_dynamic",
-      "resolution": "463.83 m",
+      "resolution": "15 arc-second for VNP46A3 monthly product",
       "cadence": "monthly",
-      "earth_engine_asset": "NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG",
-      "availability_note": "Use only images available before each forecast cutoff and include cf_cvg observation coverage.",
-      "citation_url": "https://developers.google.com/earth-engine/datasets/catalog/NOAA_VIIRS_DNB_MONTHLY_V1_VCMSLCFG"
+      "product": "VNP46A3",
+      "availability_note": "Use only observations publicly available before each forecast cutoff and retain quality/coverage masks.",
+      "citation_url": "https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/products/VNP46A3/"
+    },
+    "chirps_v3": {
+      "role": "rainfall_anomaly_optional_dynamic",
+      "resolution": "0.05 degree",
+      "cadence": "pentad/monthly derived",
+      "temporal_coverage": "1981-near-present",
+      "availability_note": "Use release/availability timestamps so historical features never see a later preliminary or final precipitation field.",
+      "citation_url": "https://chc.ucsb.edu/data/chirps3"
+    },
+    "views_forecasts": {
+      "role": "external_conflict_forecast_prior",
+      "resolution": "PRIO-GRID 0.5 degree",
+      "cadence": "monthly production runs",
+      "api": "https://api.viewsforecasting.org",
+      "availability_note": "Every historical example must use the immutable production run that actually existed by that example's cutoff; never substitute a newer run.",
+      "citation_url": "https://viewsforecasting.org/data/"
+    },
+    "prithvi_eo_2_600m_tl": {
+      "role": "optional_geospatial_teacher",
+      "parameters": "600M",
+      "modalities": "HLS Earth observation with temporal/location embeddings",
+      "integration_policy": "Offline teacher only until a causal cold-start ablation proves value; distill embeddings into the production student.",
+      "citation_url": "https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-600M-TL"
+    },
+    "terramind_1": {
+      "role": "optional_multimodal_geospatial_teacher",
+      "integration_policy": "Test only after Prithvi teacher ablation; do not enlarge production inference solely for parameter count.",
+      "citation_url": "https://huggingface.co/ibm-esa-geospatial/TerraMind-1.0-base"
     }
   }
 }

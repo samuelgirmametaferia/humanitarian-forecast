@@ -1,0 +1,94 @@
+{
+  "artifacts": [
+    "ethiopia_probabilities.npz",
+    "metrics.json",
+    "within_100km.txt",
+    "within_200km.txt",
+    "within_25km.txt",
+    "within_50km.txt"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T07:51:06.267014+00:00",
+  "description": "Ethiopia ReliefWeb spatial content specialist blended with the multiradius baseline.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "baseline": "models/location/geo_multiradius_relative/ethiopia_v2/multiradius_probabilities.npz",
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_rw_complete_v2.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.3675279701204063,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "distance_soft_cross_entropy": 15.585718013619802,
+      "mean_entropy": 0.6856433572144726,
+      "mean_error_km": 198.29351806640625,
+      "median_error_km": 172.02403259277344,
+      "p90_error_km": 398.9419860839844,
+      "probability_mass_within_100km": 0.2970258558098113,
+      "probability_mass_within_200km": 0.5840935405134803,
+      "probability_mass_within_25km": 0.04535468980973798,
+      "probability_mass_within_50km": 0.11626657790643902,
+      "samples": 968.0,
+      "top3_within_100km": 0.4256198347107438,
+      "top3_within_200km": 0.7117768595041323,
+      "top5_within_100km": 0.5289256198347108,
+      "top5_within_200km": 0.7727272727272727,
+      "within_100km": 0.29855371900826444,
+      "within_200km": 0.5826446280991735,
+      "within_25km": 0.045454545454545456,
+      "within_50km": 0.11673553719008264
+    },
+    "validation": {
+      "broad_area_score": 0.5274075798757621,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "distance_soft_cross_entropy": 13.499027362894177,
+      "mean_entropy": 0.6521544281931089,
+      "mean_error_km": 178.8748016357422,
+      "median_error_km": 106.70135498046875,
+      "p90_error_km": 450.9593505859375,
+      "probability_mass_within_100km": 0.4752545726672298,
+      "probability_mass_within_200km": 0.6797693532063488,
+      "probability_mass_within_25km": 0.10452972876207772,
+      "probability_mass_within_50km": 0.2366624350740002,
+      "samples": 785.0,
+      "top3_within_100km": 0.5821656050955414,
+      "top3_within_200km": 0.7630573248407644,
+      "top5_within_100km": 0.6471337579617834,
+      "top5_within_200km": 0.821656050955414,
+      "within_100km": 0.4789808917197452,
+      "within_200km": 0.6840764331210191,
+      "within_25km": 0.10445859872611465,
+      "within_50km": 0.2356687898089172
+    }
+  },
+  "notes": [
+    "All ReliefWeb signals are publication-time cutoff safe.",
+    "2020-2023 validation selects recipe/calibration/blend only.",
+    "2023-2025 development remains diagnostic and is not pristine prospective evaluation."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/reliefweb_spatial_specialist",
+  "training": {
+    "best_iterations": [
+      1,
+      1,
+      7,
+      240
+    ],
+    "blend_specialist_weight": 0.05,
+    "internal_holdout": "last 20% of pre-2020 Ethiopia training queries",
+    "mode": "content",
+    "radius_weights": [
+      1.0,
+      1.5,
+      2.0,
+      1.0
+    ],
+    "recipe": "broad",
+    "seed": 20260824,
+    "selected_channels": 91,
+    "temperature": 0.1
+  },
+  "version": "v1"
+}

@@ -1,0 +1,68 @@
+{
+  "artifacts": [
+    "h3_actor_lambdarank.txt",
+    "h3_actor_lambdarank_metrics.json",
+    "h3_actor_lambdarank_probabilities.npz"
+  ],
+  "calibration": {},
+  "created_at": "2026-08-24T06:46:35.978707+00:00",
+  "description": "Dense H3 propagation LambdaRank with cross-conflict actor geography.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "baseline": "models/location/h3_lambdarank/ethiopia_v1",
+    "data": "data/location/ethiopia_h3_multiscale_v1.npz",
+    "restore_tag": "production-boost-preflight-2026-08-24",
+    "static_context": "data/geo/derived/h3_static_population_accessibility_v1.npz",
+    "ucdp": "data/raw/ged261-csv.zip"
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.3062465041793454,
+      "mean_entropy": 1.605366103508105,
+      "mean_error_km": 230.381103515625,
+      "median_error_km": 199.373046875,
+      "p90_error_km": 457.1922302246094,
+      "probability_mass_within_100km": 0.2461905007648526,
+      "probability_mass_within_200km": 0.49444624709916746,
+      "probability_mass_within_25km": 0.04853595061573645,
+      "probability_mass_within_50km": 0.11003403761479423,
+      "samples": 968.0,
+      "top3_within_100km": 0.3367768595041322,
+      "within_100km": 0.25516528925619836,
+      "within_200km": 0.5051652892561983,
+      "within_25km": 0.05578512396694215,
+      "within_50km": 0.12190082644628099
+    },
+    "validation": {
+      "broad_area_score": 0.44017247054361697,
+      "mean_entropy": 1.5164087275796907,
+      "mean_error_km": 211.447021484375,
+      "median_error_km": 136.0835723876953,
+      "p90_error_km": 502.3959045410156,
+      "probability_mass_within_100km": 0.38365006653704326,
+      "probability_mass_within_200km": 0.6177991920342093,
+      "probability_mass_within_25km": 0.07987048951937468,
+      "probability_mass_within_50km": 0.17153102829825864,
+      "samples": 785.0,
+      "top3_within_100km": 0.4713375796178344,
+      "within_100km": 0.38980891719745225,
+      "within_200km": 0.6280254777070063,
+      "within_25km": 0.08280254777070063,
+      "within_50km": 0.18343949044585986
+    }
+  },
+  "notes": [
+    "Actor histories are cutoff-safe and current-conflict activity is subtracted.",
+    "Development is diagnostic, not pristine prospective evaluation.",
+    "Rejected: actor-transfer features regressed both dense-r5 validation broad-area score (0.44017 vs 0.44355) and development (0.30625 vs 0.30859)."
+  ],
+  "status": "research-rejected-actor-dense",
+  "subsystem": "location/h3_lambdarank_actor",
+  "training": {
+    "samples_per_query": 384,
+    "seed": 20260824,
+    "selected_iteration": 700,
+    "temperature": 0.1
+  },
+  "version": "v1"
+}

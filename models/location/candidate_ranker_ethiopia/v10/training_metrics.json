@@ -1,0 +1,14 @@
+{
+  "mode": "country-calibration-wrapper-no-weight-update",
+  "country": "Ethiopia",
+  "weight_parent": "models/location/candidate_ranker/v10/model.pt",
+  "parent_training_samples": 157932,
+  "calibration": {
+    "aggregation": "weighted_geometric_median",
+    "temperature": 0.8,
+    "history_reference": "recent_8_mean",
+    "candidate_weight": 0.5,
+    "selected_on": "Ethiopia 70-85%: minimum mean error subject to no validation regression at <=50 km and <=100 km; frozen before final-15% check"
+  },
+  "held_out_evaluation": false
+}

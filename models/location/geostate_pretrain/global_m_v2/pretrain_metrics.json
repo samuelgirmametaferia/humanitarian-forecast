@@ -1,0 +1,111 @@
+{
+  "schema": "geostate-global-pretrain-v1",
+  "parameter_count": 12481581,
+  "preset": "M",
+  "selected_epoch": 3,
+  "validation": {
+    "distance_soft_ce": 3.1255199909210205,
+    "mean_error_km": 260.3175048828125,
+    "median_error_km": 70.87373352050781,
+    "within_25km": 0.3271000385284424,
+    "within_100km": 0.5706205368041992
+  },
+  "development": {
+    "distance_soft_ce": 3.193171262741089,
+    "mean_error_km": 245.1336212158203,
+    "median_error_km": 66.04798889160156,
+    "within_25km": 0.3468552231788635,
+    "within_100km": 0.5796960592269897
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 5.4623876599674075,
+      "validation": {
+        "distance_soft_ce": 3.148294448852539,
+        "mean_error_km": 260.541015625,
+        "median_error_km": 70.87373352050781,
+        "within_25km": 0.32714226841926575,
+        "within_100km": 0.5707049369812012
+      }
+    },
+    {
+      "epoch": 2,
+      "train_loss": 5.433390518649199,
+      "validation": {
+        "distance_soft_ce": 3.1301848888397217,
+        "mean_error_km": 258.62506103515625,
+        "median_error_km": 70.72332763671875,
+        "within_25km": 0.32672014832496643,
+        "within_100km": 0.5716758370399475
+      }
+    },
+    {
+      "epoch": 3,
+      "train_loss": 5.423670084692651,
+      "validation": {
+        "distance_soft_ce": 3.1255199909210205,
+        "mean_error_km": 260.3175048828125,
+        "median_error_km": 70.87373352050781,
+        "within_25km": 0.3271000385284424,
+        "within_100km": 0.5706205368041992
+      }
+    },
+    {
+      "epoch": 4,
+      "train_loss": 5.41542768474943,
+      "validation": {
+        "distance_soft_ce": 3.125767707824707,
+        "mean_error_km": 258.7625732421875,
+        "median_error_km": 70.85539245605469,
+        "within_25km": 0.3265934884548187,
+        "within_100km": 0.5704094767570496
+      }
+    },
+    {
+      "epoch": 5,
+      "train_loss": 5.407542436734857,
+      "validation": {
+        "distance_soft_ce": 3.126828670501709,
+        "mean_error_km": 258.49920654296875,
+        "median_error_km": 70.85284423828125,
+        "within_25km": 0.32714226841926575,
+        "within_100km": 0.5700295567512512
+      }
+    },
+    {
+      "epoch": 6,
+      "train_loss": 5.399942779568621,
+      "validation": {
+        "distance_soft_ce": 3.145735502243042,
+        "mean_error_km": 260.6851501464844,
+        "median_error_km": 71.03795623779297,
+        "within_25km": 0.3255804181098938,
+        "within_100km": 0.5703250169754028
+      }
+    },
+    {
+      "epoch": 7,
+      "train_loss": 5.393152882164471,
+      "validation": {
+        "distance_soft_ce": 3.1361026763916016,
+        "mean_error_km": 263.17919921875,
+        "median_error_km": 71.31352996826172,
+        "within_25km": 0.3264668583869934,
+        "within_100km": 0.5697340369224548
+      }
+    },
+    {
+      "epoch": 8,
+      "train_loss": 5.388103813051583,
+      "validation": {
+        "distance_soft_ce": 3.1373796463012695,
+        "mean_error_km": 264.22821044921875,
+        "median_error_km": 71.26078796386719,
+        "within_25km": 0.32608696818351746,
+        "within_100km": 0.5693541765213013
+      }
+    }
+  ],
+  "protocol": "global 70/15/15; validation selects epoch; development historical block is diagnostic only"
+}

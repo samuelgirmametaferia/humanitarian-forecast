@@ -1,0 +1,269 @@
+{
+  "schema": "humanitarian-forecast-v10-direct-v9lineage-receipt-v1",
+  "objective": "Ethiopia next-location humanitarian forecasting; direct continuation of validated v9 candidate ranker",
+  "data": {
+    "global_labels": 157932,
+    "ethiopia_labels": 2669,
+    "ethiopia_first_date": "1989-03-21",
+    "ethiopia_last_date": "2025-12-29",
+    "event_shape": [
+      157932,
+      16,
+      19
+    ],
+    "candidate_feature_shape": [
+      157932,
+      32,
+      28
+    ]
+  },
+  "architecture": {
+    "v9_config": {
+      "event_dim": 19,
+      "candidate_dim": 28,
+      "sequence_length": 16,
+      "countries": 120,
+      "conflicts": 957,
+      "d_model": 128,
+      "heads": 4,
+      "layers": 3,
+      "ff_dim": 384,
+      "dropout": 0.1
+    },
+    "v10_config": {
+      "event_dim": 19,
+      "candidate_dim": 28,
+      "sequence_length": 16,
+      "countries": 121,
+      "conflicts": 1014,
+      "d_model": 128,
+      "heads": 4,
+      "layers": 3,
+      "ff_dim": 384,
+      "dropout": 0.1
+    },
+    "v9_parameters": 677599,
+    "v10_parameters": 685023
+  },
+  "experiments": {
+    "richer_actor_transfer_tensor_same_v9_family": {
+      "artifact": "models/location/candidate_ranker/v10_direct_v9lineage_eval",
+      "decision": "reject-for-ethiopia",
+      "global_validation": {
+        "samples": 23690,
+        "mean_error_km": 205.75611877441406,
+        "median_error_km": 83.2174301147461,
+        "p90_error_km": 423.6316833496094,
+        "within_25km": 0.23398058116436005,
+        "candidate_oracle_mean_km": 36.495914459228516
+      },
+      "global_untouched_test": {
+        "samples": 23690,
+        "mean_error_km": 195.69955444335938,
+        "median_error_km": 81.05757141113281,
+        "p90_error_km": 420.73687744140625,
+        "within_25km": 0.2668636441230774,
+        "candidate_oracle_mean_km": 35.99437713623047
+      },
+      "ethiopia_final15_geomedian_mean_km": 182.904,
+      "v9_ethiopia_final15_geomedian_mean_km": 181.846,
+      "reason": "global validation improved but Ethiopia geometric-median mean regressed"
+    },
+    "direct_v9_ethiopia_weight_finetune": {
+      "artifact": "models/location/candidate_ranker_ethiopia/v10_center_direct_eval",
+      "decision": "reject-as-negligible",
+      "selected": {
+        "trial": 7,
+        "mode": "all",
+        "lr": 1e-05,
+        "epoch": 1,
+        "train_loss": 12.576919930470563,
+        "temperature": 1.0,
+        "samples": 785,
+        "mean_error_km": 166.38780212402344,
+        "median_error_km": 115.14987182617188,
+        "p90_error_km": 394.1840515136719,
+        "within_25km": 0.09171974658966064,
+        "within_50km": 0.1961783468723297,
+        "within_100km": 0.434394896030426,
+        "within_200km": 0.7019108533859253,
+        "trainable": [
+          "position",
+          "event_norm.weight",
+          "event_norm.bias",
+          "event_projection.weight",
+          "event_projection.bias",
+          "encoder.layers.0.self_attn.in_proj_weight",
+          "encoder.layers.0.self_attn.in_proj_bias",
+          "encoder.layers.0.self_attn.out_proj.weight",
+          "encoder.layers.0.self_attn.out_proj.bias",
+          "encoder.layers.0.linear1.weight",
+          "encoder.layers.0.linear1.bias",
+          "encoder.layers.0.linear2.weight",
+          "encoder.layers.0.linear2.bias",
+          "encoder.layers.0.norm1.weight",
+          "encoder.layers.0.norm1.bias",
+          "encoder.layers.0.norm2.weight",
+          "encoder.layers.0.norm2.bias",
+          "encoder.layers.1.self_attn.in_proj_weight",
+          "encoder.layers.1.self_attn.in_proj_bias",
+          "encoder.layers.1.self_attn.out_proj.weight",
+          "encoder.layers.1.self_attn.out_proj.bias",
+          "encoder.layers.1.linear1.weight",
+          "encoder.layers.1.linear1.bias",
+          "encoder.layers.1.linear2.weight",
+          "encoder.layers.1.linear2.bias",
+          "encoder.layers.1.norm1.weight",
+          "encoder.layers.1.norm1.bias",
+          "encoder.layers.1.norm2.weight",
+          "encoder.layers.1.norm2.bias",
+          "encoder.layers.2.self_attn.in_proj_weight",
+          "encoder.layers.2.self_attn.in_proj_bias",
+          "encoder.layers.2.self_attn.out_proj.weight",
+          "encoder.layers.2.self_attn.out_proj.bias",
+          "encoder.layers.2.linear1.weight",
+          "encoder.layers.2.linear1.bias",
+          "encoder.layers.2.linear2.weight",
+          "encoder.layers.2.linear2.bias",
+          "encoder.layers.2.norm1.weight",
+          "encoder.layers.2.norm1.bias",
+          "encoder.layers.2.norm2.weight",
+          "encoder.layers.2.norm2.bias",
+          "context.0.weight",
+          "context.0.bias",
+          "context.1.weight",
+          "context.1.bias",
+          "country.weight",
+          "conflict.weight",
+          "candidate.0.weight",
+          "candidate.0.bias",
+          "candidate.1.weight",
+          "candidate.1.bias",
+          "candidate.3.weight",
+          "candidate.3.bias",
+          "bias.0.weight",
+          "bias.0.bias",
+          "bias.2.weight",
+          "bias.2.bias"
+        ]
+      },
+      "v9_final15": {
+        "samples": 968,
+        "mean_error_km": 181.84591674804688,
+        "median_error_km": 158.58071899414062,
+        "p90_error_km": 357.3111572265625,
+        "within_25km": 0.03719008341431618,
+        "within_50km": 0.12293388694524765,
+        "within_100km": 0.3068181872367859,
+        "within_200km": 0.6280992031097412
+      },
+      "challenger_final15": {
+        "samples": 968,
+        "mean_error_km": 181.7490692138672,
+        "median_error_km": 159.15650939941406,
+        "p90_error_km": 357.9285583496094,
+        "within_25km": 0.03719008341431618,
+        "within_50km": 0.1208677664399147,
+        "within_100km": 0.30785122513771057,
+        "within_200km": 0.6280992031097412
+      },
+      "delta_final15": {
+        "mean_error_km": -0.0968475341796875,
+        "median_error_km": 0.5757904052734375,
+        "p90_error_km": 0.617401123046875,
+        "within_25km": 0.0,
+        "within_50km": -0.0020661205053329468,
+        "within_100km": 0.0010330379009246826,
+        "within_200km": 0.0
+      }
+    },
+    "ethiopia_inference_calibration": {
+      "decision": "accept-balanced-shipping-recipe",
+      "selection_window": "785 Ethiopia rows in global chronological 70-85% block",
+      "frozen_check_window": "968 Ethiopia rows in final 15% block",
+      "selection_contract": "minimum validation mean error subject to no validation regression at <=50 km and <=100 km versus v9 baseline",
+      "recipe": {
+        "aggregation": "weighted_geometric_median",
+        "temperature": 0.8,
+        "history_reference": "recent_8_mean",
+        "candidate_weight": 0.5
+      },
+      "v9_baseline_validation": {
+        "mean_error_km": 166.35638427734375,
+        "median_error_km": 115.14903259277344,
+        "p90_error_km": 394.1524963378906,
+        "within_25km": 0.0904458612203598,
+        "within_50km": 0.19745223224163055,
+        "within_100km": 0.4331210255622864,
+        "within_200km": 0.7057324647903442
+      },
+      "v10_recipe_validation": {
+        "mean_error_km": 161.63717651367188,
+        "median_error_km": 114.47295379638672,
+        "p90_error_km": 372.81561279296875,
+        "within_25km": 0.06496815383434296,
+        "within_50km": 0.20382165908813477,
+        "within_100km": 0.4394904375076294,
+        "within_200km": 0.7133758068084717
+      },
+      "v9_baseline_final15": {
+        "mean_error_km": 181.84591674804688,
+        "median_error_km": 158.58065795898438,
+        "p90_error_km": 357.3111877441406,
+        "within_25km": 0.03719008341431618,
+        "within_50km": 0.12293388694524765,
+        "within_100km": 0.3068181872367859,
+        "within_200km": 0.6280992031097412
+      },
+      "v10_recipe_final15": {
+        "mean_error_km": 178.33309936523438,
+        "median_error_km": 153.615234375,
+        "p90_error_km": 343.2506103515625,
+        "within_25km": 0.019628100097179413,
+        "within_50km": 0.09607437998056412,
+        "within_100km": 0.31714877486228943,
+        "within_200km": 0.6404958963394165
+      },
+      "delta_final15": {
+        "mean_error_km": -3.5128173828125,
+        "median_error_km": -4.965423583984375,
+        "p90_error_km": -14.060577392578125,
+        "within_25km": -0.017561983317136765,
+        "within_50km": -0.026859506964683533,
+        "within_100km": 0.01033058762550354,
+        "within_200km": 0.012396693229675293
+      },
+      "note": "Selection used only the earlier validation block. The later 968-row block was not used to choose this recipe."
+    }
+  },
+  "production": {
+    "global_checkpoint": "models/location/candidate_ranker/v10/candidate_ranker_calibrated.pt",
+    "ethiopia_checkpoint": "models/location/candidate_ranker_ethiopia/v10/candidate_ranker_calibrated.pt",
+    "global_training_samples": 157932,
+    "global_identity_countries": 120,
+    "global_identity_conflicts": 1013,
+    "global_calibration": {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 1.0,
+      "selected_on": "validated v9 global calibration; weights retrained on all available labels"
+    },
+    "ethiopia_calibration": {
+      "aggregation": "weighted_geometric_median",
+      "temperature": 0.8,
+      "history_reference": "recent_8_mean",
+      "candidate_weight": 0.5,
+      "selected_on": "Ethiopia 70-85%: minimum mean error subject to no validation regression at <=50 km and <=100 km; frozen before final-15% check"
+    },
+    "global_model_state_sha256": "068a1522972d9ed3380ec607b1738afa49a1f748f54092ab858171e2bb42aa8a",
+    "ethiopia_model_state_sha256": "068a1522972d9ed3380ec607b1738afa49a1f748f54092ab858171e2bb42aa8a",
+    "weights_identical": true,
+    "held_out_metric_for_final_all_data_weights": false,
+    "note": "All available labels are used by final v10 weights; historical frozen-block receipts establish the recipe, not a new untouched metric for the all-data checkpoint."
+  },
+  "rejected_tangent_policy": "Alternate model families remain archived. They are not the primary improvement path unless they beat the direct v9 lineage on Ethiopia under the same evaluation contract.",
+  "commands": {
+    "direct_richer_input_evaluation": "PYTHONPATH=src .venv/bin/python -m humanitarian_forecast.location.training.train_candidate_ranker --data data/location/conflict_candidates_32_motion_actor_transfer_v8.npz --output-dir models/location/candidate_ranker/v10_direct_v9lineage_eval --epochs 15 --batch-size 512 --learning-rate 3e-4 --distance-weight 0 --center-weight 50 --seed 20260816",
+    "all_data_v10_training": "PYTHONPATH=src .venv/bin/python -m humanitarian_forecast.location.training.train_candidate_ranker_production --data data/location/conflict_candidates_32_spatial_v5.npz --output-dir models/location/candidate_ranker/v10 --version v10 --reference-model-dir models/location/candidate_ranker/v9 --epochs 12 --batch-size 512 --learning-rate 3e-4 --distance-weight 0 --center-weight 50 --seed 20260816",
+    "ethiopia_calibration_materialization": "PYTHONPATH=src .venv/bin/python -m humanitarian_forecast.location.training.materialize_country_calibrated_ranker --resume models/location/candidate_ranker/v10/model.pt --output-dir models/location/candidate_ranker_ethiopia/v10 --version v10 --country Ethiopia --reference-model-dir models/location/candidate_ranker/v9 --aggregation weighted_geometric_median --temperature 0.8 --history-reference recent_8_mean --candidate-weight 0.5"
+  }
+}

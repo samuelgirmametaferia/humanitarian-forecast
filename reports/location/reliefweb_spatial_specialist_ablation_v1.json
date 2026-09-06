@@ -1,0 +1,603 @@
+{
+  "schema": "reliefweb-spatial-specialist-ablation-v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_motion_actor_transfer_rw_complete_v2.npz",
+    "baseline": "models/location/geo_multiradius_relative/ethiopia_v2/multiradius_probabilities.npz",
+    "causality": "ReliefWeb date.created <= observation cutoff; tree count selected only inside pre-2020 training era"
+  },
+  "split": {
+    "global_train_end": 110552,
+    "global_validation_end": 134242,
+    "ethiopia_train": 916,
+    "ethiopia_validation": 785,
+    "ethiopia_development": 968
+  },
+  "baseline_validation": {
+    "samples": 785.0,
+    "mean_error_km": 178.91854858398438,
+    "median_error_km": 106.70135498046875,
+    "p90_error_km": 450.9593505859375,
+    "candidate_oracle_mean_km": 36.53844451904297,
+    "mean_entropy": 0.5339560196280265,
+    "within_25km": 0.10445859872611465,
+    "probability_mass_within_25km": 0.10450165478605283,
+    "within_50km": 0.2356687898089172,
+    "probability_mass_within_50km": 0.23774802326033084,
+    "within_100km": 0.4789808917197452,
+    "probability_mass_within_100km": 0.477369800847775,
+    "within_200km": 0.6840764331210191,
+    "probability_mass_within_200km": 0.6801615471235424,
+    "top3_within_100km": 0.5694267515923567,
+    "top3_within_200km": 0.7515923566878981,
+    "top5_within_100km": 0.6471337579617834,
+    "top5_within_200km": 0.821656050955414,
+    "broad_area_score": 0.5273755088081823,
+    "distance_soft_cross_entropy": 16.750984413261133
+  },
+  "baseline_development": {
+    "samples": 968.0,
+    "mean_error_km": 198.20706176757812,
+    "median_error_km": 172.02403259277344,
+    "p90_error_km": 398.9419860839844,
+    "candidate_oracle_mean_km": 34.845008850097656,
+    "mean_entropy": 0.5695814895811372,
+    "within_25km": 0.045454545454545456,
+    "probability_mass_within_25km": 0.04514569813064809,
+    "within_50km": 0.11673553719008264,
+    "probability_mass_within_50km": 0.11670700294404576,
+    "within_100km": 0.29958677685950413,
+    "probability_mass_within_100km": 0.2990754175971516,
+    "within_200km": 0.5826446280991735,
+    "probability_mass_within_200km": 0.5850504130466374,
+    "top3_within_100km": 0.4214876033057851,
+    "top3_within_200km": 0.6973140495867769,
+    "top5_within_100km": 0.5165289256198347,
+    "top5_within_200km": 0.7520661157024794,
+    "broad_area_score": 0.368588339147265,
+    "distance_soft_cross_entropy": 17.454627611181884
+  },
+  "modes": {
+    "count": {
+      "selected_channels": 13,
+      "candidate_dim": 73,
+      "row_feature_dim": 231,
+      "best_iterations": [
+        1,
+        2,
+        10,
+        271
+      ],
+      "recipe": "broad",
+      "radius_weights": [
+        1.0,
+        1.5,
+        2.0,
+        1.0
+      ],
+      "temperature": 0.1,
+      "baseline_blend_specialist_weight": 0.0,
+      "specialist_validation": {
+        "samples": 785.0,
+        "mean_error_km": 176.08168029785156,
+        "median_error_km": 115.71287536621094,
+        "p90_error_km": 440.29644775390625,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 0.7299819043120195,
+        "within_25km": 0.12484076433121019,
+        "probability_mass_within_25km": 0.12035890527981842,
+        "within_50km": 0.24203821656050956,
+        "probability_mass_within_50km": 0.24229675596272104,
+        "within_100km": 0.4496815286624204,
+        "probability_mass_within_100km": 0.45261288304832364,
+        "within_200km": 0.6840764331210191,
+        "probability_mass_within_200km": 0.682483529030842,
+        "top3_within_100km": 0.5859872611464968,
+        "top3_within_200km": 0.7681528662420383,
+        "top5_within_100km": 0.6509554140127388,
+        "top5_within_200km": 0.824203821656051,
+        "broad_area_score": 0.5114847468967592,
+        "distance_soft_cross_entropy": 13.740601260963047
+      },
+      "specialist_development": {
+        "samples": 968.0,
+        "mean_error_km": 207.43292236328125,
+        "median_error_km": 180.68576049804688,
+        "p90_error_km": 409.6431579589844,
+        "candidate_oracle_mean_km": 34.845008850097656,
+        "mean_entropy": 0.6810054916163905,
+        "within_25km": 0.0506198347107438,
+        "probability_mass_within_25km": 0.04864594154477755,
+        "within_50km": 0.11983471074380166,
+        "probability_mass_within_50km": 0.1180805391714439,
+        "within_100km": 0.26859504132231404,
+        "probability_mass_within_100km": 0.26848347546271095,
+        "within_200km": 0.5464876033057852,
+        "probability_mass_within_200km": 0.5497836985397595,
+        "top3_within_100km": 0.4214876033057851,
+        "top3_within_200km": 0.6900826446280992,
+        "top5_within_100km": 0.5227272727272727,
+        "top5_within_200km": 0.765495867768595,
+        "broad_area_score": 0.34006066774136856,
+        "distance_soft_cross_entropy": 16.020035731041364
+      },
+      "blended_validation": {
+        "samples": 785.0,
+        "mean_error_km": 178.91854858398438,
+        "median_error_km": 106.70135498046875,
+        "p90_error_km": 450.9593505859375,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 0.5339560196280265,
+        "within_25km": 0.10445859872611465,
+        "probability_mass_within_25km": 0.10450165478605283,
+        "within_50km": 0.2356687898089172,
+        "probability_mass_within_50km": 0.23774802326033084,
+        "within_100km": 0.4789808917197452,
+        "probability_mass_within_100km": 0.477369800847775,
+        "within_200km": 0.6840764331210191,
+        "probability_mass_within_200km": 0.6801615471235424,
+        "top3_within_100km": 0.5694267515923567,
+        "top3_within_200km": 0.7515923566878981,
+        "top5_within_100km": 0.6471337579617834,
+        "top5_within_200km": 0.821656050955414,
+        "broad_area_score": 0.5273755088081823,
+        "distance_soft_cross_entropy": 16.750984413261133
+      },
+      "blended_development": {
+        "samples": 968.0,
+        "mean_error_km": 198.20706176757812,
+        "median_error_km": 172.02403259277344,
+        "p90_error_km": 398.9419860839844,
+        "candidate_oracle_mean_km": 34.845008850097656,
+        "mean_entropy": 0.5695814895811372,
+        "within_25km": 0.045454545454545456,
+        "probability_mass_within_25km": 0.04514569813064809,
+        "within_50km": 0.11673553719008264,
+        "probability_mass_within_50km": 0.11670700294404576,
+        "within_100km": 0.29958677685950413,
+        "probability_mass_within_100km": 0.2990754175971516,
+        "within_200km": 0.5826446280991735,
+        "probability_mass_within_200km": 0.5850504130466374,
+        "top3_within_100km": 0.4214876033057851,
+        "top3_within_200km": 0.6973140495867769,
+        "top5_within_100km": 0.5165289256198347,
+        "top5_within_200km": 0.7520661157024794,
+        "broad_area_score": 0.368588339147265,
+        "distance_soft_cross_entropy": 17.454627611181884
+      },
+      "top_reliefweb_raw_features_by_gain": [
+        {
+          "feature": "rw_mention_count_200km_hl90d",
+          "gain": 2532.2466735839844
+        },
+        {
+          "feature": "rw_mention_count_200km_hl7d",
+          "gain": 2254.3267045021057
+        },
+        {
+          "feature": "rw_mention_count_200km_hl30d",
+          "gain": 1854.6920981407166
+        },
+        {
+          "feature": "rw_mention_count_100km_recent14_minus_bg90",
+          "gain": 1671.2055611610413
+        },
+        {
+          "feature": "rw_mention_count_100km_hl7d",
+          "gain": 1380.0452647209167
+        },
+        {
+          "feature": "rw_mention_count_100km_hl90d",
+          "gain": 690.0291986465454
+        },
+        {
+          "feature": "rw_mention_count_25km_hl90d",
+          "gain": 546.4257650375366
+        },
+        {
+          "feature": "rw_mention_count_100km_hl30d",
+          "gain": 507.9310703277588
+        },
+        {
+          "feature": "rw_mention_count_50km_hl90d",
+          "gain": 331.31273651123047
+        },
+        {
+          "feature": "rw_mention_count_25km_hl7d",
+          "gain": 206.0862512588501
+        },
+        {
+          "feature": "rw_mention_count_50km_hl7d",
+          "gain": 165.7316198348999
+        },
+        {
+          "feature": "rw_mention_count_50km_hl30d",
+          "gain": 141.6427812576294
+        },
+        {
+          "feature": "rw_mention_count_25km_hl30d",
+          "gain": 34.75040054321289
+        }
+      ]
+    },
+    "content": {
+      "selected_channels": 91,
+      "candidate_dim": 151,
+      "row_feature_dim": 465,
+      "best_iterations": [
+        1,
+        1,
+        7,
+        240
+      ],
+      "recipe": "broad",
+      "radius_weights": [
+        1.0,
+        1.5,
+        2.0,
+        1.0
+      ],
+      "temperature": 0.1,
+      "baseline_blend_specialist_weight": 0.05,
+      "specialist_validation": {
+        "samples": 785.0,
+        "mean_error_km": 180.99490356445312,
+        "median_error_km": 121.48201751708984,
+        "p90_error_km": 435.8661804199219,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 0.8249929840517576,
+        "within_25km": 0.10828025477707007,
+        "probability_mass_within_25km": 0.10506313430655084,
+        "within_50km": 0.2229299363057325,
+        "probability_mass_within_50km": 0.21603625953371772,
+        "within_100km": 0.4445859872611465,
+        "probability_mass_within_100km": 0.4350652372368702,
+        "within_200km": 0.6713375796178344,
+        "probability_mass_within_200km": 0.6723176687796732,
+        "top3_within_100km": 0.5885350318471337,
+        "top3_within_200km": 0.7617834394904459,
+        "top5_within_100km": 0.6509554140127388,
+        "top5_within_200km": 0.8331210191082803,
+        "broad_area_score": 0.49929081551009863,
+        "distance_soft_cross_entropy": 13.104663736181958
+      },
+      "specialist_development": {
+        "samples": 968.0,
+        "mean_error_km": 206.79100036621094,
+        "median_error_km": 176.14727783203125,
+        "p90_error_km": 408.264404296875,
+        "candidate_oracle_mean_km": 34.845008850097656,
+        "mean_entropy": 0.6061379815887774,
+        "within_25km": 0.049586776859504134,
+        "probability_mass_within_25km": 0.049325531712445844,
+        "within_50km": 0.10847107438016529,
+        "probability_mass_within_50km": 0.10789850219191079,
+        "within_100km": 0.259297520661157,
+        "probability_mass_within_100km": 0.2580841818503448,
+        "within_200km": 0.5692148760330579,
+        "probability_mass_within_200km": 0.5659129623834934,
+        "top3_within_100km": 0.41838842975206614,
+        "top3_within_200km": 0.6942148760330579,
+        "top5_within_100km": 0.5237603305785123,
+        "top5_within_200km": 0.7727272727272727,
+        "broad_area_score": 0.33586236356876853,
+        "distance_soft_cross_entropy": 16.481995683290435
+      },
+      "blended_validation": {
+        "samples": 785.0,
+        "mean_error_km": 178.8748016357422,
+        "median_error_km": 106.70135498046875,
+        "p90_error_km": 450.9593505859375,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 0.6521544281931089,
+        "within_25km": 0.10445859872611465,
+        "probability_mass_within_25km": 0.10452972876207772,
+        "within_50km": 0.2356687898089172,
+        "probability_mass_within_50km": 0.2366624350740002,
+        "within_100km": 0.4789808917197452,
+        "probability_mass_within_100km": 0.4752545726672298,
+        "within_200km": 0.6840764331210191,
+        "probability_mass_within_200km": 0.6797693532063488,
+        "top3_within_100km": 0.5821656050955414,
+        "top3_within_200km": 0.7630573248407644,
+        "top5_within_100km": 0.6471337579617834,
+        "top5_within_200km": 0.821656050955414,
+        "broad_area_score": 0.5274075798757621,
+        "distance_soft_cross_entropy": 13.499027362894177
+      },
+      "blended_development": {
+        "samples": 968.0,
+        "mean_error_km": 198.29351806640625,
+        "median_error_km": 172.02403259277344,
+        "p90_error_km": 398.9419860839844,
+        "candidate_oracle_mean_km": 34.845008850097656,
+        "mean_entropy": 0.6856433572144726,
+        "within_25km": 0.045454545454545456,
+        "probability_mass_within_25km": 0.04535468980973798,
+        "within_50km": 0.11673553719008264,
+        "probability_mass_within_50km": 0.11626657790643902,
+        "within_100km": 0.29855371900826444,
+        "probability_mass_within_100km": 0.2970258558098113,
+        "within_200km": 0.5826446280991735,
+        "probability_mass_within_200km": 0.5840935405134803,
+        "top3_within_100km": 0.4256198347107438,
+        "top3_within_200km": 0.7117768595041323,
+        "top5_within_100km": 0.5289256198347108,
+        "top5_within_200km": 0.7727272727272727,
+        "broad_area_score": 0.3675279701204063,
+        "distance_soft_cross_entropy": 15.585718013619802
+      },
+      "top_reliefweb_raw_features_by_gain": [
+        {
+          "feature": "rw_log_harm_200km_hl90d",
+          "gain": 2249.293354988098
+        },
+        {
+          "feature": "rw_log_infrastructure_200km_hl7d",
+          "gain": 1248.2612857818604
+        },
+        {
+          "feature": "rw_log_mobilization_200km_hl7d",
+          "gain": 1146.7337913513184
+        },
+        {
+          "feature": "rw_log_territory_200km_hl7d",
+          "gain": 1071.5712099075317
+        },
+        {
+          "feature": "rw_log_attack_200km_hl90d",
+          "gain": 788.8673992156982
+        },
+        {
+          "feature": "rw_log_attack_200km_hl7d",
+          "gain": 786.4665012359619
+        },
+        {
+          "feature": "rw_log_attack_200km_hl30d",
+          "gain": 779.071798324585
+        },
+        {
+          "feature": "rw_log_displacement_100km_recent14_minus_bg90",
+          "gain": 774.0792446136475
+        },
+        {
+          "feature": "rw_log_infrastructure_25km_hl90d",
+          "gain": 771.2260131835938
+        },
+        {
+          "feature": "rw_log_peace_100km_hl90d",
+          "gain": 748.5900897979736
+        },
+        {
+          "feature": "rw_log_harm_200km_hl7d",
+          "gain": 711.2083864212036
+        },
+        {
+          "feature": "rw_log_peace_200km_hl7d",
+          "gain": 707.5425043106079
+        },
+        {
+          "feature": "rw_log_territory_200km_hl90d",
+          "gain": 707.0623998641968
+        },
+        {
+          "feature": "rw_log_territory_200km_hl30d",
+          "gain": 678.5876016616821
+        },
+        {
+          "feature": "rw_log_peace_200km_hl30d",
+          "gain": 635.7909231185913
+        },
+        {
+          "feature": "rw_log_infrastructure_100km_recent14_minus_bg90",
+          "gain": 619.7683658599854
+        },
+        {
+          "feature": "rw_log_infrastructure_200km_hl30d",
+          "gain": 599.7385940551758
+        },
+        {
+          "feature": "rw_log_displacement_200km_hl90d",
+          "gain": 582.1357202529907
+        },
+        {
+          "feature": "rw_log_peace_200km_hl90d",
+          "gain": 579.300407409668
+        },
+        {
+          "feature": "rw_log_displacement_200km_hl7d",
+          "gain": 576.8475999832153
+        }
+      ]
+    },
+    "full": {
+      "selected_channels": 104,
+      "candidate_dim": 164,
+      "row_feature_dim": 504,
+      "best_iterations": [
+        1,
+        2,
+        8,
+        258
+      ],
+      "recipe": "balanced",
+      "radius_weights": [
+        2.0,
+        1.5,
+        1.0,
+        0.5
+      ],
+      "temperature": 0.1,
+      "baseline_blend_specialist_weight": 0.0,
+      "specialist_validation": {
+        "samples": 785.0,
+        "mean_error_km": 181.4826202392578,
+        "median_error_km": 120.7767562866211,
+        "p90_error_km": 447.20819091796875,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 0.9038886499902601,
+        "within_25km": 0.12356687898089172,
+        "probability_mass_within_25km": 0.12434278283303866,
+        "within_50km": 0.2318471337579618,
+        "probability_mass_within_50km": 0.2273052372329506,
+        "within_100km": 0.43821656050955415,
+        "probability_mass_within_100km": 0.4327356134487901,
+        "within_200km": 0.6713375796178344,
+        "probability_mass_within_200km": 0.6668964586863932,
+        "top3_within_100km": 0.5859872611464968,
+        "top3_within_200km": 0.7745222929936306,
+        "top5_within_100km": 0.6700636942675159,
+        "top5_within_200km": 0.8509554140127389,
+        "broad_area_score": 0.495715089325196,
+        "distance_soft_cross_entropy": 13.226085227413417
+      },
+      "specialist_development": {
+        "samples": 968.0,
+        "mean_error_km": 209.2010498046875,
+        "median_error_km": 182.35516357421875,
+        "p90_error_km": 409.1353759765625,
+        "candidate_oracle_mean_km": 34.845008850097656,
+        "mean_entropy": 0.7662249272841454,
+        "within_25km": 0.05268595041322314,
+        "probability_mass_within_25km": 0.0520713638176341,
+        "within_50km": 0.11776859504132231,
+        "probability_mass_within_50km": 0.11575178144463973,
+        "within_100km": 0.25516528925619836,
+        "probability_mass_within_100km": 0.25617709959621066,
+        "within_200km": 0.5402892561983471,
+        "probability_mass_within_200km": 0.5422603052788196,
+        "top3_within_100km": 0.42458677685950413,
+        "top3_within_200km": 0.7004132231404959,
+        "top5_within_100km": 0.5526859504132231,
+        "top5_within_200km": 0.7923553719008265,
+        "broad_area_score": 0.33008293690805995,
+        "distance_soft_cross_entropy": 15.374260844680144
+      },
+      "blended_validation": {
+        "samples": 785.0,
+        "mean_error_km": 178.91854858398438,
+        "median_error_km": 106.70135498046875,
+        "p90_error_km": 450.9593505859375,
+        "candidate_oracle_mean_km": 36.53844451904297,
+        "mean_entropy": 0.5339560196280265,
+        "within_25km": 0.10445859872611465,
+        "probability_mass_within_25km": 0.10450165478605283,
+        "within_50km": 0.2356687898089172,
+        "probability_mass_within_50km": 0.23774802326033084,
+        "within_100km": 0.4789808917197452,
+        "probability_mass_within_100km": 0.477369800847775,
+        "within_200km": 0.6840764331210191,
+        "probability_mass_within_200km": 0.6801615471235424,
+        "top3_within_100km": 0.5694267515923567,
+        "top3_within_200km": 0.7515923566878981,
+        "top5_within_100km": 0.6471337579617834,
+        "top5_within_200km": 0.821656050955414,
+        "broad_area_score": 0.5273755088081823,
+        "distance_soft_cross_entropy": 16.750984413261133
+      },
+      "blended_development": {
+        "samples": 968.0,
+        "mean_error_km": 198.20706176757812,
+        "median_error_km": 172.02403259277344,
+        "p90_error_km": 398.9419860839844,
+        "candidate_oracle_mean_km": 34.845008850097656,
+        "mean_entropy": 0.5695814895811372,
+        "within_25km": 0.045454545454545456,
+        "probability_mass_within_25km": 0.04514569813064809,
+        "within_50km": 0.11673553719008264,
+        "probability_mass_within_50km": 0.11670700294404576,
+        "within_100km": 0.29958677685950413,
+        "probability_mass_within_100km": 0.2990754175971516,
+        "within_200km": 0.5826446280991735,
+        "probability_mass_within_200km": 0.5850504130466374,
+        "top3_within_100km": 0.4214876033057851,
+        "top3_within_200km": 0.6973140495867769,
+        "top5_within_100km": 0.5165289256198347,
+        "top5_within_200km": 0.7520661157024794,
+        "broad_area_score": 0.368588339147265,
+        "distance_soft_cross_entropy": 17.454627611181884
+      },
+      "top_reliefweb_raw_features_by_gain": [
+        {
+          "feature": "rw_log_peace_200km_hl7d",
+          "gain": 1296.4866971969604
+        },
+        {
+          "feature": "rw_log_infrastructure_200km_hl7d",
+          "gain": 1179.8831372261047
+        },
+        {
+          "feature": "rw_log_mobilization_200km_hl7d",
+          "gain": 1146.2098112106323
+        },
+        {
+          "feature": "rw_log_harm_200km_hl7d",
+          "gain": 993.9206295013428
+        },
+        {
+          "feature": "rw_log_territory_200km_hl7d",
+          "gain": 991.2990856170654
+        },
+        {
+          "feature": "rw_log_mobilization_200km_hl30d",
+          "gain": 871.861988067627
+        },
+        {
+          "feature": "rw_mention_count_200km_hl7d",
+          "gain": 814.5309934616089
+        },
+        {
+          "feature": "rw_mention_count_100km_hl7d",
+          "gain": 785.7358956336975
+        },
+        {
+          "feature": "rw_log_peace_200km_hl30d",
+          "gain": 777.3287000656128
+        },
+        {
+          "feature": "rw_mention_count_200km_hl30d",
+          "gain": 760.1358327865601
+        },
+        {
+          "feature": "rw_log_peace_200km_hl90d",
+          "gain": 719.3465204238892
+        },
+        {
+          "feature": "rw_mention_count_100km_recent14_minus_bg90",
+          "gain": 687.8477830886841
+        },
+        {
+          "feature": "rw_log_attack_200km_hl7d",
+          "gain": 662.9518957138062
+        },
+        {
+          "feature": "rw_log_infrastructure_100km_recent14_minus_bg90",
+          "gain": 661.8647909164429
+        },
+        {
+          "feature": "rw_log_harm_200km_hl30d",
+          "gain": 657.4445085525513
+        },
+        {
+          "feature": "rw_log_peace_100km_hl7d",
+          "gain": 630.9469423294067
+        },
+        {
+          "feature": "rw_log_territory_200km_hl30d",
+          "gain": 624.0265874862671
+        },
+        {
+          "feature": "rw_log_territory_200km_hl90d",
+          "gain": 621.1876029968262
+        },
+        {
+          "feature": "rw_log_displacement_100km_recent14_minus_bg90",
+          "gain": 618.3359336853027
+        },
+        {
+          "feature": "rw_log_harm_200km_hl90d",
+          "gain": 611.8125991821289
+        }
+      ]
+    }
+  }
+}

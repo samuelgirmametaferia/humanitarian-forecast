@@ -29,7 +29,7 @@ class ProductionConfig:
     base_version: str = "v3"
     ethiopia_version: str = "v5"
     location_version: str = "v10"
-    location_ethiopia_version: str = "v1"
+    location_ethiopia_version: str = "v10"
     base_epochs: int = 20
     ethiopia_epochs: int = 20
     candidate_epochs: int = 12
@@ -147,21 +147,20 @@ def build_plan(config: ProductionConfig) -> list[PipelineStep]:
                 "Fine-tune the international temporal-risk model on all Ethiopia rows",
             ),
             PipelineStep(
-                "location.rank.train.production",
+                "location.rank.calibrate.production",
                 (
-                    "--data", str(config.location_candidates),
                     "--output-dir", str(config.location_ethiopia_model_dir),
                     "--version", config.location_ethiopia_version,
                     "--resume", str(config.location_model_dir / "model.pt"),
-                    "--country-filter", "Ethiopia",
+                    "--country", "Ethiopia",
                     "--reference-model-dir", str(PATHS.models / "location" / "candidate_ranker" / "v9"),
-                    "--epochs", str(config.candidate_ethiopia_epochs),
-                    "--distance-weight", "0",
-                    "--center-weight", "50",
-                    "--temperature", "1.0",
+                    "--temperature", "0.8",
                     "--aggregation", "weighted_geometric_median",
+                    "--history-reference", "recent_8_mean",
+                    "--candidate-weight", "0.5",
+                    "--selected-on", "Ethiopia 70-85%: minimum mean error subject to no validation regression at <=50 km and <=100 km; frozen before final-15% check",
                 ),
-                "Fine-tune the all-data location model on every Ethiopia location example",
+                "Materialize Ethiopia-calibrated v10 from the all-data v9-lineage weights",
             ),
         ]
     )
@@ -194,7 +193,7 @@ def _check_version_targets(config: ProductionConfig, plan: list[PipelineStep]) -
         "Train the international temporal-risk model on every available row": config.base_model_dir,
         "Retrain the validated v9 location recipe on every available conflict label": config.location_model_dir,
         "Fine-tune the international temporal-risk model on all Ethiopia rows": config.ethiopia_model_dir,
-        "Fine-tune the all-data location model on every Ethiopia location example": config.location_ethiopia_model_dir,
+        "Materialize Ethiopia-calibrated v10 from the all-data v9-lineage weights": config.location_ethiopia_model_dir,
     }
     collisions = [target_by_label[step.label] for step in plan if step.label in target_by_label and (target_by_label[step.label] / "model.pt").exists()]
     if collisions:

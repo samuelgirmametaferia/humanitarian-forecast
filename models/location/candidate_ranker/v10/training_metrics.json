@@ -1,0 +1,15 @@
+{
+  "training_samples": 157932,
+  "available_global_samples": 157932,
+  "country_filter": null,
+  "identity_countries": 120,
+  "identity_conflicts": 1013,
+  "epochs": 12,
+  "final_training_loss": 11.432382200800642,
+  "distance_weight": 0.0,
+  "center_weight": 50.0,
+  "aggregation": "weighted_geometric_median",
+  "temperature": 1.0,
+  "held_out_evaluation": false,
+  "calibration_note": "Calibration does not affect training weights; global production uses validated v9 aggregation while Ethiopia has its own calibrated wrapper."
+}

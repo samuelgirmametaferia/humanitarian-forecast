@@ -1,0 +1,108 @@
+{
+  "artifacts": [
+    "metrics.json",
+    "probability_export.npz",
+    "v10_v9_ethiopia_adapter.pt"
+  ],
+  "calibration": {
+    "selection": "Ethiopia chronological validation distance-soft cross-entropy",
+    "temperature": 1.1722587435592535
+  },
+  "created_at": "2026-08-24T08:02:07.261555+00:00",
+  "description": "Conservative Ethiopia late-layer specialization initialized from validated v9 with 100 km distance-soft supervision and v9 distillation.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "dataset": "data/location/conflict_candidates_32_spatial_v5.npz",
+    "parent": "models/location/candidate_ranker/v9_phase1_ensemble_repro/v9_phase1.pt",
+    "validated_reference": "models/location/candidate_ranker/v9"
+  },
+  "metrics": {
+    "delta_vs_v9": {
+      "development_broad_area_score": 0.010062080782792138,
+      "development_distance_soft_ce": -0.02028229072382759,
+      "development_geomedian_mean_error_km": -0.492462158203125,
+      "development_mean_error_km": -6.3370819091796875,
+      "validation_broad_area_score": 0.008920689770209655,
+      "validation_distance_soft_ce": -0.028578434979914746,
+      "validation_mean_error_km": -4.7866973876953125
+    },
+    "development": {
+      "broad_area_score": 0.2803646981653001,
+      "candidate_oracle_mean_km": 34.845008850097656,
+      "distance_soft_cross_entropy": 3.2594051901375742,
+      "mean_entropy": 3.260097390293426,
+      "mean_error_km": 202.38645935058594,
+      "median_error_km": 180.2978973388672,
+      "p90_error_km": 393.460693359375,
+      "probability_mass_within_100km": 0.1935096692055861,
+      "probability_mass_within_200km": 0.43294669389956814,
+      "probability_mass_within_25km": 0.032250441810076795,
+      "probability_mass_within_50km": 0.08165197973862404,
+      "samples": 968.0,
+      "top3_within_100km": 0.4597107438016529,
+      "top3_within_200km": 0.7200413223140496,
+      "top5_within_100km": 0.5547520661157025,
+      "top5_within_200km": 0.7882231404958677,
+      "within_100km": 0.27582644628099173,
+      "within_200km": 0.5433884297520661,
+      "within_25km": 0.06301652892561983,
+      "within_50km": 0.13636363636363635
+    },
+    "development_point_geometric_median": {
+      "geomedian_mean_error_km": 178.95152282714844,
+      "geomedian_median_error_km": 156.0372772216797,
+      "geomedian_p90_error_km": 341.70184326171875,
+      "geomedian_within_100km": 0.30785122513771057,
+      "geomedian_within_25km": 0.020661156624555588,
+      "geomedian_within_50km": 0.09090909361839294,
+      "samples": 968
+    },
+    "validation": {
+      "broad_area_score": 0.3950295632782586,
+      "candidate_oracle_mean_km": 36.53844451904297,
+      "distance_soft_cross_entropy": 3.0844107360392274,
+      "mean_entropy": 3.081810020560445,
+      "mean_error_km": 190.1584930419922,
+      "median_error_km": 125.74310302734375,
+      "p90_error_km": 467.3856201171875,
+      "probability_mass_within_100km": 0.29972046468178726,
+      "probability_mass_within_200km": 0.5311713155864418,
+      "probability_mass_within_25km": 0.06090951025315812,
+      "probability_mass_within_50km": 0.13697300707496968,
+      "samples": 785.0,
+      "top3_within_100km": 0.6050955414012739,
+      "top3_within_200km": 0.7923566878980892,
+      "top5_within_100km": 0.6815286624203821,
+      "top5_within_200km": 0.8407643312101911,
+      "within_100km": 0.4229299363057325,
+      "within_200km": 0.6573248407643312,
+      "within_25km": 0.14140127388535031,
+      "within_50km": 0.2394904458598726
+    },
+    "validation_point_geometric_median": {
+      "geomedian_mean_error_km": 168.51861572265625,
+      "geomedian_median_error_km": 118.04850769042969,
+      "geomedian_p90_error_km": 385.02532958984375,
+      "geomedian_within_100km": 0.4063694179058075,
+      "geomedian_within_25km": 0.053503185510635376,
+      "geomedian_within_50km": 0.16815286874771118,
+      "samples": 785
+    }
+  },
+  "notes": [
+    "v9 is untouched.",
+    "Final historical block is development, not pristine test.",
+    "Requires rolling-origin/prospective confirmation before promotion."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/candidate_ranker_ethiopia",
+  "training": {
+    "distill_weight": 0.5,
+    "learning_rate": 0.0002,
+    "seed": 20260824,
+    "selected_epoch": 3,
+    "selected_trial": 2,
+    "train_rows": 916
+  },
+  "version": "v10_v9_adapter"
+}

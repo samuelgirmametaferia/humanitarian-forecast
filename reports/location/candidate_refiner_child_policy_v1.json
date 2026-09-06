@@ -1,0 +1,72 @@
+{
+  "policy": {
+    "cap_km": 75,
+    "alpha": 1.25,
+    "spawn_if_parent_probability_lte": 0.25,
+    "child_mass_fraction": 0.9
+  },
+  "global_baseline": {
+    "samples": 23690,
+    "mean_error_km": 237.955810546875,
+    "median_error_km": 60.41038513183594,
+    "p90_error_km": 530.9668579101562,
+    "within_25km": 0.3597298438159561,
+    "within_50km": 0.4640776699029126,
+    "within_100km": 0.5932883073026594,
+    "within_200km": 0.7281975517095821,
+    "probability_mass_within_25km": 0.3415856419823941,
+    "probability_mass_within_50km": 0.45061506887348957,
+    "probability_mass_within_100km": 0.5814645651118444,
+    "probability_mass_within_200km": 0.7198923267461316,
+    "top3_within_100km": 0.6798227100042212,
+    "broad_area_score": 0.6207594932565618
+  },
+  "global_child": {
+    "samples": 23690,
+    "mean_error_km": 236.1867218017578,
+    "median_error_km": 59.94026184082031,
+    "p90_error_km": 526.1280517578125,
+    "within_25km": 0.34356268467707896,
+    "within_50km": 0.4617138032925285,
+    "within_100km": 0.5963697762769101,
+    "within_200km": 0.7336850991979739,
+    "probability_mass_within_25km": 0.3286011420156882,
+    "probability_mass_within_50km": 0.450562102988963,
+    "probability_mass_within_100km": 0.5894813536917254,
+    "probability_mass_within_200km": 0.7286567962376125,
+    "top3_within_100km": 0.6769945124525116,
+    "broad_area_score": 0.6271010214647591
+  },
+  "ethiopia_baseline": {
+    "samples": 968,
+    "mean_error_km": 206.68252563476562,
+    "median_error_km": 179.60647583007812,
+    "p90_error_km": 406.8049011230469,
+    "within_25km": 0.049586776859504134,
+    "within_50km": 0.11570247933884298,
+    "within_100km": 0.2830578512396694,
+    "within_200km": 0.5464876033057852,
+    "probability_mass_within_25km": 0.04726110122097005,
+    "probability_mass_within_50km": 0.11075385060897515,
+    "probability_mass_within_100km": 0.25763897886494,
+    "probability_mass_within_200km": 0.5213788365469971,
+    "top3_within_100km": 0.4493801652892562,
+    "broad_area_score": 0.33337389989999244
+  },
+  "ethiopia_child": {
+    "samples": 968,
+    "mean_error_km": 202.17872619628906,
+    "median_error_km": 173.37179565429688,
+    "p90_error_km": 396.345947265625,
+    "within_25km": 0.04338842975206612,
+    "within_50km": 0.11570247933884298,
+    "within_100km": 0.2871900826446281,
+    "within_200km": 0.5568181818181818,
+    "probability_mass_within_25km": 0.04113836939289078,
+    "probability_mass_within_50km": 0.11188574664267166,
+    "probability_mass_within_100km": 0.2748424076187588,
+    "probability_mass_within_200km": 0.546204540627666,
+    "top3_within_100km": 0.4369834710743802,
+    "broad_area_score": 0.34718109181998275
+  }
+}
