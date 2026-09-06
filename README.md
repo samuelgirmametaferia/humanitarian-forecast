@@ -78,14 +78,15 @@ Ethiopia validation: within-20km 13.4% at top-1, **33.0% for the diverse
 5-zone emission set** (44.3% at 10 zones), median top-1 error 124.9 km.
 Development (untouched): 4.2% / 15.8% / 24.8%.
 
-Ablations that did **not** beat the v11 hard-label recipe and are kept only
+Ablations that did **not** beat the packaged v11 ensemble and are kept only
 as evaluation variants: distance-softened labels
 (`location.rank.train.soft`), an Ethiopia-only fine-tune
 (`location.rank.train.ethiopia_ft`), a two-stage shortlist cascade
-(`location.rank.train.cascade`, top-1 0.112 vs 0.134), and the 96-candidate
-v7 dataset (`location.candidates.build.v7` — oracle rises to 0.744 with
+(`location.rank.train.cascade`, top-1 0.112 vs 0.134), the 96-candidate v7
+dataset (`location.candidates.build.v7` — oracle rises to 0.744 with
 ReliefWeb mention-site candidates and Hawkes kernels, but ranking dilutes;
-realized accuracy matched, not beat, the 64-candidate ensemble).
+realized accuracy matched, not beat, the 64-candidate ensemble), and
+5-model seed ensembling (0.131/0.310 — no gain over the 2-model blend).
 
 Half of the remaining gap is data, not model: ~50% of Ethiopia validation
 targets are geolocated by UCDP to a named-place radius (`where_prec >= 2`),
