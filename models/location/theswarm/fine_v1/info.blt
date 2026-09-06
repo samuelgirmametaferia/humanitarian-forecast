@@ -1,0 +1,31 @@
+{
+  "model": "theswarm_fine_v1 (v11_spillover)",
+  "input": "64 cutoff-safe candidates (32 conflict-frequency sites + 32 recent cross-conflict event sites), 37 features incl. ReliefWeb mentions, UCDP windows, spillover activity, elevation/ruggedness",
+  "ethiopia_metrics": {
+    "validation": {
+      "samples": 785,
+      "within_20km_at_top1": 0.122,
+      "within_20km_at_top3": 0.246,
+      "within_20km_at_top5": 0.306,
+      "within_20km_at_top10": 0.4,
+      "median_error_km": 119.5,
+      "oracle_within_20km": 0.673,
+      "probability_mass_within_20km": 0.055
+    },
+    "development": {
+      "samples": 968,
+      "within_20km_at_top1": 0.049,
+      "within_20km_at_top3": 0.125,
+      "within_20km_at_top5": 0.161,
+      "within_20km_at_top10": 0.246,
+      "median_error_km": 195.8,
+      "oracle_within_20km": 0.553,
+      "probability_mass_within_20km": 0.025
+    }
+  },
+  "caveats": [
+    "oracle_within_20km is the coverage ceiling of the candidate pool, not model accuracy",
+    "roughly half of Ethiopia validation targets are geolocated by UCDP to a named-place radius (where_prec>=2), so 20 km hits on those rows are partly coordinate noise",
+    "Coarse humanitarian early-warning research signal, not a tactical coordinate forecast"
+  ]
+}

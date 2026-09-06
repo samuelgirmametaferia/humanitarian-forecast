@@ -43,6 +43,10 @@ _builtin("data.reliefweb.download", "humanitarian_forecast.data.download_reliefw
 _builtin("data.risk.build", "humanitarian_forecast.data.build_risk_datasets", "data", "Build aligned global and Ethiopia temporal-risk datasets.", True)
 _builtin("location.dataset.build", "humanitarian_forecast.data.build_next_location_dataset", "location", "Build next-event location histories.", True)
 _builtin("location.candidates.build", "humanitarian_forecast.data.build_candidate_rank_dataset", "location", "Build cutoff-safe historical location candidates and spatial features.", True)
+_builtin("location.candidates.build.v6", "humanitarian_forecast.data.build_candidate_rank_dataset_v6", "location", "Build 64-candidate dataset with spillover coverage, ReliefWeb mentions, and elevation features.", True)
+
+# --- Data pipeline helpers ------------------------------------------------
+_builtin("data.elevation.build", "humanitarian_forecast.data.build_elevation_grid", "data", "Fetch the Ethiopia terrain grid (elevation + ruggedness) from AWS terrain tiles.", True)
 
 # --- Risk ---------------------------------------------------------------
 _builtin("risk.train.production", "humanitarian_forecast.risk.production", "risk", "Train global or Ethiopia risk models on every available row.", True)
@@ -62,6 +66,12 @@ _builtin("location.swarm.predict", "humanitarian_forecast.location.inference.pre
 # --- Location: TheSwarm production mixture --------------------------------
 _builtin("location.theswarm.train", "humanitarian_forecast.location.ensemble.theswarm", "location", "Cross-fit-guarded production mixture: kernel experts, joint temperature/weight fit, regime gates.", True)
 _builtin("location.theswarm.predict", "humanitarian_forecast.location.inference.predict_theswarm", "inference", "Run TheSwarm and emit a coarse humanitarian early-warning zone.", True)
+
+# --- Location: TheSwarm fine-resolution candidate layer --------------------
+_builtin("location.theswarm.fine.package", "humanitarian_forecast.location.training.package_theswarm_fine", "location", "Package a v11-family candidate ranker as TheSwarm's 20 km multi-candidate fine layer.", True)
+_builtin("location.theswarm.fine.predict", "humanitarian_forecast.location.inference.predict_theswarm_fine", "inference", "Emit top-k candidate points with probabilities, 20 km advisory zones, and terrain context.", True)
+_builtin("location.rank.train.ethiopia_ft", "humanitarian_forecast.location.training.finetune_ethiopia_v11", "location", "Ethiopia-adapted fine-tune of the v11 spillover candidate ranker.")
+_builtin("location.rank.train.soft", "humanitarian_forecast.location.training.train_candidate_ranker_soft", "location", "Distance-softened-label candidate-ranker trainer (evaluation variant).")
 
 # --- Inference -----------------------------------------------------------
 _builtin("location.v10_prized.predict", "humanitarian_forecast.location.inference.predict_v10_prized", "inference", "Run v10-prized and emit only a coarse humanitarian early-warning zone.", True)

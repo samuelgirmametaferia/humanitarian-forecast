@@ -1,0 +1,20 @@
+{
+  "selected_epochs": 11,
+  "tau_km": 15.0,
+  "distance_weight": 2.0,
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 209.9582061767578,
+    "median_error_km": 64.80464935302734,
+    "within_25km": 0.3289995789527893,
+    "candidate_oracle_mean_km": 29.459213256835938
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 200.18292236328125,
+    "median_error_km": 60.69894027709961,
+    "within_25km": 0.3476150333881378,
+    "candidate_oracle_mean_km": 29.02084732055664
+  },
+  "protocol": "phase1 train70/validate15 soft-label selection; phase2 fresh train85/test15"
+}

@@ -53,6 +53,43 @@ Steps can be resumed or restricted with `--from-step` / `--through-step`; `workf
 | v10-prized | `models/location/candidate_ranker/v10_prized/` | packaged champion: global64 + Ethiopia32 support views, coarse humanitarian zone output |
 | swarm v1 | `models/location/swarm/v1/` | first validation-selected convex mixture (superseded by TheSwarm) |
 | TheSwarm v1 | `models/location/theswarm/v1/` | production mixture of experts — the verified optimum of the frozen expert pool |
+| TheSwarm fine v1 | `models/location/theswarm/fine_v1/` | 20 km-scale multi-candidate layer (v11 spillover ranker): top-k candidate points with probabilities, advisory zones, terrain context |
+
+### TheSwarm fine layer (20 km multi-candidate output)
+
+`models/location/theswarm/fine_v1/` answers the evacuation-scale question:
+which specific points, with what probabilities, should carry 20 km advisory
+zones. It is the v11 candidate ranker trained on the v6 dataset
+(`location.candidates.build.v6`), which doubles the candidate pool from 32
+conflict-frequency sites to 64 by adding the most recent cross-conflict
+event sites (spillover), and adds ReliefWeb mention counts, UCDP
+any-conflict activity windows, and per-candidate elevation/ruggedness from
+the AWS terrain grid (`data.elevation.build`).
+
+Coverage was the binding constraint at 20 km scale: the frequency-only pool
+put only 47.4% of Ethiopia validation truths within 20 km of *any*
+candidate; spillover candidates lift that oracle to 67.3% (55.3% on the
+untouched development block). Ranking then remains hard: Ethiopia
+validation within-20km is 12.2% at top-1, 24.6% at top-3, 30.6% at top-5,
+40.0% at top-10 (median top-1 error 119.5 km). Half of the remaining gap is
+data, not model: ~50% of Ethiopia validation targets are geolocated by UCDP
+to a named-place radius (`where_prec >= 2`), so 20 km hits on those rows
+are partly coordinate noise — a ceiling no ranker can train through.
+
+Ablations that did **not** beat the hard-label v11 recipe and are kept only
+as evaluation variants: distance-softened labels (`location.rank.train.soft`,
+worse w20 at every top-k despite better calibration), and an Ethiopia-only
+fine-tune (`location.rank.train.ethiopia_ft`).
+
+```bash
+.venv/bin/python main.py run location.theswarm.fine.predict -- --index -1
+```
+
+Output: ranked candidate points, each with probability, coordinates,
+distance from the last event, site type (frequency site vs recent event),
+days since the last event at that site, local elevation/ruggedness, and a
+20 km advisory radius. Research signal, not a tactical coordinate
+forecast.
 
 ### TheSwarm (production mixture-of-experts)
 

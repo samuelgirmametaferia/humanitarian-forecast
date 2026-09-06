@@ -1,0 +1,15 @@
+{
+  "base_epoch": 13,
+  "finetune_epoch": 2,
+  "ethiopia_validation": {
+    "median_km": 121.73179626464844,
+    "w20": 0.0993630588054657,
+    "w50": 0.2140127420425415
+  },
+  "ethiopia_development": {
+    "median_km": 196.2085723876953,
+    "w20": 0.050619833171367645,
+    "w50": 0.10743801295757294
+  },
+  "protocol": "global phase1 train70/validate15; ethiopia-only finetune selected on ethiopia validation; development untouched"
+}
