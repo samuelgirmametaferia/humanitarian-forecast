@@ -62,9 +62,8 @@ H3 r4 cell support over Ethiopia:
 - classical experts: `marked_hawkes`, `shape_analogue`, `reliefweb_spatial_specialist`
 - the candidate-ranker lineage projected onto the same support (v10_prized views)
 
-Weights are selected on chronological validation data only (broad-area soft
-cross-entropy against distance-soft targets), then reported on the final
-development block. The mixture is stored as a small JSON state file
+Weights and per-expert temperatures are selected on chronological validation
+data only (broad-area score), then reported on the final development block. The mixture is stored as a small JSON state file
 (`swarm.json`: expert references, temperatures, weights) so the planned
 3-day reinforcement loop can update it cheaply and statelessly.
 
@@ -75,6 +74,13 @@ development block. The mixture is stored as a small JSON state file
 
 Routing at inference: Ethiopia rows use the swarm; all other countries fall
 back to the v10-prized global64 view.
+
+Measured on the chronological validation block (all settings selected on
+validation only): broad-area score 0.511 and median cell error 120.7 km,
+versus 0.469 / 133.7 km for the previous best fixed ensemble and 0.508 for the
+strongest single expert; the final development block scores 0.344 broad-area
+(median 180.7 km), matching the best single expert there. Selected mixture:
+`reliefweb_full` 0.72 + `v10_prized_ethiopia32` 0.28.
 
 ## Project layout
 

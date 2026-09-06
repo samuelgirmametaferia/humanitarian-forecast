@@ -1,0 +1,89 @@
+{
+  "artifacts": [
+    "probabilities.npz",
+    "swarm.json"
+  ],
+  "calibration": {
+    "selection": "validation broad-area score for both per-expert temperature and convex weights",
+    "temperatures": {
+      "h3_memory": 0.3419951893353394,
+      "h3_scratch": 0.26743361672197163,
+      "h3_transfer": 0.1,
+      "marked_hawkes": 0.1,
+      "reliefweb_full": 0.12788040393997407,
+      "shape_analogue": 0.1,
+      "v10_prized_ethiopia32": 0.1,
+      "v9_ethiopia_calibrated": 0.1
+    },
+    "weights": {
+      "h3_memory": 0.0,
+      "h3_scratch": 0.0,
+      "h3_transfer": 0.0,
+      "marked_hawkes": 0.0,
+      "reliefweb_full": 0.7213329573539901,
+      "shape_analogue": 0.0,
+      "v10_prized_ethiopia32": 0.27866704264600994,
+      "v9_ethiopia_calibrated": 0.0
+    }
+  },
+  "created_at": "2026-09-06T10:23:18.723082+00:00",
+  "description": "Validation-selected convex swarm of frozen Ethiopia location experts on the shared H3 r4 support.",
+  "format": "humanitarian-forecast-model-info/v1",
+  "lineage": {
+    "experts": {
+      "h3_memory": "models/location/h3_lambdarank_memory/ethiopia_r4_v1/h3_memory_lambdarank_probabilities.npz",
+      "h3_scratch": "models/location/h3_lambdarank/ethiopia_r4_v1/h3_lambdarank_probabilities.npz",
+      "h3_transfer": "models/location/h3_lambdarank/ethiopia_r4_global_transfer_v1/h3_lambdarank_probabilities.npz",
+      "marked_hawkes": "models/location/marked_hawkes/ethiopia_v1/marked_hawkes_probabilities.npz",
+      "reliefweb_full": "models/location/reliefweb_spatial_specialist/full_v1/ethiopia_probabilities.npz",
+      "shape_analogue": "models/location/shape_analogue/ethiopia_v1/shape_analogue_probabilities.npz",
+      "v10_prized_ethiopia32": "models/location/candidate_ranker_ethiopia/v10_prized_adapted/model.pt",
+      "v9_ethiopia_calibrated": "models/location/candidate_ranker_ethiopia/v10/candidate_ranker_calibrated.pt"
+    }
+  },
+  "metrics": {
+    "development": {
+      "broad_area_score": 0.3442176870724341,
+      "mean_entropy": 0.48353848633967467,
+      "mean_error_km": 209.5287628173828,
+      "median_error_km": 180.70394897460938,
+      "p90_error_km": 415.5782775878906,
+      "probability_mass_within_100km": 0.2621031778333975,
+      "probability_mass_within_200km": 0.5519575888823107,
+      "probability_mass_within_25km": 0.06575914658733566,
+      "probability_mass_within_50km": 0.11972085866446015,
+      "samples": 968.0,
+      "top3_within_100km": 0.512396694214876,
+      "within_100km": 0.256198347107438,
+      "within_200km": 0.5475206611570248,
+      "within_25km": 0.06508264462809918,
+      "within_50km": 0.11466942148760331
+    },
+    "validation": {
+      "broad_area_score": 0.5110724854147157,
+      "mean_entropy": 0.4519459589319476,
+      "mean_error_km": 181.17137145996094,
+      "median_error_km": 120.65312957763672,
+      "p90_error_km": 443.9262390136719,
+      "probability_mass_within_100km": 0.44456585290325795,
+      "probability_mass_within_200km": 0.6757999621628676,
+      "probability_mass_within_25km": 0.11908059638846566,
+      "probability_mass_within_50km": 0.2356451673908442,
+      "samples": 785.0,
+      "top3_within_100km": 0.6471337579617834,
+      "within_100km": 0.4445859872611465,
+      "within_200km": 0.6751592356687898,
+      "within_25km": 0.11464968152866242,
+      "within_50km": 0.23439490445859873
+    }
+  },
+  "notes": [
+    "All experts share the 681-cell Ethiopia H3 r4 support; candidate-support experts are projected by nearest-cell mass assignment.",
+    "Development block is diagnostic, not a prospective test.",
+    "Ethiopia rows use the swarm; other countries route through the v10-prized global64 view."
+  ],
+  "status": "research-challenger",
+  "subsystem": "location/swarm",
+  "training": {},
+  "version": "v1"
+}

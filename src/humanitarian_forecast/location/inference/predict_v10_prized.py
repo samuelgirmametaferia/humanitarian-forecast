@@ -27,8 +27,8 @@ def _snap(value: float, step: float) -> float:
 
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--data32", type=Path, required=True)
-    p.add_argument("--data64", type=Path, required=True)
+    p.add_argument("--data32", type=Path, default=Path("data/location/conflict_candidates_32_spatial_v5.npz"))
+    p.add_argument("--data64", type=Path, default=Path("data/location/conflict_candidates_64_spatial_v10.npz"))
     p.add_argument("--checkpoint", type=Path, default=Path("models/location/candidate_ranker/v10_prized/model.pt"))
     p.add_argument("--index", type=int, default=-1)
     p.add_argument("--zone-degrees", type=float, default=0.25, help="Output grid size; defaults to ~25 km scale.")
