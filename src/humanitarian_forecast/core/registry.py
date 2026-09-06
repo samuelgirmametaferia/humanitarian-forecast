@@ -44,6 +44,7 @@ _builtin("data.risk.build", "humanitarian_forecast.data.build_risk_datasets", "d
 _builtin("location.dataset.build", "humanitarian_forecast.data.build_next_location_dataset", "location", "Build next-event location histories.", True)
 _builtin("location.candidates.build", "humanitarian_forecast.data.build_candidate_rank_dataset", "location", "Build cutoff-safe historical location candidates and spatial features.", True)
 _builtin("location.candidates.build.v6", "humanitarian_forecast.data.build_candidate_rank_dataset_v6", "location", "Build 64-candidate dataset with spillover coverage, ReliefWeb mentions, and elevation features.", True)
+_builtin("location.candidates.build.v7", "humanitarian_forecast.data.build_candidate_rank_dataset_v7", "location", "Build 96-candidate dataset adding ReliefWeb mention sites and Hawkes kernel features.", True)
 
 # --- Data pipeline helpers ------------------------------------------------
 _builtin("data.elevation.build", "humanitarian_forecast.data.build_elevation_grid", "data", "Fetch the Ethiopia terrain grid (elevation + ruggedness) from AWS terrain tiles.", True)
@@ -72,6 +73,8 @@ _builtin("location.theswarm.fine.package", "humanitarian_forecast.location.train
 _builtin("location.theswarm.fine.predict", "humanitarian_forecast.location.inference.predict_theswarm_fine", "inference", "Emit top-k candidate points with probabilities, 20 km advisory zones, and terrain context.", True)
 _builtin("location.rank.train.ethiopia_ft", "humanitarian_forecast.location.training.finetune_ethiopia_v11", "location", "Ethiopia-adapted fine-tune of the v11 spillover candidate ranker.")
 _builtin("location.rank.train.soft", "humanitarian_forecast.location.training.train_candidate_ranker_soft", "location", "Distance-softened-label candidate-ranker trainer (evaluation variant).")
+_builtin("location.rank.train.lambdarank", "humanitarian_forecast.location.training.train_candidate_ranker_lambdarank", "location", "LambdaRank listwise candidate-ranker trainer (evaluation variant).")
+_builtin("location.rank.train.cascade", "humanitarian_forecast.location.training.train_candidate_cascade", "location", "Two-stage cascade: stage-1 shortlist, stage-2 reranker (evaluation variant).")
 
 # --- Inference -----------------------------------------------------------
 _builtin("location.v10_prized.predict", "humanitarian_forecast.location.inference.predict_v10_prized", "inference", "Run v10-prized and emit only a coarse humanitarian early-warning zone.", True)

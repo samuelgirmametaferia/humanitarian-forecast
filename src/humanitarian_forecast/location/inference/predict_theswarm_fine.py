@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """Run TheSwarm fine-resolution candidate layer and emit evacuation zones.
 
-Loads the v11 spillover candidate ranker (64 cutoff-safe candidates: conflict
-frequency sites plus recent cross-conflict event sites, with ReliefWeb
-mention, UCDP activity, and terrain features) and emits the top-k candidates
-with calibrated probabilities, each carrying a 20 km-radius advisory zone,
-site recency, and local elevation/ruggedness for evacuation planning.
+Loads the packaged fine layer (an ensemble of v11-family candidate rankers
+over cutoff-safe candidates) and emits the top-k emission set with
+probabilities, 20 km-radius advisory zones, site recency, and local
+elevation/ruggedness for evacuation planning. The emission set is chosen
+greedily with a spatial-spread discount so advisory zones cover distinct
+areas instead of stacking on one cluster.
 
-Research signal, not a tactical coordinate forecast: candidate probabilities
-come from a chronological-split evaluation lineage and roughly one in eight
-Ethiopia validation truths lands within 20 km of the top-ranked candidate
-(within 20 km of at least one of the top five: ~three in eight).
+Research signal, not a tactical coordinate forecast.
 """
 from __future__ import annotations
 
@@ -30,12 +28,33 @@ WARNING = ("Coarse humanitarian early-warning research signal, not a tactical "
            "not uncertainty estimates.")
 
 
+def greedy_order(p, coords, k, spread_km):
+    picked = []
+    for _ in range(k):
+        best_j, best_s = -1, -1.0
+        for j in range(len(p)):
+            if p[j] <= 0 or j in picked:
+                continue
+            if picked:
+                dmin = min(math.hypot(coords[j][0] - coords[q][0], coords[j][1] - coords[q][1]) for q in picked)
+                s = p[j] * min(1.0, dmin / spread_km)
+            else:
+                s = p[j]
+            if s > best_s:
+                best_s, best_j = s, j
+        if best_j < 0:
+            break
+        picked.append(best_j)
+    rest = [j for j in np.argsort(-p) if j not in picked and p[j] > 0]
+    return (picked + rest)[:k]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=Path("data/location/conflict_candidates_64_spillover_v6.npz"))
-    parser.add_argument("--checkpoint", type=Path, default=Path("models/location/theswarm/fine_v1/model.pt"))
+    parser.add_argument("--checkpoint", type=Path, default=Path("models/location/theswarm/fine_v2/model.pt"))
     parser.add_argument("--index", type=int, default=-1, help="Row index into the history dataset; -1 = latest.")
-    parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--top-k", type=int, default=None, help="Override the packaged emission-set size.")
     parser.add_argument("--radius-km", type=float, default=20.0)
     args = parser.parse_args()
 
@@ -48,12 +67,11 @@ def main() -> None:
     m = meta[i]
 
     state = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-    countries = {str(k): int(v) for k, v in state["country_map"].items()} if "country_map" in state else None
-    conflicts = {str(k): int(v) for k, v in state["conflict_map"].items()} if "conflict_map" in state else None
-    if countries is None:
-        ve = int(.85 * n)
-        countries = {z: i + 1 for i, z in enumerate(sorted({mm["country"] for mm in meta[:ve]}))}
-        conflicts = {z: i + 1 for i, z in enumerate(sorted({mm["conflict_id"] for mm in meta[:ve]}))}
+    countries = {str(k): int(w) for k, w in state["country_map"].items()}
+    conflicts = {str(k): int(w) for k, w in state["conflict_map"].items()}
+    selection = state.get("selection", {"method": "plain", "spread_km": 30.0, "top_k": 5})
+    top_k = args.top_k or int(selection["top_k"])
+    spread_km = float(selection.get("spread_km", 30.0))
     country = countries.get(str(m["country"]), 0)
     conflict = conflicts.get(str(m["conflict_id"]), 0)
     unseen_identity = country == 0 or conflict == 0
@@ -63,18 +81,25 @@ def main() -> None:
     c = torch.from_numpy(data["candidate_coordinates"][i:i + 1]).float()
     v = torch.from_numpy(data["candidate_valid"][i:i + 1])
     device = torch.device("cpu")  # single-row inference; MPS hits a placeholder-storage bug at batch 1
-    cfg = state["model_config"]
-    model = ConflictCandidateRanker(cfg["event_dim"], cfg["candidate_dim"], cfg["sequence_length"],
-                                    cfg["countries"], cfg["conflicts"])
-    model.load_state_dict(state["model_state"])
-    model = model.to(device).eval()
-    with torch.no_grad():
-        logits = model(x.to(device), f.to(device), v.to(device),
-                       torch.tensor([country]), torch.tensor([conflict])).cpu()[0]
+
+    probs = np.zeros(c.shape[1])
+    for sub in state["models"]:
+        cfg = sub["model_config"]
+        model = ConflictCandidateRanker(cfg["event_dim"], cfg["candidate_dim"], cfg["sequence_length"],
+                                        cfg["countries"], cfg["conflicts"])
+        model.load_state_dict(sub["model_state"])
+        model = model.to(device).eval()
+        with torch.no_grad():
+            logits = model(x, f, v, torch.tensor([country]), torch.tensor([conflict]))[0]
+        probs += torch.where(v[0], logits.softmax(-1), torch.zeros(())).numpy()
+    probs /= len(state["models"])
     valid = v[0].numpy()
-    probs = torch.where(v[0], logits.softmax(-1), torch.zeros(())).numpy()
-    order = np.argsort(-probs)
-    order = [j for j in order if valid[j]][:args.top_k]
+
+    coords_km = c[0].numpy() * 1000.0
+    if selection.get("method") == "greedy_spread":
+        order = greedy_order(np.where(valid, probs, 0.0), coords_km, top_k, spread_km)
+    else:
+        order = [j for j in np.argsort(-probs) if valid[j]][:top_k]
 
     anchor_lat, anchor_lon = float(m["anchor_lat"]), float(m["anchor_lon"])
     feats = f[0].numpy()
@@ -82,7 +107,7 @@ def main() -> None:
     for rank, j in enumerate(order, 1):
         east, north = float(c[0, j, 0]), float(c[0, j, 1])
         lat = anchor_lat + north * 1000 / EARTH_KM
-        lon = anchor_lon + east * 1000 / (EARTH_KM * max(.1, math.cos(math.radians(anchor_lat))))
+        lon = anchor_lon + east * 1000 / (EARTH_KM * max(0.1, math.cos(math.radians(anchor_lat))))
         candidates.append({
             "rank": rank,
             "probability": round(float(probs[j]), 4),
@@ -102,10 +127,10 @@ def main() -> None:
         "conflict": m["conflict"],
         "observation_cutoff": cutoff,
         "forecast_horizon_days": int(m["gap_days"]),
-        "model": "theswarm_fine_v1 (v11 spillover candidate ranker)",
+        "model": "theswarm_fine_v2 (v11 ensemble, greedy zone selection)",
         "unseen_identity": unseen_identity,
         "candidates": candidates,
-        "combined_top_k_probability": round(float(sum(cc["probability"] for cc in candidates)), 4),
+        "combined_emission_probability": round(float(sum(cc["probability"] for cc in candidates)), 4),
         "warning": WARNING,
     }, indent=2))
 

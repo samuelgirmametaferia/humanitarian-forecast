@@ -1,0 +1,30 @@
+{
+  "results": {
+    "validation": {
+      "samples": 785,
+      "stage1_top1_w20": 0.101,
+      "cascade_top1_w20": 0.112,
+      "stage1_median_km": 120.9,
+      "cascade_median_km": 130.0,
+      "cascade_w20_at_top3": 0.211,
+      "cascade_w20_at_top5": 0.283,
+      "cascade_w20_at_top10": 0.383,
+      "shortlist_oracle_w20": 0.413
+    },
+    "development": {
+      "samples": 968,
+      "stage1_top1_w20": 0.048,
+      "cascade_top1_w20": 0.045,
+      "stage1_median_km": 188.4,
+      "cascade_median_km": 185.5,
+      "cascade_w20_at_top3": 0.117,
+      "cascade_w20_at_top5": 0.17,
+      "cascade_w20_at_top10": 0.258,
+      "shortlist_oracle_w20": 0.286
+    }
+  },
+  "shortlist": 12,
+  "fold_epochs": 8,
+  "stage2_epochs": 12,
+  "protocol": "stage1 0-70% (validation-selected); stage2 trained on out-of-fold stage-1 shortlists; development untouched"
+}

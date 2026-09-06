@@ -1,0 +1,20 @@
+{
+  "selected_epochs": 12,
+  "objective": "lambdarank",
+  "ce_weight": 0.3,
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 248.65708923339844,
+    "median_error_km": 84.07808685302734,
+    "within_25km": 0.2872520089149475,
+    "candidate_oracle_mean_km": 28.339502334594727
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 228.29747009277344,
+    "median_error_km": 78.10054016113281,
+    "within_25km": 0.30840015411376953,
+    "candidate_oracle_mean_km": 28.084918975830078
+  },
+  "protocol": "phase1 train70/validate15 lambdarank selection; phase2 fresh train85/test15"
+}

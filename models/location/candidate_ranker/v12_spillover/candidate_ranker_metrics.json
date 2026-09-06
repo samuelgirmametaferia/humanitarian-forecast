@@ -1,0 +1,24 @@
+{
+  "selected_epochs": 9,
+  "distance_weight": 2.0,
+  "center_weight": 0.0,
+  "prediction": "top_candidate",
+  "validation": {
+    "samples": 23690,
+    "mean_error_km": 208.39111328125,
+    "median_error_km": 67.48927307128906,
+    "p90_error_km": 480.5741271972656,
+    "within_25km": 0.3338961601257324,
+    "candidate_oracle_mean_km": 28.339502334594727
+  },
+  "untouched_test": {
+    "samples": 23690,
+    "mean_error_km": 201.93609619140625,
+    "median_error_km": 62.409393310546875,
+    "p90_error_km": 496.890625,
+    "within_25km": 0.3537357449531555,
+    "candidate_oracle_mean_km": 28.084918975830078
+  },
+  "protocol": "phase1 train70/validate15; phase2 fresh train85/test15",
+  "data_policy": "cutoff-safe candidates; Telegram excluded"
+}
