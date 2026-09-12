@@ -89,6 +89,38 @@ export function zonePointsGeoJson(data: ForecastSnapshot): GeoJsonCollection {
   }
 }
 
+export function populationDensityDotsGeoJson(data: ForecastSnapshot): GeoJsonCollection {
+  return {
+    type: 'FeatureCollection',
+    features: data.zones.flatMap((zone) => {
+      const density = zone.populationDensityPerKm2 ?? 0
+      if (density <= 0) return []
+      const dotCount = Math.max(4, Math.min(42, Math.round(Math.sqrt(density) * 1.45)))
+      const latitudeScale = Math.cos(zone.position.latitude * Math.PI / 180)
+      return Array.from({ length: dotCount }, (_, index) => {
+        // A deterministic sunflower layout reads as density without implying
+        // household-level precision.
+        const fraction = Math.sqrt((index + .5) / dotCount)
+        const angle = index * 2.399963229728653
+        const radiusKm = Math.min(zone.radiusKm, ADVISORY_RADIUS_KM) * .82 * fraction
+        const latitude = zone.position.latitude + Math.sin(angle) * radiusKm / 110.574
+        const longitude = zone.position.longitude + Math.cos(angle) * radiusKm / (111.32 * latitudeScale)
+        return {
+          type: 'Feature' as const,
+          id: `${zone.id}:population:${index}`,
+          properties: {
+            zoneId: zone.id,
+            label: zone.label,
+            density,
+            population: zone.populationEstimate ?? 0,
+          },
+          geometry: { type: 'Point' as const, coordinates: [longitude, latitude] as [number, number] },
+        }
+      })
+    }),
+  }
+}
+
 export function observationsGeoJson(data: ForecastSnapshot): GeoJsonCollection {
   return {
     type: 'FeatureCollection',

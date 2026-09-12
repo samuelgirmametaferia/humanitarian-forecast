@@ -5,11 +5,15 @@ import type { Map as MapLibreMap, MapLayerMouseEvent } from 'maplibre-gl'
 import type { ForecastSnapshot } from '../../contracts/forecast'
 import { useForecastStore } from '../../lib/store'
 import { FallbackMap, MapSwitch } from './FallbackMap'
-import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJson, observationsGeoJson, zonePointsGeoJson } from './geo'
+import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJson, observationsGeoJson, populationDensityDotsGeoJson, zonePointsGeoJson } from './geo'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 const TERRAIN_SOURCE = 'elevation-dem'
 const ETHIOPIA_VIEW = { center: [39.1, 9.6] as [number, number], zoom: 5.05, pitch: 58, bearing: -12 }
+
+// Keep this suffix in sync with scripts/copy-maplibre-worker.mjs. These files
+// cannot use stable names because Vercel serves /assets with immutable caching.
+maplibregl.setWorkerUrl('/assets/maplibre-gl-worker-hf3.mjs')
 
 const baseStyle: maplibregl.StyleSpecification = {
   version: 8,
@@ -18,16 +22,13 @@ const baseStyle: maplibregl.StyleSpecification = {
     regions: { type: 'geojson', data: '/ethiopia-regions.geojson' },
     [TERRAIN_SOURCE]: {
       type: 'raster-dem',
-      url: 'https://tiles.mapterhorn.com/tilejson.json',
+      tiles: ['/terrain/{z}/{x}/{y}.webp'],
       encoding: 'terrarium',
       tileSize: 512,
-      maxzoom: 8,
-      // Mapterhorn serves land DEM tiles only; unbounded, the opening world
-      // view asks for ocean tiles (e.g. 6/40/32) that 404. Limit the DEM to
-      // Ethiopia's bbox — terrain elsewhere renders flat, which is correct
-      // over ocean anyway.
-      bounds: [32.5, 3.0, 48.5, 15.2],
-      attribution: 'Elevation © Mapterhorn',
+      minzoom: 4,
+      maxzoom: 7,
+      bounds: [32.5, 3, 48.5, 15.2],
+      attribution: '<a href="https://mapterhorn.com/attribution">© Mapterhorn</a>',
     },
   },
   layers: [
@@ -79,6 +80,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   const setMapMode = useForecastStore((state) => state.setMapMode)
   const reducedMotion = useForecastStore((state) => state.reducedMotion)
   const visualDensity = useForecastStore((state) => state.visualDensity)
+  const populationDisplay = useForecastStore((state) => state.populationDisplay)
   const showLabels = useForecastStore((state) => state.showLabels)
   const selectedZoneId = useForecastStore((state) => state.selectedZoneId)
   const selectZone = useForecastStore((state) => state.setSelectedZone)
@@ -99,23 +101,30 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
     const map = new maplibregl.Map({
       container: container.current,
       style: import.meta.env.VITE_MAP_STYLE_URL || baseStyle,
-      center: reducedMotion ? ETHIOPIA_VIEW.center : [18, 5],
-      zoom: reducedMotion ? ETHIOPIA_VIEW.zoom : 1.15,
-      pitch: reducedMotion ? ETHIOPIA_VIEW.pitch : 0,
-      bearing: reducedMotion ? ETHIOPIA_VIEW.bearing : 0,
+      // Start at the useful camera position. Flying a terrain-enabled map
+      // from a low zoom can leave the camera on the horizon before its DEM
+      // tiles finish loading, with no forecast geometry in view.
+      center: ETHIOPIA_VIEW.center,
+      zoom: ETHIOPIA_VIEW.zoom,
+      pitch: ETHIOPIA_VIEW.pitch,
+      bearing: ETHIOPIA_VIEW.bearing,
       attributionControl: false,
     })
     mapRef.current = map
     map.on('style.load', () => {
       map.setProjection({ type: 'globe' })
-      if (map.getSource(TERRAIN_SOURCE)) map.setTerrain({ source: TERRAIN_SOURCE, exaggeration: 1.35 })
+      if (map.getSource(TERRAIN_SOURCE) && useForecastStore.getState().layers.terrain) {
+        map.setTerrain({ source: TERRAIN_SOURCE, exaggeration: 1.35 })
+      }
       map.addSource('forecast-zones', { type: 'geojson', data: forecastGeoJson(data), promoteId: 'id' })
       map.addSource('gaussian-zones', { type: 'geojson', data: forecastGaussianGeoJson(data) })
       map.addSource('zone-points', { type: 'geojson', data: zonePointsGeoJson(data), promoteId: 'id' })
       map.addSource('observations', { type: 'geojson', data: observationsGeoJson(data), cluster: true, clusterRadius: 30, clusterMaxZoom: 9 })
       map.addSource('motion', { type: 'geojson', data: motionGeoJson(data), lineMetrics: true })
       map.addSource('exposure', { type: 'geojson', data: exposureGeoJson(data) })
+      map.addSource('population-density-dots', { type: 'geojson', data: populationDensityDotsGeoJson(data) })
       map.addSource('cities', { type: 'geojson', data: '/ethiopia-cities.geojson', attribution: 'Cities © OpenStreetMap contributors, ODbL' })
+      const initialPopulationDisplay = useForecastStore.getState().populationDisplay
       map.addLayer({
         id: 'exposure-bands', type: 'fill', source: 'exposure',
         paint: {
@@ -123,7 +132,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
           'fill-opacity': .62,
           'fill-outline-color': 'rgba(255,255,255,.42)',
         },
-        layout: { visibility: useForecastStore.getState().layers.exposure ? 'visible' : 'none' },
+        layout: { visibility: useForecastStore.getState().layers.exposure && initialPopulationDisplay === 'heatmap' ? 'visible' : 'none' },
       })
       map.addLayer({
         id: 'city-population-heat', type: 'heatmap', source: 'cities', maxzoom: 8,
@@ -134,6 +143,20 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
           'heatmap-opacity': .46,
           'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(11,30,34,0)', .25, 'rgba(46,147,133,.34)', .55, 'rgba(232,196,84,.62)', 1, 'rgba(255,105,64,.9)'],
         },
+        layout: { visibility: useForecastStore.getState().layers.exposure && initialPopulationDisplay === 'heatmap' ? 'visible' : 'none' },
+      })
+      map.addLayer({
+        id: 'population-density-dots', type: 'circle', source: 'population-density-dots',
+        paint: {
+          'circle-radius': ['interpolate', ['linear'], ['get', 'density'], 0, 2.2, 200, 3.2, 800, 4.6],
+          'circle-color': ['interpolate', ['linear'], ['get', 'density'], 0, '#2e9385', 200, '#e8c454', 800, '#ff6940'],
+          'circle-opacity': .9,
+          'circle-stroke-color': 'rgba(7,24,32,.9)',
+          'circle-stroke-width': .8,
+          'circle-pitch-alignment': 'map',
+          'circle-pitch-scale': 'map',
+        },
+        layout: { visibility: useForecastStore.getState().layers.exposure && initialPopulationDisplay === 'dots' ? 'visible' : 'none' },
       })
       map.addLayer({
         id: 'probability-relief', type: 'fill-extrusion', source: 'gaussian-zones',
@@ -244,7 +267,6 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       })
       window.requestAnimationFrame(() => {
         map.resize()
-        if (!reducedMotion) map.flyTo({ ...ETHIOPIA_VIEW, duration: 3000, curve: 1.3, essential: true })
       })
     })
     const cameraFallback = window.setTimeout(() => {
@@ -272,8 +294,9 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       ['uncertainty-outline', layers.uncertainty],
       ['observed-events', layers.observations],
       ['source-signals', layers.signals],
-      ['exposure-bands', layers.exposure],
-      ['city-population-heat', layers.exposure],
+      ['exposure-bands', layers.exposure && populationDisplay === 'heatmap'],
+      ['city-population-heat', layers.exposure && populationDisplay === 'heatmap'],
+      ['population-density-dots', layers.exposure && populationDisplay === 'dots'],
       ['motion-traces', layers.motion],
       ['zone-labels', layers.places && showLabels],
       ['city-points', layers.places],
@@ -283,7 +306,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       ['countries-line', layers.administrative],
     ]
     for (const [id, visible] of visibility) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none')
-  }, [layers, showLabels])
+  }, [layers, populationDisplay, showLabels])
 
   useEffect(() => {
     const map = mapRef.current
@@ -309,7 +332,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   if (mapMode === 'accessible' || !globeAvailable) return <FallbackMap data={data} globeAvailable={globeAvailable} />
   return (
     <div className="map-canvas-wrap">
-      <div ref={container} className="map-canvas" role="application" aria-label="Interactive globe centered on Ethiopia. Use View data for a keyboard-accessible table." />
+      <div ref={container} className="map-canvas" role="application" aria-label="Interactive 3D globe centered on Ethiopia. Use View data for a keyboard-accessible table." />
       <button type="button" className="map-focus" onClick={() => focusEthiopia()} aria-label="Focus map on Ethiopia"><LocateFixed aria-hidden="true" /><span>Focus Ethiopia</span></button>
       <MapSwitch mode="globe" globeAvailable={globeAvailable} onGlobe={() => setMapMode('globe')} onAccessible={() => setMapMode('accessible')} />
     </div>
