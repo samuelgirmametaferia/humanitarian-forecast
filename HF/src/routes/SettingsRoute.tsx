@@ -1,6 +1,6 @@
 import { ContentRoute } from './ContentRoute'
 import { useNavigate } from 'react-router-dom'
-import { useForecastStore, type InformationDensity, type MapMode, type PopulationDisplay, type ThemePreference, type VisualDensity } from '../lib/store'
+import { useForecastStore, type InformationDensity, type MapMode, type ThemePreference, type VisualDensity } from '../lib/store'
 
 export function SettingsRoute() {
   const store = useForecastStore()
@@ -14,7 +14,7 @@ export function SettingsRoute() {
     <section className="settings-section"><h2>Map</h2>
       <SettingSelect label="Default map" value={store.mapMode} onChange={(value) => store.setMapMode(value as MapMode)} options={[['globe', '3D Globe'], ['accessible', 'Accessible Map']]} />
       <SettingToggle label="Zone labels" checked={store.showLabels} onChange={store.setShowLabels} />
-      <SettingSelect label="Population display" value={store.populationDisplay} onChange={(value) => store.setPopulationDisplay(value as PopulationDisplay)} options={[['dots', 'Density dots'], ['heatmap', 'Heatmap']]} />
+      <SettingToggle label="Population density dots" checked={store.layers.populationDots} onChange={() => store.toggleLayer('populationDots')} />
       <SettingSelect label="Visualization density" value={store.visualDensity} onChange={(value) => store.setVisualDensity(value as VisualDensity)} options={[['standard', 'Standard'], ['reduced', 'Reduced']]} />
     </section>
     <section className="settings-section"><h2>Guide</h2><p>Replay the short introduction to HF and its map.</p><button className="settings-action" type="button" onClick={() => { store.startTutorial(); void navigate('/') }}>Replay tutorial</button></section>

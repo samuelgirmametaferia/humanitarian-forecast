@@ -94,4 +94,4 @@ export const projectHistorySchema = z.object({
 export type Health = z.infer<typeof healthSchema>
 export type ProjectHistory = z.infer<typeof projectHistorySchema>
 export type ProjectHistoryEvent = z.infer<typeof historyEventSchema>
-export type LayerId = 'probability' | 'uncertainty' | 'observations' | 'signals' | 'terrain' | 'exposure' | 'motion' | 'places' | 'administrative'
+export type LayerId = 'probability' | 'uncertainty' | 'observations' | 'signals' | 'terrain' | 'exposure' | 'populationDots' | 'motion' | 'places' | 'administrative'

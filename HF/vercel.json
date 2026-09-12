@@ -10,6 +10,7 @@
     }
   },
   "rewrites": [
+    { "source": "/elevation/:z/:x/:y.webp", "destination": "https://tiles.mapterhorn.com/:z/:x/:y.webp" },
     { "source": "/api/(.*)", "destination": "/api/index.py" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
@@ -26,6 +27,7 @@
         { "key": "X-Frame-Options", "value": "DENY" }
       ]
     },
+    { "source": "/elevation/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400" }] },
     { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
   ],
   "crons": [{ "path": "/api/v1/learn/reconcile", "schedule": "17 6 * * *" }]

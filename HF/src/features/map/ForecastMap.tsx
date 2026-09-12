@@ -9,26 +9,35 @@ import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJso
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 const TERRAIN_SOURCE = 'elevation-dem'
+const HILLSHADE_SOURCE = 'elevation-hillshade'
 const ETHIOPIA_VIEW = { center: [39.1, 9.6] as [number, number], zoom: 5.05, pitch: 58, bearing: -12 }
 
 // Keep this suffix in sync with scripts/copy-maplibre-worker.mjs. These files
 // cannot use stable names because Vercel serves /assets with immutable caching.
-maplibregl.setWorkerUrl('/assets/maplibre-gl-worker-hf3.mjs')
+if (import.meta.env.PROD) maplibregl.setWorkerUrl('/assets/maplibre-gl-worker-hf3.mjs')
 
 const baseStyle: maplibregl.StyleSpecification = {
   version: 8,
+  projection: { type: 'globe' },
   sources: {
     countries: { type: 'geojson', data: '/horn-context.geojson' },
     regions: { type: 'geojson', data: '/ethiopia-regions.geojson' },
     [TERRAIN_SOURCE]: {
       type: 'raster-dem',
-      tiles: ['/terrain/{z}/{x}/{y}.webp'],
+      tiles: ['/elevation/{z}/{x}/{y}.webp'],
       encoding: 'terrarium',
       tileSize: 512,
-      minzoom: 4,
-      maxzoom: 7,
-      bounds: [32.5, 3, 48.5, 15.2],
+      minzoom: 0,
+      maxzoom: 12,
       attribution: '<a href="https://mapterhorn.com/attribution">© Mapterhorn</a>',
+    },
+    [HILLSHADE_SOURCE]: {
+      type: 'raster-dem',
+      tiles: ['/elevation/{z}/{x}/{y}.webp'],
+      encoding: 'terrarium',
+      tileSize: 512,
+      minzoom: 0,
+      maxzoom: 12,
     },
   },
   layers: [
@@ -47,7 +56,7 @@ const baseStyle: maplibregl.StyleSpecification = {
         'ET-SN', '#697747', 'ET-SO', '#776f48', 'ET-TI', '#566f50', '#476b54'],
       'fill-opacity': .54,
     } },
-    { id: 'terrain-hillshade', type: 'hillshade', source: TERRAIN_SOURCE, paint: {
+    { id: 'terrain-hillshade', type: 'hillshade', source: HILLSHADE_SOURCE, paint: {
       'hillshade-shadow-color': '#071820', 'hillshade-highlight-color': '#e9d9a7',
       'hillshade-accent-color': '#8d6c42', 'hillshade-exaggeration': .48,
     } },
@@ -58,6 +67,7 @@ const baseStyle: maplibregl.StyleSpecification = {
       'line-width': ['case', ['==', ['get', 'shapeGroup'], 'ETH'], 2.4, 1],
     } },
   ],
+  terrain: { source: TERRAIN_SOURCE, exaggeration: 1.35 },
   sky: { 'sky-color': '#071820', 'horizon-color': '#28494b', 'fog-color': '#101d1b', 'sky-horizon-blend': 0.72, 'horizon-fog-blend': 0.76, 'fog-ground-blend': 0.5 },
 }
 
@@ -80,7 +90,6 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   const setMapMode = useForecastStore((state) => state.setMapMode)
   const reducedMotion = useForecastStore((state) => state.reducedMotion)
   const visualDensity = useForecastStore((state) => state.visualDensity)
-  const populationDisplay = useForecastStore((state) => state.populationDisplay)
   const showLabels = useForecastStore((state) => state.showLabels)
   const selectedZoneId = useForecastStore((state) => state.selectedZoneId)
   const selectZone = useForecastStore((state) => state.setSelectedZone)
@@ -108,14 +117,11 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       zoom: ETHIOPIA_VIEW.zoom,
       pitch: ETHIOPIA_VIEW.pitch,
       bearing: ETHIOPIA_VIEW.bearing,
+      maxPitch: 85,
       attributionControl: false,
     })
     mapRef.current = map
     map.on('style.load', () => {
-      map.setProjection({ type: 'globe' })
-      if (map.getSource(TERRAIN_SOURCE) && useForecastStore.getState().layers.terrain) {
-        map.setTerrain({ source: TERRAIN_SOURCE, exaggeration: 1.35 })
-      }
       map.addSource('forecast-zones', { type: 'geojson', data: forecastGeoJson(data), promoteId: 'id' })
       map.addSource('gaussian-zones', { type: 'geojson', data: forecastGaussianGeoJson(data) })
       map.addSource('zone-points', { type: 'geojson', data: zonePointsGeoJson(data), promoteId: 'id' })
@@ -124,7 +130,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       map.addSource('exposure', { type: 'geojson', data: exposureGeoJson(data) })
       map.addSource('population-density-dots', { type: 'geojson', data: populationDensityDotsGeoJson(data) })
       map.addSource('cities', { type: 'geojson', data: '/ethiopia-cities.geojson', attribution: 'Cities © OpenStreetMap contributors, ODbL' })
-      const initialPopulationDisplay = useForecastStore.getState().populationDisplay
+      const initialLayers = useForecastStore.getState().layers
       map.addLayer({
         id: 'exposure-bands', type: 'fill', source: 'exposure',
         paint: {
@@ -132,7 +138,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
           'fill-opacity': .62,
           'fill-outline-color': 'rgba(255,255,255,.42)',
         },
-        layout: { visibility: useForecastStore.getState().layers.exposure && initialPopulationDisplay === 'heatmap' ? 'visible' : 'none' },
+        layout: { visibility: initialLayers.exposure ? 'visible' : 'none' },
       })
       map.addLayer({
         id: 'city-population-heat', type: 'heatmap', source: 'cities', maxzoom: 8,
@@ -143,7 +149,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
           'heatmap-opacity': .46,
           'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(11,30,34,0)', .25, 'rgba(46,147,133,.34)', .55, 'rgba(232,196,84,.62)', 1, 'rgba(255,105,64,.9)'],
         },
-        layout: { visibility: useForecastStore.getState().layers.exposure && initialPopulationDisplay === 'heatmap' ? 'visible' : 'none' },
+        layout: { visibility: initialLayers.exposure ? 'visible' : 'none' },
       })
       map.addLayer({
         id: 'population-density-dots', type: 'circle', source: 'population-density-dots',
@@ -154,9 +160,23 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
           'circle-stroke-color': 'rgba(7,24,32,.9)',
           'circle-stroke-width': .8,
           'circle-pitch-alignment': 'map',
-          'circle-pitch-scale': 'map',
+          'circle-pitch-scale': 'viewport',
         },
-        layout: { visibility: useForecastStore.getState().layers.exposure && initialPopulationDisplay === 'dots' ? 'visible' : 'none' },
+        layout: { visibility: initialLayers.populationDots ? 'visible' : 'none' },
+      })
+      map.addLayer({
+        id: 'population-city-dots', type: 'circle', source: 'cities', minzoom: 0,
+        paint: {
+          'circle-radius': ['interpolate', ['linear'], ['coalesce', ['get', 'population'], 10000], 0, 3, 100000, 5, 500000, 8, 3500000, 13],
+          'circle-color': ['interpolate', ['linear'], ['coalesce', ['get', 'population'], 10000], 0, '#49e6d0', 150000, '#f5d95f', 1000000, '#ff4f87'],
+          'circle-opacity': .94,
+          'circle-blur': .08,
+          'circle-stroke-color': '#fff6d6',
+          'circle-stroke-width': 1.2,
+          'circle-pitch-alignment': 'map',
+          'circle-pitch-scale': 'viewport',
+        },
+        layout: { visibility: initialLayers.populationDots ? 'visible' : 'none' },
       })
       map.addLayer({
         id: 'probability-relief', type: 'fill-extrusion', source: 'gaussian-zones',
@@ -234,6 +254,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       })
       map.addLayer({
         id: 'city-points', type: 'circle', source: 'cities', minzoom: 4,
+        layout: { visibility: initialLayers.places && !initialLayers.populationDots ? 'visible' : 'none' },
         paint: {
           'circle-radius': ['interpolate', ['linear'], ['coalesce', ['get', 'population'], 15000], 0, 2.5, 100000, 4.5, 500000, 7, 3500000, 12],
           'circle-color': '#f4df9a', 'circle-opacity': .9,
@@ -267,10 +288,16 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       })
       window.requestAnimationFrame(() => {
         map.resize()
+        map.jumpTo(ETHIOPIA_VIEW)
       })
     })
+    map.once('idle', () => {
+      map.resize()
+      map.jumpTo(ETHIOPIA_VIEW)
+    })
     const cameraFallback = window.setTimeout(() => {
-      if (map.getZoom() < 4) map.jumpTo(ETHIOPIA_VIEW)
+      map.resize()
+      map.jumpTo(ETHIOPIA_VIEW)
     }, 3800)
     map.on('webglcontextlost', () => { setGlobeAvailable(false); setMapMode('accessible') })
     map.addControl(new maplibregl.NavigationControl({ showCompass: true, visualizePitch: true }), 'top-right')
@@ -294,19 +321,20 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       ['uncertainty-outline', layers.uncertainty],
       ['observed-events', layers.observations],
       ['source-signals', layers.signals],
-      ['exposure-bands', layers.exposure && populationDisplay === 'heatmap'],
-      ['city-population-heat', layers.exposure && populationDisplay === 'heatmap'],
-      ['population-density-dots', layers.exposure && populationDisplay === 'dots'],
+      ['exposure-bands', layers.exposure],
+      ['city-population-heat', layers.exposure],
+      ['population-density-dots', layers.populationDots],
+      ['population-city-dots', layers.populationDots],
       ['motion-traces', layers.motion],
       ['zone-labels', layers.places && showLabels],
-      ['city-points', layers.places],
+      ['city-points', layers.places && !layers.populationDots],
       ['city-labels', layers.places && showLabels],
       ['regional-fill', layers.administrative],
       ['regional-line', layers.administrative],
       ['countries-line', layers.administrative],
     ]
     for (const [id, visible] of visibility) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none')
-  }, [layers, populationDisplay, showLabels])
+  }, [layers, showLabels])
 
   useEffect(() => {
     const map = mapRef.current

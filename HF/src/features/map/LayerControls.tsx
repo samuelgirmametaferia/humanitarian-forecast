@@ -7,7 +7,8 @@ const labels: Record<LayerId, string> = {
   observations: 'Observed events',
   signals: 'Source signals',
   terrain: 'Terrain',
-  exposure: 'Population density',
+  exposure: 'Population heatmap',
+  populationDots: 'Population dots',
   motion: 'Signal motion',
   places: 'Cities & forecast sites',
   administrative: 'Boundaries',
@@ -15,7 +16,6 @@ const labels: Record<LayerId, string> = {
 
 export function LayerControls() {
   const layers = useForecastStore((state) => state.layers)
-  const populationDisplay = useForecastStore((state) => state.populationDisplay)
   const toggle = useForecastStore((state) => state.toggleLayer)
   const layerIds = Object.keys(labels) as LayerId[]
   return <section className="layer-panel" aria-labelledby="layer-title" data-tour="layers">
@@ -23,6 +23,6 @@ export function LayerControls() {
     <div className="layer-list">{layerIds.map((id) => <label key={id} className={`layer-control layer-${id}`}>
       <input type="checkbox" checked={layers[id]} onChange={() => toggle(id)} /><span className="layer-symbol" aria-hidden="true" /><strong>{labels[id]}</strong>
     </label>)}</div>
-    {layers.exposure && <div className="population-key" aria-label="Population map legend"><span>Population density · {populationDisplay}</span><div className="population-ramp" aria-hidden="true" /><small>lower density</small><small>higher density</small><p>{populationDisplay === 'dots' ? 'More dots indicate higher density within each forecast zone.' : 'Surface color and city heat show relative population concentration.'}</p></div>}
+    {(layers.exposure || layers.populationDots) && <div className="population-key" aria-label="Population map legend"><span>Population density</span><div className="population-ramp" aria-hidden="true" /><small>lower density</small><small>higher density</small><p>{layers.populationDots ? 'Bright dot clusters scale with city population; WorldPop zone dots appear when density estimates are published.' : 'The heatmap shows relative population concentration.'}</p></div>}
   </section>
 }

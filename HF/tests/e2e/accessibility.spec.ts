@@ -56,15 +56,39 @@ test('map mode is keyboard accessible and persisted', async ({ page }) => {
   await expect(page.getByRole('button', { name: '3D Globe' })).toHaveAttribute('aria-pressed', 'true')
 })
 
+test('3D globe loads continuous elevation and population dots', async ({ page }) => {
+  const terrainResponses: { url: string; status: number; contentType: string }[] = []
+  page.on('response', (response) => {
+    if (response.url().includes('/elevation/')) terrainResponses.push({
+      url: response.url(),
+      status: response.status(),
+      contentType: response.headers()['content-type'] ?? '',
+    })
+  })
+  await page.goto('/')
+  await expect(page.getByRole('application', { name: /Interactive 3D globe/ })).toBeVisible()
+  await expect(page.getByLabel('Terrain')).toBeChecked()
+  await expect(page.getByLabel('Population dots')).toBeChecked()
+  await expect.poll(() => terrainResponses.length).toBeGreaterThan(0)
+  await page.waitForTimeout(4200)
+  expect(terrainResponses.every((response) => response.status === 200 && response.contentType.startsWith('image/webp'))).toBe(true)
+  await page.screenshot({ path: 'test-results/browser/globe-terrain-density.png' })
+  await page.getByRole('button', { name: 'Zoom out' }).click()
+  await page.getByRole('button', { name: 'Zoom out' }).click()
+  await page.waitForTimeout(1800)
+  expect(terrainResponses.every((response) => response.status === 200 && response.contentType.startsWith('image/webp'))).toBe(true)
+  await page.screenshot({ path: 'test-results/browser/globe-terrain-wide.png' })
+})
+
 test('settings persist and legal documents open in new tabs', async ({ page, context }) => {
   await page.goto('/settings')
   await page.getByLabel('Theme').selectOption('light')
   await page.getByLabel('Reduced motion').check()
-  await page.getByLabel('Population display').selectOption('heatmap')
+  await page.getByLabel('Population density dots').uncheck()
   await page.reload()
   await expect(page.getByLabel('Theme')).toHaveValue('light')
   await expect(page.getByLabel('Reduced motion')).toBeChecked()
-  await expect(page.getByLabel('Population display')).toHaveValue('heatmap')
+  await expect(page.getByLabel('Population density dots')).not.toBeChecked()
   const popup = context.waitForEvent('page')
   await page.getByRole('link', { name: 'Privacy Policy' }).click()
   await expect((await popup).getByRole('heading', { name: 'Privacy Policy' })).toBeVisible()

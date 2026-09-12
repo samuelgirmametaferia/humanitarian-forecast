@@ -34,6 +34,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://127.0.0.1:8000',
+      '/elevation': {
+        target: 'https://tiles.mapterhorn.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/elevation/, ''),
+      },
     },
   },
 })

@@ -99,6 +99,7 @@ a { color: inherit; }
 .layer-signals .layer-symbol { background: transparent; border: 2px solid var(--signal); }
 .layer-terrain .layer-symbol { border-radius: 0; background: linear-gradient(145deg, transparent 48%, var(--muted) 49% 55%, transparent 56%); }
 .layer-exposure .layer-symbol { border-radius: 1px; background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 4px); }
+.layer-populationDots .layer-symbol { background: #ff4f87; box-shadow: 0 0 0 .12rem rgba(255,79,135,.22); }
 .layer-motion .layer-symbol { width: .8rem; height: .35rem; border-radius: 0; border-top: 2px dashed var(--uncertainty-mark); background: transparent; transform: rotate(-24deg); }
 .layer-places .layer-symbol { border-radius: 50% 50% 50% 0; background: var(--ink); transform: rotate(-45deg) scale(.75); }
 .layer-administrative .layer-symbol { border-radius: 0; border: 1px solid var(--muted); background: transparent; }

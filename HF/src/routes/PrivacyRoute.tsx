@@ -5,7 +5,7 @@ export function PrivacyRoute() {
     <h2>Forecast requests</h2><p>The browser requests forecast and service-status data from the HF API. The application does not include forms for names, email addresses, credentials, or payment details.</p>
     <h2>Infrastructure records</h2><p>Hosting providers may process standard request information, such as IP address, browser details, requested URL, and request time, to deliver and protect the service.</p>
     {/* TODO(legal): Confirm the deployed hosting provider, log retention, analytics, and contact channel before public release. */}
-    <h2>Map data</h2><p>The interactive map uses geographic context and elevation tiles bundled with HF; it does not request third-party map tiles at runtime. Map attribution identifies the original data contributors.</p>
+    <h2>Map data</h2><p>The interactive map uses geographic context bundled with HF and elevation tiles relayed through the HF domain. Map attribution identifies the original data contributors.</p>
     <h2>Changes</h2><p>This policy will be updated when the application’s data practices change.</p>
   </article></main>
 }

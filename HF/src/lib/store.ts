@@ -7,7 +7,6 @@ export type ThemePreference = 'system' | 'light' | 'dark'
 export type MapMode = 'globe' | 'accessible'
 export type VisualDensity = 'standard' | 'reduced'
 export type InformationDensity = 'comfortable' | 'compact'
-export type PopulationDisplay = 'dots' | 'heatmap'
 
 const DEFAULT_LAYERS: Record<LayerId, boolean> = {
   probability: true,
@@ -15,7 +14,8 @@ const DEFAULT_LAYERS: Record<LayerId, boolean> = {
   observations: true,
   signals: true,
   terrain: true,
-  exposure: true,
+  exposure: false,
+  populationDots: true,
   motion: true,
   places: true,
   administrative: true,
@@ -30,7 +30,6 @@ type ForecastState = {
   mapMode: MapMode
   showLabels: boolean
   visualDensity: VisualDensity
-  populationDisplay: PopulationDisplay
   informationDensity: InformationDensity
   tutorialOpen: boolean
   tutorialSeen: boolean
@@ -43,7 +42,6 @@ type ForecastState = {
   setMapMode: (mapMode: MapMode) => void
   setShowLabels: (showLabels: boolean) => void
   setVisualDensity: (visualDensity: VisualDensity) => void
-  setPopulationDisplay: (populationDisplay: PopulationDisplay) => void
   setInformationDensity: (informationDensity: InformationDensity) => void
   startTutorial: () => void
   finishTutorial: () => void
@@ -59,7 +57,6 @@ export const useForecastStore = create<ForecastState>()(persist((set) => ({
   mapMode: 'globe',
   showLabels: true,
   visualDensity: 'standard',
-  populationDisplay: 'dots',
   informationDensity: 'comfortable',
   tutorialOpen: true,
   tutorialSeen: false,
@@ -72,15 +69,14 @@ export const useForecastStore = create<ForecastState>()(persist((set) => ({
   setMapMode: (mapMode) => set({ mapMode }),
   setShowLabels: (showLabels) => set({ showLabels }),
   setVisualDensity: (visualDensity) => set({ visualDensity }),
-  setPopulationDisplay: (populationDisplay) => set({ populationDisplay }),
   setInformationDensity: (informationDensity) => set({ informationDensity }),
   startTutorial: () => set({ tutorialOpen: true }),
   finishTutorial: () => set({ tutorialOpen: false, tutorialSeen: true }),
   setSelectedModel: (selectedModelId) => set({ selectedModelId }),
 }), {
   name: 'hf-preferences',
-  partialize: ({ layers, theme, reducedMotion, mapMode, showLabels, visualDensity, populationDisplay, informationDensity, tutorialSeen, selectedModelId }) => ({
-    layers, theme, reducedMotion, mapMode, showLabels, visualDensity, populationDisplay, informationDensity,
+  partialize: ({ layers, theme, reducedMotion, mapMode, showLabels, visualDensity, informationDensity, tutorialSeen, selectedModelId }) => ({
+    layers, theme, reducedMotion, mapMode, showLabels, visualDensity, informationDensity,
     tutorialSeen, selectedModelId,
   }),
   merge: (persisted, current) => {
