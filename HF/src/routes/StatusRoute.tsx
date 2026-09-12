@@ -14,6 +14,11 @@ export function StatusRoute() {
   return <ContentRoute title="Status" intro="Service state, current model metadata, and recorded data freshness.">
     <section><h2>Service</h2><div className={`status-overview status-${data.health.status}`}><span className="status-dot" aria-hidden="true" /><strong>{data.health.status === 'ok' ? 'Available' : 'Degraded'}</strong></div><dl>
       <Definition term="Mode">{data.health.mode}</Definition><Definition term="Writes">{data.health.writesEnabled ? 'Enabled' : 'Disabled'}</Definition>
+      {data.health.modelRegistry && <Definition term="Model registry">{data.health.modelRegistry.error
+        ? `Unreachable — serving the last promoted model (${data.health.modelRegistry.error.slice(0, 80)})`
+        : data.health.modelRegistry.activeVersion
+          ? `Serving ${data.health.modelRegistry.activeVersion}`
+          : 'Connected'}</Definition>}
       {latest && <Definition term="Last prediction"><time dateTime={latest.generatedAt}>{formatDate(latest.generatedAt, true)}</time>{stale && <span className="stale-label">Older than its {latest.horizonDays}-day horizon</span>}</Definition>}
     </dl></section>
     {!latest ? <section><h2>Forecast</h2><p className="empty-state">No forecast snapshot is available.</p></section> : <>

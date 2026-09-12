@@ -71,6 +71,11 @@ export const healthSchema = z.object({
   status: z.enum(['ok', 'degraded']),
   mode: z.enum(['demo', 'production']),
   writesEnabled: z.boolean(),
+  modelRegistry: z.object({
+    configured: z.boolean(),
+    activeVersion: z.string().nullable(),
+    error: z.string().nullable(),
+  }).strict().nullable().optional(),
 }).strict()
 
 export const registryModelEntrySchema = z.object({

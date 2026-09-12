@@ -14,6 +14,11 @@ describe('forecast contract', () => {
 
   it('validates health and an empty lifecycle history', () => {
     expect(healthSchema.parse({ status: 'ok', mode: 'demo', writesEnabled: false }).status).toBe('ok')
+    expect(healthSchema.parse({ status: 'ok', mode: 'demo', writesEnabled: false, modelRegistry: null }).status).toBe('ok')
+    expect(healthSchema.parse({
+      status: 'degraded', mode: 'production', writesEnabled: true,
+      modelRegistry: { configured: true, activeVersion: 'retrain-20260912-2030', error: null },
+    }).modelRegistry?.activeVersion).toBe('retrain-20260912-2030')
     expect(projectHistorySchema.parse({ entries: [], updateCycleDays: 3 }).entries).toEqual([])
   })
 

@@ -2,6 +2,17 @@
 
 A focused pipeline for humanitarian conflict next-location forecasting using UCDP and ReliefWeb, with Ethiopia specialization. The live package trains and serves the **candidate-ranker lineage (v9 → v10-prized)** and **TheSwarm**, the production mixture-of-experts built on top of the frozen H3-r4 expert family.
 
+## The deployed product
+
+**<https://humanitarian-forecast.vercel.app>** — a 3D decision-support map of Ethiopia:
+
+- **Live forecasts every 6 hours.** Public signals (UCDP, ReliefWeb) become features, the serving model ranks 20 km candidate zones, and a signed ingest publishes each snapshot. See `HF/` for the app, `.github/workflows/` for the pipelines.
+- **A model registry that retrains itself.** Every Sunday, GitHub Actions retrains on the growing labeled-pair store, validates the champion, and promotes it to the registry release. The site picks up the new model automatically — the registry picker shows the live champion and its history, and the newest model is the default.
+- **Real population context.** WorldPop 2020 density dots (one dot ≈ 10,000 residents), terrain, cities, and administrative boundaries layer under the forecast.
+- **Honest by design.** Forecasts are coarse research signals — every page repeats what they are not (not incident reports, not tactical coordinates, not evacuation orders). Outcome labels come only from verified UCDP GED events; public signals are inputs, never labels.
+
+Screenshots and a walkthrough video: [`HF/media/`](HF/media/). Deployment and operations: [`HF/DEPLOYMENT.md`](HF/DEPLOYMENT.md).
+
 Archived code, weights, and datasets live in `legacy/`, `legacy_models/`, and `legacy_data/` (see `legacy/README.md`). Nothing in the live package imports them.
 
 ## One controller
