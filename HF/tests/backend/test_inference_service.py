@@ -129,3 +129,44 @@ def test_registry_promotes_new_version_and_falls_back_on_failure(tmp_path: Any) 
         runtime=runtime,
     )
     assert fallback.metadata().version == "fine-v2"
+
+
+def test_predict_forces_registry_refresh_inside_poll_window(tmp_path: Any) -> None:
+    runtime = SimpleNamespace(InferenceSession=FakeSession)
+
+    registry = tmp_path / "registry"
+    registry.mkdir()
+    for member in ("member-0.onnx", "member-1.onnx", "champion-info.json"):
+        (registry / member).write_bytes((MODEL_DIR / member).read_bytes())
+    manifest = json.loads((MODEL_DIR / "manifest.json").read_text())
+    manifest_path = registry / "manifest.json"
+
+    # v1 is live; the service promotes and starts its poll-window clock.
+    manifest["version"] = "retrain-window-1"
+    manifest_path.write_text(json.dumps(manifest))
+    service = InferenceService(
+        MODEL_DIR,
+        registry_url=manifest_path.as_uri(),
+        runtime=runtime,
+    )
+    assert service.metadata().version == "retrain-window-1"
+
+    # A promotion lands while the instance is still inside its poll window.
+    # A published forecast must still carry the new champion.
+    manifest["version"] = "retrain-window-2"
+    manifest_path.write_text(json.dumps(manifest))
+    snapshot = service.predict(
+        feature_payload(),
+        run_id="run-20260911-window",
+        generated_at=datetime(2026, 9, 11, 1, tzinfo=UTC),
+        source_health=[
+            SourceHealth(
+                id="reliefweb",
+                label="ReliefWeb",
+                status="healthy",
+                lastSuccessfulAt=None,
+                articlesProcessed=4,
+            )
+        ],
+    )
+    assert snapshot.model.version == "retrain-window-2"

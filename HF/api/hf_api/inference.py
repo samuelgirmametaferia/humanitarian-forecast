@@ -113,7 +113,7 @@ class InferenceService:
             (cache_dir / "manifest.json").write_bytes(raw)
         return {"digest": digest, "dir": cache_dir, "manifest": manifest}
 
-    def _registry_dir(self) -> Path | None:
+    def _registry_dir(self, *, force: bool = False) -> Path | None:
         """Refresh the registry model inline when the poll interval elapses.
 
         Vercel freezes the function between requests, so a background download
@@ -121,10 +121,15 @@ class InferenceService:
         instead. It is a no-op (one small manifest fetch) whenever the registry
         is unchanged, and only the first request after a promotion pays the
         multi-second member download.
+
+        ``force`` skips the poll interval: each instance caches the current
+        model for the TTL window, so without it an ingest landing on a warm
+        instance would publish with a champion that is up to ten minutes (or
+        one failed refresh) stale.
         """
         if not self.registry_url:
             return None
-        if time.monotonic() - self._registry_checked_at < _REGISTRY_REFRESH_SECONDS:
+        if not force and time.monotonic() - self._registry_checked_at < _REGISTRY_REFRESH_SECONDS:
             return None
         self._registry_checked_at = time.monotonic()
         try:
@@ -167,9 +172,9 @@ class InferenceService:
             candidateOracleWithin20Km=validation["oracle_within_20km"],
         )
 
-    def _load(self) -> tuple[OnnxEnsemble, ModelMetadata]:
+    def _load(self, *, force_registry_refresh: bool = False) -> tuple[OnnxEnsemble, ModelMetadata]:
         with self._lock:
-            self._registry_dir()
+            self._registry_dir(force=force_registry_refresh)
             if self._ensemble is None:
                 ensemble = OnnxEnsemble(self.model_dir, runtime=self._runtime)
                 self._ensemble = ensemble
@@ -187,7 +192,7 @@ class InferenceService:
         """
         if not self.registry_url:
             return {"active": None, "history": [], "error": None}
-        self._registry_dir()
+        self._registry_dir(force=True)
         if (
             self._registry_index is None
             or time.monotonic() - self._registry_index_checked_at > _REGISTRY_REFRESH_SECONDS
@@ -233,7 +238,10 @@ class InferenceService:
         generated_at: datetime,
         source_health: list[SourceHealth],
     ) -> ForecastSnapshot:
-        ensemble, metadata = self._load()
+        # Force the registry check: a published forecast is durable, so it must
+        # reflect the current champion even if this instance last checked
+        # within the poll window.
+        ensemble, metadata = self._load(force_registry_refresh=True)
         raw = payload.model_dump(mode="json")
         contract = load_feature_contract(raw)
         prediction = ensemble.predict(contract)
