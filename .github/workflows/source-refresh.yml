@@ -1,0 +1,36 @@
+name: Refresh public source signals
+
+on:
+  schedule:
+    - cron: '47 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: .cache/hf/groq-text-model.json
+          key: groq-text-model-${{ github.run_id }}
+          restore-keys: groq-text-model-
+      - name: Extract public preview posts
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          HF_PUBLIC_PREVIEW_CHANNELS: ${{ vars.HF_PUBLIC_PREVIEW_CHANNELS }}
+        run: |
+          PYTHONPATH=src python -m humanitarian_forecast.data.groq_source_processor \
+            --output artifacts/public-preview-signals.jsonl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-preview-signals-${{ github.run_id }}
+          path: artifacts/public-preview-signals.jsonl
+          if-no-files-found: error
+          retention-days: 30

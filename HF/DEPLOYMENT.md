@@ -17,6 +17,7 @@ Set these in the hosting provider's encrypted environment-variable store, never 
 | `HF_ALLOWED_ORIGINS` | server | comma-separated deployed web origins |
 | `HF_MODEL_DIR` | server | optional path to the parity-validated ONNX package |
 | `GROQ_API_KEY` | GitHub Actions only | optional source-processing provider; never needed by the browser |
+| `HF_PUBLIC_PREVIEW_CHANNELS` | GitHub Actions variable | comma-separated public Telegram channel names; no account or Telegram credential is used |
 | `HF_RECONCILE_URL` | GitHub Actions only | deployed `/api/v1/learn/reconcile` URL for the scheduled reconciliation check |
 
 Set `HF_PROVIDER_MODE=production` only after all required server values are present. The API fails closed when production configuration is incomplete.
@@ -32,6 +33,8 @@ Before making the repository public:
 5. If a real credential has ever been committed, rotate it before publishing; deleting the current file is not enough because Git history retains it.
 
 The repository includes two workflows: CI validates the frontend and API on every pull request, and the reconciliation workflow calls the protected deployed endpoint daily. The API performs its reconciliation only on the deterministic third-day window. Add `HF_RECONCILE_URL` and `HF_CRON_SECRET` as GitHub Actions secrets after the first deployment.
+
+The public-source workflow runs every six hours. It reads only anonymous `t.me/s/<channel>` previews, discovers Groq's current model inventory, excludes non-text model families, probes candidates, and caches the first working text model. A cached model is replaced automatically if its probe fails. Extracted rows retain source URL, publication time, retrieval time, city coordinates, confidence, and a hash of the source text. They are model input signals, never labels or verified events.
 
 ## Vercel
 

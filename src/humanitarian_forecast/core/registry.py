@@ -40,6 +40,7 @@ def _builtin(name: str, module: str, category: str, description: str, production
 
 # --- Data ---------------------------------------------------------------
 _builtin("data.reliefweb.download", "humanitarian_forecast.data.download_reliefweb", "data", "Download the full ReliefWeb conflict-report corpus.", True)
+_builtin("data.public_preview.extract", "humanitarian_forecast.data.groq_source_processor", "data", "Extract cutoff-safe geospatial source signals from public Telegram web previews through a dynamically selected Groq text model.", True)
 _builtin("data.risk.build", "humanitarian_forecast.data.build_risk_datasets", "data", "Build aligned global and Ethiopia temporal-risk datasets.", True)
 _builtin("location.dataset.build", "humanitarian_forecast.data.build_next_location_dataset", "location", "Build next-event location histories.", True)
 _builtin("location.candidates.build", "humanitarian_forecast.data.build_candidate_rank_dataset", "location", "Build cutoff-safe historical location candidates and spatial features.", True)
