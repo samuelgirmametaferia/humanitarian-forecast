@@ -120,10 +120,33 @@ jobs:
             --notes "Weekly retrain. Metrics: $(python -c "import json;print(json.dumps(json.load(open('$OUTPUT_DIR/info.blt'))['ethiopia_metrics']))")"
       # Promotion: repoint the stable registry tag the API polls. The site
       # picks the new model up on its next cold start or 10-minute refresh.
+      # registry-index.json is the append-only version history the /v1/models
+      # endpoint serves to the model registry UI.
       - name: Promote to model-registry-current
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          INDEX="artifacts/registry-index.json"
+          mkdir -p artifacts
+          gh release download model-registry-current --pattern registry-index.json \
+            --output "$INDEX" 2>/dev/null || echo '{"schema":"model-registry-index.v1","models":[]}' > "$INDEX"
+          python - "$INDEX" "$VERSION" "$OUTPUT_DIR/info.blt" <<'EOF'
+          import datetime, json, sys
+          index_path, version, info_path = sys.argv[1:4]
+          index = json.load(open(index_path))
+          metrics = json.load(open(info_path))["ethiopia_metrics"]["validation"]
+          entry = {
+              "version": version,
+              "publishedAt": datetime.datetime.now(datetime.UTC).isoformat(),
+              "validationTop1Within20Km": metrics["within_20km_at_top1"],
+          }
+          index.setdefault("schema", "model-registry-index.v1")
+          models = index.setdefault("models", [])
+          models[:] = [m for m in models if m.get("version") != version]
+          models.append(entry)
+          with open(index_path, "w") as out:
+              json.dump(index, out)
+          EOF
           gh release delete model-registry-current --yes || true
           git push origin :refs/tags/model-registry-current || true
           gh release create model-registry-current \
@@ -134,6 +157,7 @@ jobs:
             "$OUTPUT_DIR/serving/member-1.onnx" \
             "$OUTPUT_DIR/serving/champion-info.json" \
             "$OUTPUT_DIR/serving/parity-report.json" \
+            "$INDEX" \
             --title "Current production model" \
             --notes "Auto-promoted weekly retrain ($VERSION). The API serves this package; it falls back to the bundled model if this release is unavailable."
       - name: Summary

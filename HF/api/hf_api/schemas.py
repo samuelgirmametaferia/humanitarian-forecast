@@ -167,6 +167,20 @@ class RegistryHealth(BaseModel):
     error: str | None = None
 
 
+class RegistryModelEntry(BaseModel):
+    model_config = Strict
+    version: str
+    publishedAt: datetime | None = None
+    validationTop1Within20Km: float | None = None
+
+
+class RegistryModelsResponse(BaseModel):
+    model_config = Strict
+    active: RegistryModelEntry | None = None
+    history: list[RegistryModelEntry] = []
+    error: str | None = None
+
+
 class HealthResponse(BaseModel):
     model_config = Strict
     status: Literal["ok", "degraded"]

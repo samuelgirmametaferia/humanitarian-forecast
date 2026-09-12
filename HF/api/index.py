@@ -22,6 +22,8 @@ from .hf_api.schemas import (
     ProjectHistoryEvent,
     ProjectHistoryResponse,
     RegistryHealth,
+    RegistryModelEntry,
+    RegistryModelsResponse,
     TrainingPair,
     TrainingPairsResponse,
 )
@@ -108,6 +110,19 @@ def forecast_by_id(forecast_id: str, request: Request, response: Response) -> Fo
 def model_metadata(request: Request, response: Response) -> ModelMetadata:
     add_rate_headers(response, enforce_rate(request, "read"))
     return provider.latest().model
+
+
+@app.get("/api/v1/models", response_model=RegistryModelsResponse)
+def registry_models(request: Request, response: Response) -> RegistryModelsResponse:
+    add_rate_headers(response, enforce_rate(request, "read"))
+    if inference is None:
+        return RegistryModelsResponse()
+    data = inference.registry_models()
+    return RegistryModelsResponse(
+        active=RegistryModelEntry(**data["active"]) if data.get("active") else None,
+        history=[RegistryModelEntry(**entry) for entry in data.get("history", [])],
+        error=data.get("error"),
+    )
 
 
 @app.get("/api/v1/history", response_model=ProjectHistoryResponse)

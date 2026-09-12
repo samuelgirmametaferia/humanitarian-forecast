@@ -86,6 +86,8 @@ class InferenceService:
         self._registry_digest: str | None = None
         self._registry_checked_at: float = 0.0
         self._registry_error: str | None = None
+        self._registry_index: list[dict[str, Any]] | None = None
+        self._registry_index_checked_at: float = 0.0
         self._lock = Lock()
 
     def _registry_manifest(self) -> dict[str, Any] | None:
@@ -176,6 +178,38 @@ class InferenceService:
             if self._metadata is None:
                 raise RuntimeError("model metadata failed to initialize")
             return self._ensemble, self._metadata
+
+    def registry_models(self) -> dict[str, Any]:
+        """Published registry model history (newest last), for the registry endpoint.
+
+        Forces a refresh attempt first so the endpoint reflects the live
+        registry and surfaces why a promotion has not happened.
+        """
+        if not self.registry_url:
+            return {"active": None, "history": [], "error": None}
+        self._registry_dir()
+        if (
+            self._registry_index is None
+            or time.monotonic() - self._registry_index_checked_at > _REGISTRY_REFRESH_SECONDS
+        ):
+            self._registry_index_checked_at = time.monotonic()
+            try:
+                base = self.registry_url.rsplit("/", 1)[0]
+                destination = _REGISTRY_CACHE_ROOT / "registry-index.json"
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                _fetch(f"{base}/registry-index.json", destination)
+                index = json.loads(destination.read_text())
+                models = index.get("models")
+                if isinstance(models, list) and models and all(isinstance(m, dict) for m in models):
+                    self._registry_index = models
+            except Exception as exc:  # noqa: BLE001 - a missing index is not fatal
+                print(f"model registry index unavailable: {exc}", file=sys.stderr)
+        models = self._registry_index or []
+        return {
+            "active": models[-1] if models else None,
+            "history": models[:-1],
+            "error": self._registry_error,
+        }
 
     def registry_status(self) -> dict[str, Any] | None:
         """Registry wiring and last refresh outcome, for the health endpoint."""
