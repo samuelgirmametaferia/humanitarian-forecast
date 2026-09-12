@@ -1,0 +1,24 @@
+name: Three-day reconciliation
+
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call protected reconciliation gate
+        env:
+          HF_RECONCILE_URL: ${{ secrets.HF_RECONCILE_URL }}
+          HF_CRON_SECRET: ${{ secrets.HF_CRON_SECRET }}
+        run: |
+          test -n "$HF_RECONCILE_URL"
+          test -n "$HF_CRON_SECRET"
+          curl --fail-with-body --retry 3 --retry-all-errors \
+            --header "Authorization: Bearer $HF_CRON_SECRET" \
+            "$HF_RECONCILE_URL"

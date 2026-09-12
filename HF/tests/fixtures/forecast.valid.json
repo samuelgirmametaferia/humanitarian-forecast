@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "forecast-snapshot.v1",
+  "id": "demo-2026-09-11",
+  "mode": "demo",
+  "country": "Ethiopia",
+  "conflict": "Ethiopia conflict monitoring",
+  "generatedAt": "2026-09-11T06:17:00Z",
+  "observationCutoff": "2026-09-10T23:59:59Z",
+  "horizonDays": 7,
+  "model": {
+    "name": "TheSwarm fine",
+    "version": "fine-v2",
+    "artifactSha256": "demo",
+    "featureContract": "feature-contract.v1",
+    "candidateCount": 64,
+    "validationTop1Within20Km": 0.134,
+    "validationDiverseTop5Within20Km": 0.33,
+    "developmentTop1Within20Km": 0.042,
+    "candidateOracleWithin20Km": 0.673
+  },
+  "zones": [
+    {"id":"zone-01","rank":1,"label":"North Wollo area","position":{"latitude":11.78,"longitude":39.62},"probability":0.174,"uncertainty":0.61,"radiusKm":20,"siteType":"conflict-frequency site","daysSinceLastEvent":18,"elevationM":2380,"ruggednessM":214.8,"populationExposureBand":"moderate","drivers":["recent conflict sequence","local event recurrence","regional source momentum"]},
+    {"id":"zone-02","rank":2,"label":"West Oromia area","position":{"latitude":9.12,"longitude":36.72},"probability":0.142,"uncertainty":0.68,"radiusKm":20,"siteType":"recent cross-conflict event","daysSinceLastEvent":11,"elevationM":1960,"ruggednessM":176.2,"populationExposureBand":"higher","drivers":["cross-conflict spillover","seven-day activity window","source mention change"]},
+    {"id":"zone-03","rank":3,"label":"North Gondar area","position":{"latitude":12.54,"longitude":37.34},"probability":0.118,"uncertainty":0.72,"radiusKm":20,"siteType":"conflict-frequency site","daysSinceLastEvent":29,"elevationM":2210,"ruggednessM":289.1,"populationExposureBand":"moderate","drivers":["historical recurrence","nearby recent activity","terrain context"]},
+    {"id":"zone-04","rank":4,"label":"Central Tigray area","position":{"latitude":13.62,"longitude":39.08},"probability":0.096,"uncertainty":0.77,"radiusKm":20,"siteType":"recent cross-conflict event","daysSinceLastEvent":36,"elevationM":2050,"ruggednessM":247.5,"populationExposureBand":"moderate","drivers":["regional event memory","cross-conflict proximity","longer-term frequency"]},
+    {"id":"zone-05","rank":5,"label":"East Amhara area","position":{"latitude":10.42,"longitude":40.12},"probability":0.081,"uncertainty":0.81,"radiusKm":20,"siteType":"conflict-frequency site","daysSinceLastEvent":42,"elevationM":1640,"ruggednessM":143.3,"populationExposureBand":"lower","drivers":["historical recurrence","thirty-day activity window","spatial diversity selection"]}
+  ],
+  "observations": [
+    {"id":"obs-01","kind":"observed event","position":{"latitude":11.6,"longitude":39.5},"occurredAt":"2026-09-08T12:00:00Z","precision":"named place","summary":"Aggregated event record; location coarsened for public display."},
+    {"id":"obs-02","kind":"observed event","position":{"latitude":9.3,"longitude":36.9},"occurredAt":"2026-09-06T12:00:00Z","precision":"regional","summary":"Regional observation retained as context, not a precise incident location."},
+    {"id":"obs-03","kind":"source signal","position":{"latitude":12.4,"longitude":37.5},"occurredAt":"2026-09-09T08:00:00Z","precision":"regional","summary":"Multiple public reports increased regional attention; not a verified event."},
+    {"id":"obs-04","kind":"source signal","position":{"latitude":10.2,"longitude":40.0},"occurredAt":"2026-09-10T15:00:00Z","precision":"regional","summary":"Source-language extraction identified a change in conflict-related reporting."}
+  ],
+  "sourceHealth": [
+    {"id":"reliefweb","label":"ReliefWeb","status":"healthy","lastSuccessfulAt":"2026-09-11T05:32:00Z","articlesProcessed":14},
+    {"id":"source-2","label":"Regional public reporting","status":"healthy","lastSuccessfulAt":"2026-09-11T05:35:00Z","articlesProcessed":8},
+    {"id":"source-3","label":"Humanitarian bulletins","status":"healthy","lastSuccessfulAt":"2026-09-11T05:39:00Z","articlesProcessed":5},
+    {"id":"source-4","label":"International reporting","status":"delayed","lastSuccessfulAt":"2026-09-10T05:40:00Z","articlesProcessed":0},
+    {"id":"source-5","label":"Local-language reporting","status":"healthy","lastSuccessfulAt":"2026-09-11T05:51:00Z","articlesProcessed":11},
+    {"id":"source-6","label":"Conflict data updates","status":"healthy","lastSuccessfulAt":"2026-09-11T05:56:00Z","articlesProcessed":2}
+  ],
+  "warning": "Synthetic demonstration of a coarse humanitarian early-warning research signal. Not a tactical coordinate forecast, verified event feed, safe route, or evacuation order. Advisory radii are display buffers, not uncertainty bounds."
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "ethiopia-onnx-parity.v1",
+  "rows": [
+    {
+      "row": 121849,
+      "conflictId": "267",
+      "unseenIdentity": false,
+      "maximumLogitDelta": 2.086162567138672e-06,
+      "maximumProbabilityDelta": 2.9802322387695312e-08,
+      "topKOrder": [
+        0,
+        33,
+        1,
+        36,
+        15
+      ],
+      "passed": true
+    },
+    {
+      "row": 121850,
+      "conflictId": "474",
+      "unseenIdentity": false,
+      "maximumLogitDelta": 1.9073486328125e-06,
+      "maximumProbabilityDelta": 5.960464477539063e-08,
+      "topKOrder": [
+        0,
+        2,
+        17,
+        1,
+        40
+      ],
+      "passed": true
+    },
+    {
+      "row": 157878,
+      "conflictId": "15364",
+      "unseenIdentity": false,
+      "maximumLogitDelta": 1.6689300537109375e-06,
+      "maximumProbabilityDelta": 7.450580596923828e-08,
+      "topKOrder": [
+        0,
+        21,
+        3,
+        26,
+        11
+      ],
+      "passed": true
+    },
+    {
+      "row": 157899,
+      "conflictId": "16069",
+      "unseenIdentity": true,
+      "maximumLogitDelta": 1.430511474609375e-06,
+      "maximumProbabilityDelta": 1.6391277313232422e-07,
+      "topKOrder": [
+        0,
+        15,
+        5,
+        1,
+        24
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

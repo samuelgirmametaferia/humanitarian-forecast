@@ -9,3 +9,5 @@ build/
 dist/
 .pytest_cache/
 /legacy_data/
+/.onnx-venv/
+/.claude/

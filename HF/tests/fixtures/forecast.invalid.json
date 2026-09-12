@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "forecast-snapshot.v1",
+  "id": "invalid",
+  "mode": "production",
+  "country": "Ethiopia",
+  "zones": [],
+  "unexpectedSensitiveField": "must be rejected"
+}

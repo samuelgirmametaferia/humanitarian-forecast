@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "forecast-snapshot.v1",
+  "id": "scenario:archived-20251228-16069",
+  "mode": "production",
+  "country": "Ethiopia",
+  "conflict": "Ethiopia: Government/Amhara",
+  "generatedAt": "2026-09-12T00:00:00Z",
+  "observationCutoff": "2025-12-28T00:00:00Z",
+  "horizonDays": 1,
+  "model": {
+    "name": "theswarm_fine_v2",
+    "version": "fine-v2",
+    "artifactSha256": "23d68091c1cf3d1551bcb49b05a8dd4b0e9a0360bc06a13c21d514653286dd65",
+    "featureContract": "feature-contract.v1",
+    "candidateCount": 64,
+    "validationTop1Within20Km": 0.134,
+    "validationDiverseTop5Within20Km": 0.33,
+    "developmentTop1Within20Km": 0.042,
+    "candidateOracleWithin20Km": 0.673
+  },
+  "zones": [
+    {
+      "id": "candidate-0",
+      "rank": 1,
+      "label": "Candidate zone 1",
+      "position": {
+        "latitude": 10.32,
+        "longitude": 38.23
+      },
+      "probability": 0.2372301071882248,
+      "uncertainty": null,
+      "radiusKm": 20.0,
+      "siteType": "conflict-frequency site",
+      "daysSinceLastEvent": 1,
+      "elevationM": 2607,
+      "ruggednessM": 147.1647471189499,
+      "populationExposureBand": null,
+      "drivers": [
+        "conflict-frequency site",
+        "site activity recorded within 30 days of the cutoff",
+        "ensemble candidate ranking"
+      ]
+    },
+    {
+      "id": "candidate-15",
+      "rank": 2,
+      "label": "Candidate zone 2",
+      "position": {
+        "latitude": 10.84,
+        "longitude": 37.16
+      },
+      "probability": 0.04247840493917465,
+      "uncertainty": null,
+      "radiusKm": 20.0,
+      "siteType": "conflict-frequency site",
+      "daysSinceLastEvent": 7,
+      "elevationM": 1910,
+      "ruggednessM": 34.7713865339756,
+      "populationExposureBand": null,
+      "drivers": [
+        "conflict-frequency site",
+        "site activity recorded within 30 days of the cutoff",
+        "ensemble candidate ranking"
+      ]
+    },
+    {
+      "id": "candidate-5",
+      "rank": 3,
+      "label": "Candidate zone 3",
+      "position": {
+        "latitude": 11.5,
+        "longitude": 38.5
+      },
+      "probability": 0.032130539417266846,
+      "uncertainty": null,
+      "radiusKm": 20.0,
+      "siteType": "conflict-frequency site",
+      "daysSinceLastEvent": 1,
+      "elevationM": 1634,
+      "ruggednessM": 118.76937747001648,
+      "populationExposureBand": null,
+      "drivers": [
+        "conflict-frequency site",
+        "site activity recorded within 30 days of the cutoff",
+        "ensemble candidate ranking"
+      ]
+    },
+    {
+      "id": "candidate-1",
+      "rank": 4,
+      "label": "Candidate zone 4",
+      "position": {
+        "latitude": 11.59,
+        "longitude": 37.39
+      },
+      "probability": 0.029935592785477638,
+      "uncertainty": null,
+      "radiusKm": 20.0,
+      "siteType": "conflict-frequency site",
+      "daysSinceLastEvent": 52,
+      "elevationM": 1930,
+      "ruggednessM": 15.31357690691948,
+      "populationExposureBand": null,
+      "drivers": [
+        "conflict-frequency site",
+        "ensemble candidate ranking"
+      ]
+    },
+    {
+      "id": "candidate-24",
+      "rank": 5,
+      "label": "Candidate zone 5",
+      "position": {
+        "latitude": 10.45,
+        "longitude": 37.57
+      },
+      "probability": 0.024922657757997513,
+      "uncertainty": null,
+      "radiusKm": 20.0,
+      "siteType": "conflict-frequency site",
+      "daysSinceLastEvent": 7,
+      "elevationM": 2665,
+      "ruggednessM": 82.90249109268188,
+      "populationExposureBand": null,
+      "drivers": [
+        "conflict-frequency site",
+        "site activity recorded within 30 days of the cutoff",
+        "ensemble candidate ranking"
+      ]
+    }
+  ],
+  "observations": [],
+  "sourceHealth": [
+    {
+      "id": "historical-archive",
+      "label": "Historical feature archive",
+      "status": "delayed",
+      "lastSuccessfulAt": "2025-12-28T00:00:00Z",
+      "articlesProcessed": 0
+    }
+  ],
+  "warning": "Production theswarm_fine_v2 model output generated once from the latest available archived feature row (cutoff 28 Dec 2025). This is a stale-input model scenario, not a current conflict warning. Each footprint is capped at a 20 km advisory display radius; historical median top-1 error was about 201 km on the later development period."
+}

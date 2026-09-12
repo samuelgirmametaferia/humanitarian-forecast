@@ -192,6 +192,10 @@ recipe space; it is kept as the regression reference.
 
 Every model version lives in its own directory with `info.blt`, a machine-readable JSON metadata file: subsystem, version, status, measured performance where an honest held-out result exists, lineage, calibration, artifacts, and notes/warnings. Production artifacts trained on all data do not claim a fresh holdout score; their `info.blt` records the measured performance of their validated ancestors.
 
+`main.py models registry --geospatial-only` now emits the unified registry manifest. All 33 discovered geospatial artifacts remain inspectable; accepted models can receive adapters and score the same fresh feature payload through `ModelRegistry.predict_all`. Rejected and archived experiments stay visible for reproducibility but are ineligible for live aggregation.
+
+The registry does not impose a calendar expiry on inference. Observation timestamps remain mandatory because they define what information was actually available, prevent future-data leakage during evaluation, and make each published forecast reproducible.
+
 ## Evaluation versus production
 
 Chronological holdout trainers stay in the package for honest model selection and regression testing. Production trainers consume all labeled data only after a recipe has been selected. Do not compare a production training loss to the v9 test error.

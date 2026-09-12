@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from humanitarian_forecast.core.model_store import discover_models, read_info
+from humanitarian_forecast.core.model_registry import ModelRegistry
 from humanitarian_forecast.core.paths import PATHS
 from humanitarian_forecast.core.registry import all_systems, get_system
 from humanitarian_forecast.core.runner import run_module
@@ -110,6 +111,9 @@ def build_parser() -> argparse.ArgumentParser:
     model_info.add_argument("subsystem", help="For example: location/candidate_ranker or risk/ethiopia")
     model_info.add_argument("version", help="For example: v9")
     model_info.set_defaults(handler=_cmd_models_info)
+    model_registry = models_sub.add_parser("registry", help="Print the unified model registry manifest as JSON.")
+    model_registry.add_argument("--geospatial-only", action="store_true")
+    model_registry.set_defaults(handler=_cmd_models_registry)
 
     return parser
 
@@ -161,6 +165,16 @@ def _cmd_models_info(args: argparse.Namespace) -> int:
     if not path.exists():
         raise SystemExit(f"model metadata not found: {path}")
     print(json.dumps(read_info(directory), indent=2, sort_keys=True))
+    return 0
+
+
+def _cmd_models_registry(args: argparse.Namespace) -> int:
+    registry = ModelRegistry()
+    manifest = registry.manifest()
+    if args.geospatial_only:
+        manifest["models"] = [item for item in manifest["models"] if item["geospatial"]]
+        manifest["modelCount"] = len(manifest["models"])
+    print(json.dumps(manifest, indent=2, sort_keys=True))
     return 0
 
 

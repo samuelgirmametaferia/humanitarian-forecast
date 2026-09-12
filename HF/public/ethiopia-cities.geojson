@@ -1,0 +1,1160 @@
+{
+  "type": "FeatureCollection",
+  "name": "Ethiopia cities and large towns",
+  "source": "OpenStreetMap Geofabrik Ethiopia snapshot 2026-08-01",
+  "license": "ODbL 1.0",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Addis Ababa",
+        "localName": "አዲስ አበባ أديس أبابا",
+        "place": "city",
+        "population": 3500000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.7524315,
+          9.0358119
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Gonder",
+        "localName": "ጎንደር غندار",
+        "place": "city",
+        "population": 213434,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.466766,
+          12.610368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Bahir Dar",
+        "localName": "ባሕር-ዳር بحر دار",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.3882251,
+          11.5949663
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Adama",
+        "localName": "Adama آداما",
+        "place": "city",
+        "population": 228623,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.2705461,
+          8.5410261
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Arba Minch",
+        "localName": "አርባ ምንጭ / Arba Minch",
+        "place": "city",
+        "population": 101000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.5539809,
+          6.0215142
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Ambo",
+        "localName": "አምቦ / Ambo",
+        "place": "city",
+        "population": 54211,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.8554406,
+          8.982104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Dessie",
+        "localName": "ደሴ Dessie ديسى",
+        "place": "city",
+        "population": 169104,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.634982,
+          11.122604
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Jijiga",
+        "localName": "Jigjiga",
+        "place": "city",
+        "population": 107122,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          42.8003788,
+          9.3508526
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Mek'elē",
+        "localName": "መቐለ Mek'elē مقلى",
+        "place": "city",
+        "population": 185207,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.4768259,
+          13.4966644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Naqamte",
+        "localName": "ነቀምት Nekemte نقمتى",
+        "place": "city",
+        "population": 92700,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.5481573,
+          9.0905237
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Wolaita Sodo",
+        "localName": "ወላይታ ሶዶ Wolaita Sodo ولايتا سودو",
+        "place": "city",
+        "population": 512498,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.7578499,
+          6.8577533
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Harar",
+        "localName": "Harar ሐረር هرر",
+        "place": "city",
+        "population": 132042,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          42.1284009,
+          9.3118304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Debre Borhan",
+        "localName": "Debre Birhan ديبرى برهان",
+        "place": "city",
+        "population": 73697,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.5324899,
+          9.6752117
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Dire Dawa",
+        "localName": "Dirree Dhawaa / Dir Dhabe / ድሬዳዋ",
+        "place": "city",
+        "population": 398000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.8566126,
+          9.5913368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Dilla",
+        "localName": "ዲላ / Dilla",
+        "place": "city",
+        "population": 67036,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.3102763,
+          6.4099614
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Gode",
+        "localName": "Gode",
+        "place": "city",
+        "population": 74546,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.5522312,
+          5.9526975
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Debre Markos",
+        "localName": "ደብረ ማርቆስ Debre Markos ديبرى مرقص",
+        "place": "city",
+        "population": 93780,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.7285604,
+          10.3358665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Axum",
+        "localName": "ኣኽሱም / Axum",
+        "place": "town",
+        "population": 51790,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.7321749,
+          14.1220982
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Kombolcha",
+        "localName": "ኮምቦልቻ / Kombolcha",
+        "place": "city",
+        "population": 75434,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.7408732,
+          11.0813583
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Adigrat",
+        "localName": "ዓዲግራት / Adigrat",
+        "place": "town",
+        "population": 71453,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.4614983,
+          14.2774132
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Togechane ቶግ ዋጃሌ",
+        "localName": "Togechane ቶግ ዋጃሌ",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.3306401,
+          9.5976698
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Batu",
+        "localName": "Batu",
+        "place": "town",
+        "population": 35931,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.7164929,
+          7.9358063
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Boditi",
+        "localName": "Boditi",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.8575339,
+          6.9549018
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Tebela",
+        "localName": "Tebela",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.7665876,
+          6.7062835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Shire",
+        "localName": "ሽረ እንዳ ሥላሴ / Shire",
+        "place": "town",
+        "population": 47284,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.282521,
+          14.102432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Gambela",
+        "localName": "ጋምቤላ / Gambela",
+        "place": "city",
+        "population": 31282,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.5877344,
+          8.2503656
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Asosa",
+        "localName": "አሶሳ Asosa عاصوصة",
+        "place": "city",
+        "population": 20226,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.5437024,
+          10.0646352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "`Alemaya",
+        "localName": "`Alemaya",
+        "place": "town",
+        "population": 63700,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.93333,
+          9.38333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Dolo",
+        "localName": "Dolo",
+        "place": "town",
+        "population": 30970,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          42.05889,
+          4.17861
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Awareh",
+        "localName": "Awareh",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.1587843,
+          8.2591042
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Shilabo",
+        "localName": "Shilabo",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.768828,
+          6.094304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Bona Qabelanka",
+        "localName": "Bona Qabelanka",
+        "place": "town",
+        "population": 50000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.7121031,
+          6.528747
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Dambidollo",
+        "localName": "Dambidollo",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.800338,
+          8.5352716
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Asella",
+        "localName": "አሰላ Asella  عسيلة",
+        "place": "city",
+        "population": 110088,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.13333,
+          7.95
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Fitche",
+        "localName": "Fitche",
+        "place": "city",
+        "population": 27493,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.73333,
+          9.78333
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Geladi",
+        "localName": "Geladi",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          46.4140068,
+          6.9729935
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Molale",
+        "localName": "Molale",
+        "place": "town",
+        "population": 93800,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.6606619,
+          10.1192049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Bati",
+        "localName": "Bati",
+        "place": "city",
+        "population": 43500,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.019752,
+          11.1916257
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Werder",
+        "localName": "Werder",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.34315,
+          6.974493
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Hara Gebeya",
+        "localName": "Hara Gebeya",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.7386528,
+          11.8418373
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Semera",
+        "localName": "ሰመራ Semera  سميرة",
+        "place": "town",
+        "population": 100000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          41.0089155,
+          11.7923098
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Hawassa",
+        "localName": "ሀዋሳ Hawassa  حواسا",
+        "place": "city",
+        "population": 160000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.47861,
+          7.0481029
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Baligubadle",
+        "localName": "Baligubadle ባሊጉባድል بليغوبادلة",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          44.000122,
+          9.0010256
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Robe",
+        "localName": "ሮቤ / Robe",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.0080973,
+          7.1242676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Gasuba",
+        "localName": "Gasuba",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.5551942,
+          6.7238835
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Fiche",
+        "localName": "Fiche",
+        "place": "city",
+        "population": 27493,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.73886,
+          9.771962
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Bombe",
+        "localName": "Bombe",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.5819416,
+          7.1375737
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Bale Hawassa",
+        "localName": null,
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.52669,
+          6.9181129
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Gununo",
+        "localName": "Gununo",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.6522148,
+          6.9268055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Jimma",
+        "localName": "ጂማ Jimma  جيمة",
+        "place": "city",
+        "population": 207573,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.8478779,
+          7.6756152
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Shanto",
+        "localName": "Shanto",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.8607742,
+          7.023173
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Gara Godo",
+        "localName": "Gara Godo",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.7779531,
+          7.0807306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Toon Barwaaqo",
+        "localName": "Toon Barwaaqo",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.6826426,
+          7.3200126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Badessa",
+        "localName": "Badessa",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.9351901,
+          6.8783693
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Abobo",
+        "localName": "Abobo/አቦቦ",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.5408139,
+          7.8979397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Degehabur",
+        "localName": "Degehabur",
+        "place": "town",
+        "population": 32000,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.5584049,
+          8.2202936
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Addi Hamli",
+        "localName": "Addi Hamli",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.2721887,
+          13.6241884
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Ksad Gimel",
+        "localName": "Ksad Gimel",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.3662712,
+          13.6145439
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Elanle",
+        "localName": "Elanle",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.7857735,
+          6.5604553
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Dimtu",
+        "localName": "Dimtu",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.1252051,
+          6.9315478
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Beklo Segno",
+        "localName": "Baqulo Sagno",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.6191003,
+          6.83169
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Areka",
+        "localName": "Areka",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.707838,
+          7.0732372
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Maya City",
+        "localName": "Magaalaa Maayyaa",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          42.0012638,
+          9.3972116
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "null",
+      "properties": {
+        "name": "Shashamane",
+        "localName": "Shashamane",
+        "place": "city",
+        "population": null,
+        "source": "OpenStreetMap"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.6089641,
+          7.2039064
+        ]
+      }
+    }
+  ]
+}

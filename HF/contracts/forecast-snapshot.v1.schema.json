@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://humanitarian-forecaster.org/contracts/forecast-snapshot.v1.schema.json",
+  "title": "HF forecast snapshot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "mode", "country", "conflict", "generatedAt", "observationCutoff", "horizonDays", "model", "zones", "observations", "sourceHealth", "warning"],
+  "properties": {
+    "schemaVersion": {"const": "forecast-snapshot.v1"},
+    "id": {"type": "string", "pattern": "^[a-zA-Z0-9._:-]{8,80}$"},
+    "mode": {"enum": ["demo", "production"]},
+    "country": {"const": "Ethiopia"},
+    "conflict": {"type": "string", "minLength": 1, "maxLength": 100},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "observationCutoff": {"type": "string", "format": "date-time"},
+    "horizonDays": {"type": "integer", "minimum": 1, "maximum": 30},
+    "model": {"$ref": "#/$defs/model"},
+    "zones": {"type": "array", "minItems": 1, "maxItems": 10, "items": {"$ref": "#/$defs/zone"}},
+    "observations": {"type": "array", "maxItems": 500, "items": {"$ref": "#/$defs/observation"}},
+    "sourceHealth": {"type": "array", "minItems": 1, "maxItems": 12, "items": {"$ref": "#/$defs/source"}},
+    "warning": {"type": "string", "minLength": 20, "maxLength": 500}
+  },
+  "$defs": {
+    "position": {
+      "type": "object", "additionalProperties": false,
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+        "longitude": {"type": "number", "minimum": -180, "maximum": 180}
+      }
+    },
+    "model": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "version", "artifactSha256", "featureContract", "candidateCount", "validationTop1Within20Km", "validationDiverseTop5Within20Km", "developmentTop1Within20Km", "candidateOracleWithin20Km"],
+      "properties": {
+        "name": {"type": "string", "maxLength": 120},
+        "version": {"type": "string", "maxLength": 40},
+        "artifactSha256": {"type": "string", "pattern": "^(demo|[a-f0-9]{64})$"},
+        "featureContract": {"const": "feature-contract.v1"},
+        "candidateCount": {"type": "integer", "minimum": 1, "maximum": 512},
+        "validationTop1Within20Km": {"type": "number", "minimum": 0, "maximum": 1},
+        "validationDiverseTop5Within20Km": {"type": "number", "minimum": 0, "maximum": 1},
+        "developmentTop1Within20Km": {"type": "number", "minimum": 0, "maximum": 1},
+        "candidateOracleWithin20Km": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "zone": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "rank", "label", "position", "probability", "uncertainty", "radiusKm", "siteType", "daysSinceLastEvent", "elevationM", "ruggednessM", "populationExposureBand", "drivers"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-zA-Z0-9._:-]{3,80}$"},
+        "rank": {"type": "integer", "minimum": 1, "maximum": 10},
+        "label": {"type": "string", "minLength": 1, "maxLength": 80},
+        "position": {"$ref": "#/$defs/position"},
+        "probability": {"type": "number", "minimum": 0, "maximum": 1},
+        "uncertainty": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "radiusKm": {"type": "number", "minimum": 10, "maximum": 100},
+        "siteType": {"enum": ["conflict-frequency site", "recent cross-conflict event"]},
+        "daysSinceLastEvent": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "elevationM": {"type": "integer", "minimum": -500, "maximum": 5000},
+        "ruggednessM": {"type": "number", "minimum": 0, "maximum": 3000},
+        "populationExposureBand": {"type": ["string", "null"], "enum": ["lower", "moderate", "higher", null]},
+        "drivers": {"type": "array", "minItems": 1, "maxItems": 5, "items": {"type": "string", "maxLength": 100}}
+      }
+    },
+    "observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "position", "occurredAt", "precision", "summary"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 80},
+        "kind": {"enum": ["observed event", "source signal"]},
+        "position": {"$ref": "#/$defs/position"},
+        "occurredAt": {"type": "string", "format": "date-time"},
+        "precision": {"enum": ["exact", "named place", "regional"]},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 240}
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "status", "lastSuccessfulAt", "articlesProcessed"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 40},
+        "label": {"type": "string", "maxLength": 80},
+        "status": {"enum": ["healthy", "delayed", "unavailable"]},
+        "lastSuccessfulAt": {"type": ["string", "null"], "format": "date-time"},
+        "articlesProcessed": {"type": "integer", "minimum": 0, "maximum": 100000}
+      }
+    }
+  }
+}
