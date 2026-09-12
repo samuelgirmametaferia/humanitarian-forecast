@@ -7,7 +7,7 @@ import time
 import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
-from threading import Lock
+from threading import Lock, Thread
 from typing import Any
 
 from .schemas import (
@@ -28,7 +28,10 @@ _WARNING = (
 )
 
 _REGISTRY_REFRESH_SECONDS = 600.0
-_REGISTRY_TIMEOUT_SECONDS = 15.0
+# Registry members are multi-megabyte GitHub Release assets; on a slow path a
+# single member can take a minute, so the timeout must tolerate that.
+_REGISTRY_TIMEOUT_SECONDS = 120.0
+_REGISTRY_FETCH_ATTEMPTS = 3
 _REGISTRY_CACHE_ROOT = Path("/tmp/hf-model-registry")
 
 
@@ -48,9 +51,19 @@ def _driver_labels(candidate: CandidatePrediction) -> list[str]:
 
 
 def _fetch(url: str, destination: Path) -> None:
-    request = urllib.request.Request(url, headers={"User-Agent": "HumanitarianForecast/1.0"})
-    with urllib.request.urlopen(request, timeout=_REGISTRY_TIMEOUT_SECONDS) as response:
-        destination.write_bytes(response.read())
+    last_error: Exception | None = None
+    for _ in range(_REGISTRY_FETCH_ATTEMPTS):
+        try:
+            request = urllib.request.Request(url, headers={"User-Agent": "HumanitarianForecast/1.0"})
+            with urllib.request.urlopen(request, timeout=_REGISTRY_TIMEOUT_SECONDS) as response:
+                with destination.open("wb") as out:
+                    while chunk := response.read(1 << 16):
+                        out.write(chunk)
+            return
+        except Exception as exc:  # noqa: BLE001 - retried below, raised after the last attempt
+            last_error = exc
+    assert last_error is not None
+    raise last_error
 
 
 class InferenceService:
@@ -72,6 +85,7 @@ class InferenceService:
         self._active_dir: Path = self.model_dir
         self._registry_digest: str | None = None
         self._registry_checked_at: float = 0.0
+        self._refresh_thread: Thread | None = None
         self._lock = Lock()
 
     def _registry_manifest(self) -> dict[str, Any] | None:
@@ -86,36 +100,58 @@ class InferenceService:
         digest = hashlib.sha256(raw).hexdigest()
         base = self.registry_url.rsplit("/", 1)[0]
         cache_dir = _REGISTRY_CACHE_ROOT / digest[:16]
+        # manifest.json is written LAST: its presence marks the directory as
+        # fully downloaded. A previous attempt killed mid-download leaves the
+        # directory without it and is re-fetched instead of half-loading.
         if not (cache_dir / "manifest.json").exists():
             cache_dir.mkdir(parents=True, exist_ok=True)
-            (cache_dir / "manifest.json").write_bytes(raw)
             for member in manifest["members"]:
                 _fetch(f"{base}/{member['path']}", cache_dir / member["path"])
             _fetch(f"{base}/champion-info.json", cache_dir / "champion-info.json")
+            (cache_dir / "manifest.json").write_bytes(raw)
         return {"digest": digest, "dir": cache_dir, "manifest": manifest}
 
     def _registry_dir(self) -> Path | None:
-        """Latest registry model directory, or None when it is unchanged or
-        unusable (the caller then keeps the current or bundled model)."""
+        """Kick off a registry refresh when the poll interval has elapsed.
+
+        The members are multi-megabyte release assets and can take minutes to
+        download on a slow path, so the download runs on a daemon thread: the
+        request that triggered the refresh is served immediately with the
+        current model, and the new one swaps in once fetched and validated.
+        Returns None either way — the caller keeps whatever it is serving.
+        """
         if not self.registry_url:
             return None
+        if time.monotonic() - self._registry_checked_at < _REGISTRY_REFRESH_SECONDS:
+            return None
+        self._registry_checked_at = time.monotonic()
+        if self._refresh_thread is None or not self._refresh_thread.is_alive():
+            self._refresh_thread = Thread(
+                target=self._refresh_registry, name="hf-model-registry", daemon=True
+            )
+            self._refresh_thread.start()
+        return None
+
+    def _refresh_registry(self) -> None:
         try:
-            if time.monotonic() - self._registry_checked_at < _REGISTRY_REFRESH_SECONDS:
-                return None
-            self._registry_checked_at = time.monotonic()
             latest = self._registry_manifest()
             if latest is None or latest["digest"] == self._registry_digest:
-                return None
+                return
             # Validation happens inside OnnxEnsemble: schema, parity status,
             # and per-member sha256 checks. A bad registry never loads.
             ensemble = OnnxEnsemble(latest["dir"], runtime=self._runtime)
-        except Exception as exc:  # noqa: BLE001 - any registry failure falls back
+        except Exception as exc:  # noqa: BLE001 - any registry failure keeps the current model
             print(f"model registry unavailable, keeping current model: {exc}", file=sys.stderr)
-            return None
-        self._registry_digest = latest["digest"]
-        self._ensemble = ensemble
-        self._metadata = self._metadata_for(ensemble)
-        return latest["dir"]
+            return
+        with self._lock:
+            self._registry_digest = latest["digest"]
+            self._ensemble = ensemble
+            self._active_dir = Path(ensemble.model_dir)
+            self._metadata = self._metadata_for(ensemble)
+        print(
+            f"model registry promoted to {latest['manifest'].get('version')}",
+            file=sys.stderr,
+        )
 
     @staticmethod
     def _metadata_for(ensemble: OnnxEnsemble) -> ModelMetadata:
