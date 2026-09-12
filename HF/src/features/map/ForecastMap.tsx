@@ -5,7 +5,7 @@ import type { GeoJSONSource, Map as MapLibreMap, MapLayerMouseEvent } from 'mapl
 import type { ForecastSnapshot } from '../../contracts/forecast'
 import { useForecastStore } from '../../lib/store'
 import { FallbackMap, MapSwitch } from './FallbackMap'
-import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJson, observationsGeoJson, populationDensityDotsGeoJson, zonePointsGeoJson } from './geo'
+import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJson, observationsGeoJson, zonePointsGeoJson } from './geo'
 import type { GeoJsonCollection } from './geo'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -135,7 +135,11 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       map.addSource('observations', { type: 'geojson', data: observationsGeoJson(snapshot), cluster: true, clusterRadius: 30, clusterMaxZoom: 9 })
       map.addSource('motion', { type: 'geojson', data: motionGeoJson(snapshot), lineMetrics: true })
       map.addSource('exposure', { type: 'geojson', data: exposureGeoJson(snapshot) })
-      map.addSource('population-density-dots', { type: 'geojson', data: populationDensityDotsGeoJson(snapshot) })
+      map.addSource('population-density-dots', {
+        type: 'geojson',
+        data: '/ethiopia-population-dots.geojson',
+        attribution: 'Population: WorldPop 2020 (UN-adjusted), CC BY 4.0',
+      })
       map.addSource('cities', { type: 'geojson', data: '/ethiopia-cities.geojson', attribution: 'Cities © OpenStreetMap contributors, ODbL' })
       const initialLayers = useForecastStore.getState().layers
       map.addLayer({
@@ -161,11 +165,11 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       map.addLayer({
         id: 'population-density-dots', type: 'circle', source: 'population-density-dots',
         paint: {
-          'circle-radius': ['interpolate', ['linear'], ['get', 'density'], 0, 2.2, 200, 3.2, 800, 4.6],
-          'circle-color': ['interpolate', ['linear'], ['get', 'density'], 0, '#2e9385', 200, '#e8c454', 800, '#ff6940'],
-          'circle-opacity': .9,
+          'circle-radius': ['interpolate', ['linear'], ['get', 'd'], 0, 1.4, 500, 2.1, 3000, 3.4],
+          'circle-color': ['interpolate', ['linear'], ['get', 'd'], 0, '#2e9385', 500, '#e8c454', 3000, '#ff6940'],
+          'circle-opacity': .88,
           'circle-stroke-color': 'rgba(7,24,32,.9)',
-          'circle-stroke-width': .8,
+          'circle-stroke-width': .7,
           'circle-pitch-alignment': 'map',
           'circle-pitch-scale': 'viewport',
         },
@@ -329,7 +333,6 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       ['observations', observationsGeoJson(data)],
       ['motion', motionGeoJson(data)],
       ['exposure', exposureGeoJson(data)],
-      ['population-density-dots', populationDensityDotsGeoJson(data)],
     ]
     for (const [id, source] of sources) {
       const existing = map.getSource(id) as GeoJSONSource | undefined
