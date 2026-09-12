@@ -7,7 +7,7 @@ import time
 import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
-from threading import Lock, Thread
+from threading import Lock
 from typing import Any
 
 from .schemas import (
@@ -85,7 +85,7 @@ class InferenceService:
         self._active_dir: Path = self.model_dir
         self._registry_digest: str | None = None
         self._registry_checked_at: float = 0.0
-        self._refresh_thread: Thread | None = None
+        self._registry_error: str | None = None
         self._lock = Lock()
 
     def _registry_manifest(self) -> dict[str, Any] | None:
@@ -112,46 +112,40 @@ class InferenceService:
         return {"digest": digest, "dir": cache_dir, "manifest": manifest}
 
     def _registry_dir(self) -> Path | None:
-        """Kick off a registry refresh when the poll interval has elapsed.
+        """Refresh the registry model inline when the poll interval elapses.
 
-        The members are multi-megabyte release assets and can take minutes to
-        download on a slow path, so the download runs on a daemon thread: the
-        request that triggered the refresh is served immediately with the
-        current model, and the new one swaps in once fetched and validated.
-        Returns None either way — the caller keeps whatever it is serving.
+        Vercel freezes the function between requests, so a background download
+        thread would rarely get CPU time; the refresh runs on the request path
+        instead. It is a no-op (one small manifest fetch) whenever the registry
+        is unchanged, and only the first request after a promotion pays the
+        multi-second member download.
         """
         if not self.registry_url:
             return None
         if time.monotonic() - self._registry_checked_at < _REGISTRY_REFRESH_SECONDS:
             return None
         self._registry_checked_at = time.monotonic()
-        if self._refresh_thread is None or not self._refresh_thread.is_alive():
-            self._refresh_thread = Thread(
-                target=self._refresh_registry, name="hf-model-registry", daemon=True
-            )
-            self._refresh_thread.start()
-        return None
-
-    def _refresh_registry(self) -> None:
         try:
             latest = self._registry_manifest()
             if latest is None or latest["digest"] == self._registry_digest:
-                return
+                return None
             # Validation happens inside OnnxEnsemble: schema, parity status,
             # and per-member sha256 checks. A bad registry never loads.
             ensemble = OnnxEnsemble(latest["dir"], runtime=self._runtime)
         except Exception as exc:  # noqa: BLE001 - any registry failure keeps the current model
             print(f"model registry unavailable, keeping current model: {exc}", file=sys.stderr)
-            return
-        with self._lock:
-            self._registry_digest = latest["digest"]
-            self._ensemble = ensemble
-            self._active_dir = Path(ensemble.model_dir)
-            self._metadata = self._metadata_for(ensemble)
+            self._registry_error = str(exc)
+            return None
+        self._registry_error = None
+        self._registry_digest = latest["digest"]
+        self._ensemble = ensemble
+        self._active_dir = Path(ensemble.model_dir)
+        self._metadata = self._metadata_for(ensemble)
         print(
             f"model registry promoted to {latest['manifest'].get('version')}",
             file=sys.stderr,
         )
+        return latest["dir"]
 
     @staticmethod
     def _metadata_for(ensemble: OnnxEnsemble) -> ModelMetadata:
@@ -182,6 +176,16 @@ class InferenceService:
             if self._metadata is None:
                 raise RuntimeError("model metadata failed to initialize")
             return self._ensemble, self._metadata
+
+    def registry_status(self) -> dict[str, Any] | None:
+        """Registry wiring and last refresh outcome, for the health endpoint."""
+        if not self.registry_url:
+            return None
+        return {
+            "configured": True,
+            "activeVersion": self._metadata.version if self._metadata else None,
+            "error": self._registry_error,
+        }
 
     def metadata(self) -> ModelMetadata:
         _, metadata = self._load()

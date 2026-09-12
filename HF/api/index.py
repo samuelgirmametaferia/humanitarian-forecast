@@ -21,6 +21,7 @@ from .hf_api.schemas import (
     ModelMetadata,
     ProjectHistoryEvent,
     ProjectHistoryResponse,
+    RegistryHealth,
     TrainingPair,
     TrainingPairsResponse,
 )
@@ -69,10 +70,12 @@ async def unavailable_handler(_request: Request, _exc: RuntimeError) -> JSONResp
 @app.get("/api/health", response_model=HealthResponse)
 @app.get("/api/v1/health", response_model=HealthResponse)
 def health() -> HealthResponse:
+    registry = inference.registry_status() if inference is not None else None
     return HealthResponse(
         status="ok" if settings.provider_mode == "demo" else "degraded",
         mode=settings.provider_mode,
         writesEnabled=settings.provider_mode == "production",
+        modelRegistry=RegistryHealth(**registry) if registry else None,
     )
 
 

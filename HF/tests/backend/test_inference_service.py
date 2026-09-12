@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import time
 from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -116,12 +115,7 @@ def test_registry_promotes_new_version_and_falls_back_on_failure(tmp_path: Any) 
         registry_url=registry.as_uri() + "/manifest.json",
         runtime=runtime,
     )
-    # The refresh runs on a background thread; poll until it promotes.
-    deadline = time.monotonic() + 10.0
     promoted = service.metadata()
-    while promoted.version != "retrain-test-1" and time.monotonic() < deadline:
-        time.sleep(0.05)
-        promoted = service.metadata()
     assert promoted.version == "retrain-test-1"
     assert promoted.artifactSha256 != "demo"
 
@@ -134,14 +128,4 @@ def test_registry_promotes_new_version_and_falls_back_on_failure(tmp_path: Any) 
         registry_url=broken.as_uri() + "/manifest.json",
         runtime=runtime,
     )
-    deadline = time.monotonic() + 10.0
-    while time.monotonic() < deadline:
-        version = fallback.metadata().version
-        if version != "fine-v2":
-            raise AssertionError(f"broken registry promoted {version}")
-        # Give the failing refresh thread time to run before concluding.
-        thread = fallback._refresh_thread
-        if thread is not None and not thread.is_alive():
-            break
-        time.sleep(0.05)
     assert fallback.metadata().version == "fine-v2"

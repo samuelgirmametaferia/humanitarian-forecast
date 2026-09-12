@@ -160,8 +160,16 @@ class TrainingPairsResponse(BaseModel):
     pairs: list[TrainingPair] = Field(max_length=1000)
 
 
+class RegistryHealth(BaseModel):
+    model_config = Strict
+    configured: bool
+    activeVersion: str | None = None
+    error: str | None = None
+
+
 class HealthResponse(BaseModel):
     model_config = Strict
     status: Literal["ok", "degraded"]
     mode: Literal["demo", "production"]
     writesEnabled: bool
+    modelRegistry: RegistryHealth | None = None
