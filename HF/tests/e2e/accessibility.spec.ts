@@ -81,14 +81,21 @@ test('tutorial can be replayed from settings', async ({ page }) => {
 test('model registry loads a different published prediction', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Accessible Map' }).click()
-  await page.getByRole('button', { name: /Model NIGHTJAR/ }).click()
+  await page.getByRole('button', { name: /forecast model: NIGHTJAR/ }).click()
   const registry = page.getByRole('dialog', { name: 'Select forecast model' })
   await expect(registry).toBeVisible()
   await expect(registry.locator('.model-list > button')).toHaveCount(33)
   await registry.getByRole('button', { name: /CITADEL/ }).click()
-  await expect(page.getByRole('button', { name: /Model CITADEL/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /forecast model: CITADEL/ })).toBeVisible()
   await page.getByRole('button', { name: 'View data' }).click()
   await expect(page.getByRole('table').locator('tbody tr')).toHaveCount(1)
+})
+
+test('model selector and map recovery control remain available on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await expect(page.getByRole('button', { name: /forecast model: NIGHTJAR/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Focus map on Ethiopia' })).toBeVisible()
 })
 
 for (const viewport of viewports) {

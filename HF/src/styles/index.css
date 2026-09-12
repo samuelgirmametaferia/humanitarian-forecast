@@ -80,6 +80,9 @@ a { color: inherit; }
 .map-switch button { border: 0; background: transparent; color: #d5ddd6; padding: .4rem .55rem; font-size: .67rem; cursor: pointer; }
 .map-switch button[aria-pressed="true"] { color: #111814; background: #edf0e8; }
 .map-switch button:disabled { opacity: .4; cursor: not-allowed; }
+.map-focus { position: absolute; z-index: 9; right: .8rem; bottom: 5.25rem; display: inline-flex; align-items: center; gap: .4rem; padding: .48rem .62rem; border: 1px solid rgba(213,221,214,.35); color: #edf0e8; background: rgba(17,24,20,.86); cursor: pointer; }
+.map-focus svg { width: 1rem; height: 1rem; }
+.map-focus span { font-size: .67rem; }
 .layer-panel { position: absolute; z-index: 4; top: .8rem; left: .8rem; width: 14rem; max-height: calc(100% - 5.3rem); overflow: auto; background: color-mix(in srgb, var(--surface) 94%, transparent); border: 1px solid var(--line); backdrop-filter: blur(10px); }
 .panel-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: .75rem; border-bottom: 1px solid var(--line); }
 .panel-heading h2 { margin: 0; font: 600 1rem/1.2 "Newsreader Variable", serif; }
@@ -291,6 +294,7 @@ thead button, .table-zone-link { border: 0; padding: 0; color: inherit; backgrou
   .fallback-map svg { width: min(72%,34rem); max-height: 56%; transform: translateY(-3%); }
   .fallback-caption { display: none; }
   .map-switch { top: 8.35rem; right: .75rem; bottom: auto; }
+  .map-focus { top: 11.3rem; right: .75rem; bottom: auto; }
   .metric-band { grid-template-columns: 1fr 1fr; }
   .metric-band div:nth-child(2) { border-right: 0; }
   .metric-band div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -306,7 +310,7 @@ thead button, .table-zone-link { border: 0; padding: 0; color: inherit; backgrou
   .forecast-route { height: calc(100dvh - var(--nav-size)); min-height: 40rem; grid-template-rows: auto minmax(0,1fr); }
   .forecast-header { padding: .65rem .8rem; gap: .5rem; }
   .forecast-header h1 { font-size: 1.15rem; }
-  .forecast-header p, .forecast-context span:not(:first-child), .forecast-meta > div { display: none; }
+  .forecast-header p, .forecast-context span:not(:first-child), .forecast-meta > .forecast-updated { display: none; }
   .forecast-meta > button { font-size: 0; padding: .55rem; }
   .forecast-meta > button svg { width: 1.1rem; margin: 0; }
   .model-trigger > svg:first-child, .model-trigger > span small { display: none; }
@@ -334,6 +338,8 @@ thead button, .table-zone-link { border: 0; padding: 0; color: inherit; backgrou
   .human-note { width: 100%; max-width: none; }
   .fallback-caption { display: none; }
   .map-switch { top: 9rem; right: .75rem; bottom: auto; }
+  .map-focus { top: 12rem; right: .75rem; bottom: auto; }
+  .map-focus span { display: none; }
   .forecast-table-wrap { inset: 2vh .5rem calc(var(--nav-size) + .5rem); }
   .content-route { padding: 2rem 1.1rem calc(var(--nav-size) + 2rem); }
   .content-route h1 { font-size: clamp(2.5rem,14vw,4.5rem); }

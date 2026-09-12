@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { LocateFixed } from 'lucide-react'
 import * as maplibregl from 'maplibre-gl'
 import type { Map as MapLibreMap, MapLayerMouseEvent } from 'maplibre-gl'
 import type { ForecastSnapshot } from '../../contracts/forecast'
@@ -8,6 +9,7 @@ import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJso
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 const TERRAIN_SOURCE = 'elevation-dem'
+const ETHIOPIA_VIEW = { center: [39.1, 9.6] as [number, number], zoom: 5.05, pitch: 58, bearing: -12 }
 
 const baseStyle: maplibregl.StyleSpecification = {
   version: 8,
@@ -75,15 +77,26 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   const selectedZoneId = useForecastStore((state) => state.selectedZoneId)
   const selectZone = useForecastStore((state) => state.setSelectedZone)
 
+  const focusEthiopia = useCallback((animate = true) => {
+    const map = mapRef.current
+    if (!map) return
+    map.resize()
+    if (animate && !reducedMotion) {
+      map.flyTo({ ...ETHIOPIA_VIEW, duration: 2200, curve: 1.25, essential: true })
+    } else {
+      map.jumpTo(ETHIOPIA_VIEW)
+    }
+  }, [reducedMotion])
+
   useEffect(() => {
     if (!container.current || mapMode !== 'globe' || !globeAvailable || mapRef.current) return
     const map = new maplibregl.Map({
       container: container.current,
       style: import.meta.env.VITE_MAP_STYLE_URL || baseStyle,
-      center: reducedMotion ? [39.1, 9.6] : [18, 5],
-      zoom: reducedMotion ? 5.05 : 1.15,
-      pitch: reducedMotion ? 58 : 0,
-      bearing: reducedMotion ? -12 : 0,
+      center: reducedMotion ? ETHIOPIA_VIEW.center : [18, 5],
+      zoom: reducedMotion ? ETHIOPIA_VIEW.zoom : 1.15,
+      pitch: reducedMotion ? ETHIOPIA_VIEW.pitch : 0,
+      bearing: reducedMotion ? ETHIOPIA_VIEW.bearing : 0,
       attributionControl: false,
     })
     mapRef.current = map
@@ -223,12 +236,19 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
         if (hoverId.current) map.setFeatureState({ source: 'forecast-zones', id: hoverId.current }, { hover: false })
         hoverId.current = null
       })
-      if (!reducedMotion) map.flyTo({ center: [39.1, 9.6], zoom: 5.05, pitch: 58, bearing: -12, duration: 3600, curve: 1.35, essential: false })
+      window.requestAnimationFrame(() => {
+        map.resize()
+        if (!reducedMotion) map.flyTo({ ...ETHIOPIA_VIEW, duration: 3000, curve: 1.3, essential: true })
+      })
     })
+    const cameraFallback = window.setTimeout(() => {
+      if (map.getZoom() < 4) map.jumpTo(ETHIOPIA_VIEW)
+    }, 3800)
     map.on('webglcontextlost', () => { setGlobeAvailable(false); setMapMode('accessible') })
     map.addControl(new maplibregl.NavigationControl({ showCompass: true, visualizePitch: true }), 'top-right')
     map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right')
     return () => {
+      window.clearTimeout(cameraFallback)
       map.remove()
       mapRef.current = null
     }
@@ -284,6 +304,7 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   return (
     <div className="map-canvas-wrap">
       <div ref={container} className="map-canvas" role="application" aria-label="Interactive globe centered on Ethiopia. Use View data for a keyboard-accessible table." />
+      <button type="button" className="map-focus" onClick={() => focusEthiopia()} aria-label="Focus map on Ethiopia"><LocateFixed aria-hidden="true" /><span>Focus Ethiopia</span></button>
       <MapSwitch mode="globe" globeAvailable={globeAvailable} onGlobe={() => setMapMode('globe')} onAccessible={() => setMapMode('accessible')} />
     </div>
   )

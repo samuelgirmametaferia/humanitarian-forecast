@@ -19,7 +19,7 @@ export function ModelPicker() {
   }, [open])
 
   return <div className="model-picker">
-    <button type="button" className="model-trigger" onClick={() => setOpen(!open)} aria-expanded={open} aria-haspopup="dialog"><Cpu aria-hidden="true" /><span><small>Model</small><strong>{selected.codeName}</strong></span><ChevronDown aria-hidden="true" /></button>
+    <button type="button" className="model-trigger" onClick={() => setOpen(!open)} aria-label={`Select forecast model: ${selected.codeName}`} aria-expanded={open} aria-haspopup="dialog"><Cpu aria-hidden="true" /><span><small>Model</small><strong>{selected.codeName}</strong></span><ChevronDown aria-hidden="true" /></button>
     {open && <div className="model-menu" role="dialog" aria-modal="false" aria-label="Select forecast model" ref={dialog}>
       <header><div><span>Model registry</span><strong>33 systems</strong></div><button type="button" onClick={() => setOpen(false)} aria-label="Close model registry"><X aria-hidden="true" /></button></header>
       <p className="model-menu-note">Four models have comparable Ethiopia outputs for the same archived input. The rest remain visible as catalog entries until an inference adapter is connected.</p>
