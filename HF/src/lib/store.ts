@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { LayerId } from '../contracts/forecast'
-import { DEFAULT_MODEL_ID } from '../data/model-catalog'
+import { LIVE_MODEL_ID } from '../data/model-catalog'
 
 export type ThemePreference = 'system' | 'light' | 'dark'
 export type MapMode = 'globe' | 'accessible'
@@ -60,7 +60,7 @@ export const useForecastStore = create<ForecastState>()(persist((set) => ({
   informationDensity: 'comfortable',
   tutorialOpen: true,
   tutorialSeen: false,
-  selectedModelId: DEFAULT_MODEL_ID,
+  selectedModelId: LIVE_MODEL_ID,
   setSelectedZone: (selectedZoneId) => set({ selectedZoneId }),
   toggleLayer: (id) => set((state) => ({ layers: { ...state.layers, [id]: !state.layers[id] } })),
   setTableOpen: (tableOpen) => set({ tableOpen }),

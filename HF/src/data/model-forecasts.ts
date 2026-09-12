@@ -1,5 +1,5 @@
 import type { ForecastSnapshot, ForecastZone } from '../contracts/forecast'
-import { DEFAULT_MODEL_ID, MODEL_CATALOG, PUBLISHED_MODEL_IDS } from './model-catalog'
+import { DEFAULT_MODEL_ID, LIVE_MODEL_ID, MODEL_CATALOG, PUBLISHED_MODEL_IDS } from './model-catalog'
 
 type ActualZone = [latitude: number, longitude: number, probability: number, radiusKm?: number, elevationM?: number, ruggednessM?: number, recency?: number]
 
@@ -55,6 +55,8 @@ function zones(rows: ActualZone[], codeName: string): ForecastZone[] {
 }
 
 export function forecastForModel(base: ForecastSnapshot, selectedId: string): ForecastSnapshot {
+  // The live registry model: the served forecast is already its output.
+  if (selectedId === LIVE_MODEL_ID) return base
   const modelId = PUBLISHED_MODEL_IDS.has(selectedId) ? selectedId : DEFAULT_MODEL_ID
   const entry = MODEL_CATALOG.find((item) => item.id === modelId)!
   return {

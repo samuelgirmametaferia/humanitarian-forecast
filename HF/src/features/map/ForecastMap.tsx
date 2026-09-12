@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { LocateFixed } from 'lucide-react'
 import * as maplibregl from 'maplibre-gl'
-import type { Map as MapLibreMap, MapLayerMouseEvent } from 'maplibre-gl'
+import type { GeoJSONSource, Map as MapLibreMap, MapLayerMouseEvent } from 'maplibre-gl'
 import type { ForecastSnapshot } from '../../contracts/forecast'
 import { useForecastStore } from '../../lib/store'
 import { FallbackMap, MapSwitch } from './FallbackMap'
 import { exposureGeoJson, forecastGaussianGeoJson, forecastGeoJson, motionGeoJson, observationsGeoJson, populationDensityDotsGeoJson, zonePointsGeoJson } from './geo'
+import type { GeoJsonCollection } from './geo'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 const TERRAIN_SOURCE = 'elevation-dem'
@@ -84,6 +85,11 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   const container = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const hoverId = useRef<string | null>(null)
+  // The map is created once; data changes must not tear it down (that reset
+  // the camera and dropped the probability layer until the next interaction).
+  // style.load reads this ref so it always seeds the newest snapshot.
+  const dataRef = useRef(data)
+  dataRef.current = data
   const [globeAvailable, setGlobeAvailable] = useState(supportsWebGl)
   const layers = useForecastStore((state) => state.layers)
   const mapMode = useForecastStore((state) => state.mapMode)
@@ -122,13 +128,14 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
     })
     mapRef.current = map
     map.on('style.load', () => {
-      map.addSource('forecast-zones', { type: 'geojson', data: forecastGeoJson(data), promoteId: 'id' })
-      map.addSource('gaussian-zones', { type: 'geojson', data: forecastGaussianGeoJson(data) })
-      map.addSource('zone-points', { type: 'geojson', data: zonePointsGeoJson(data), promoteId: 'id' })
-      map.addSource('observations', { type: 'geojson', data: observationsGeoJson(data), cluster: true, clusterRadius: 30, clusterMaxZoom: 9 })
-      map.addSource('motion', { type: 'geojson', data: motionGeoJson(data), lineMetrics: true })
-      map.addSource('exposure', { type: 'geojson', data: exposureGeoJson(data) })
-      map.addSource('population-density-dots', { type: 'geojson', data: populationDensityDotsGeoJson(data) })
+      const snapshot = dataRef.current
+      map.addSource('forecast-zones', { type: 'geojson', data: forecastGeoJson(snapshot), promoteId: 'id' })
+      map.addSource('gaussian-zones', { type: 'geojson', data: forecastGaussianGeoJson(snapshot) })
+      map.addSource('zone-points', { type: 'geojson', data: zonePointsGeoJson(snapshot), promoteId: 'id' })
+      map.addSource('observations', { type: 'geojson', data: observationsGeoJson(snapshot), cluster: true, clusterRadius: 30, clusterMaxZoom: 9 })
+      map.addSource('motion', { type: 'geojson', data: motionGeoJson(snapshot), lineMetrics: true })
+      map.addSource('exposure', { type: 'geojson', data: exposureGeoJson(snapshot) })
+      map.addSource('population-density-dots', { type: 'geojson', data: populationDensityDotsGeoJson(snapshot) })
       map.addSource('cities', { type: 'geojson', data: '/ethiopia-cities.geojson', attribution: 'Cities © OpenStreetMap contributors, ODbL' })
       const initialLayers = useForecastStore.getState().layers
       map.addLayer({
@@ -202,8 +209,8 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
           'line-color': '#ffffff',
           'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 3, ['boolean', ['feature-state', 'hover'], false], 2, 0],
           'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 1, ['boolean', ['feature-state', 'hover'], false], .72, 0],
-          'line-width-transition': { duration: reducedMotion ? 0 : 140 },
-          'line-opacity-transition': { duration: reducedMotion ? 0 : 140 },
+          'line-width-transition': { duration: useForecastStore.getState().reducedMotion ? 0 : 140 },
+          'line-opacity-transition': { duration: useForecastStore.getState().reducedMotion ? 0 : 140 },
         },
       })
       map.addLayer({
@@ -307,7 +314,30 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       map.remove()
       mapRef.current = null
     }
-  }, [data, globeAvailable, mapMode, reducedMotion, selectZone, setMapMode])
+  }, [globeAvailable, mapMode, selectZone, setMapMode])
+
+  // Model or forecast changes update the existing sources in place: the
+  // camera, terrain, and every layer survive, and triggerRepaint makes the
+  // fill-extrusion layer redraw without waiting for a camera move.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map?.isStyleLoaded()) return
+    const sources: [string, GeoJsonCollection][] = [
+      ['forecast-zones', forecastGeoJson(data)],
+      ['gaussian-zones', forecastGaussianGeoJson(data)],
+      ['zone-points', zonePointsGeoJson(data)],
+      ['observations', observationsGeoJson(data)],
+      ['motion', motionGeoJson(data)],
+      ['exposure', exposureGeoJson(data)],
+      ['population-density-dots', populationDensityDotsGeoJson(data)],
+    ]
+    for (const [id, source] of sources) {
+      const existing = map.getSource(id) as GeoJSONSource | undefined
+      existing?.setData(source)
+    }
+    hoverId.current = null
+    map.triggerRepaint()
+  }, [data])
 
   useEffect(() => {
     const map = mapRef.current

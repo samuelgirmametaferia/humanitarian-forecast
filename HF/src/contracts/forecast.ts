@@ -73,6 +73,21 @@ export const healthSchema = z.object({
   writesEnabled: z.boolean(),
 }).strict()
 
+export const registryModelEntrySchema = z.object({
+  version: z.string(),
+  publishedAt: z.iso.datetime().nullable(),
+  validationTop1Within20Km: z.number().min(0).max(1).nullable(),
+}).strict()
+
+export const registryModelsSchema = z.object({
+  active: registryModelEntrySchema.nullable(),
+  history: z.array(registryModelEntrySchema),
+  error: z.string().nullable(),
+}).strict()
+
+export type RegistryModels = z.infer<typeof registryModelsSchema>
+export type RegistryModelEntry = z.infer<typeof registryModelEntrySchema>
+
 export const historyEventSchema = z.object({
   id: z.string(),
   kind: z.enum(['dataset_update', 'model_run', 'training', 'evaluation', 'prediction_batch', 'model_version']),

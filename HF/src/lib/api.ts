@@ -3,9 +3,11 @@ import {
   forecastSnapshotSchema,
   healthSchema,
   projectHistorySchema,
+  registryModelsSchema,
   type ForecastSnapshot,
   type Health,
   type ProjectHistory,
+  type RegistryModels,
 } from '../contracts/forecast'
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || '/api'
@@ -35,6 +37,17 @@ export async function getHealth(signal?: AbortSignal): Promise<Health> {
 export async function getProjectHistory(signal?: AbortSignal): Promise<ProjectHistory> {
   if (providerMode === 'model-scenario') return projectHistorySchema.parse({ entries: [], updateCycleDays: 3 })
   return projectHistorySchema.parse(await request('/v1/history', signal))
+}
+
+export async function getRegistryModels(signal?: AbortSignal): Promise<RegistryModels | null> {
+  // The registry list is advisory: a failed fetch just leaves the picker
+  // showing the live entry without version details.
+  if (providerMode === 'model-scenario') return null
+  try {
+    return registryModelsSchema.parse(await request('/v1/models', signal))
+  } catch {
+    return null
+  }
 }
 
 export function isDemoMode() {

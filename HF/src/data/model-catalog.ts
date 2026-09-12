@@ -41,6 +41,10 @@ export const MODEL_CATALOG: ModelCatalogEntry[] = [
   { id: 'risk/ethiopia/v7_transfer', codeName: 'TRANSFER', family: 'Risk', status: 'retired' },
 ]
 
+// The live registry model: whatever version the serving API is currently
+// running (the weekly retrain promotes automatically). Selected by default.
+export const LIVE_MODEL_ID = 'live'
+
 export const DEFAULT_MODEL_ID = 'location/theswarm/fine_v2'
 
 export const PUBLISHED_MODEL_IDS = new Set([
