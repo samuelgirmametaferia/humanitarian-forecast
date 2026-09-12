@@ -69,7 +69,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install runtime dependencies
-        run: pip install numpy
+        run: pip install numpy pillow
       - uses: actions/download-artifact@v4
         with:
           name: public-preview-signals-${{ github.run_id }}
