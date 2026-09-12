@@ -30,6 +30,13 @@ CREATE TABLE IF NOT EXISTS hf_history_events (
 );
 CREATE INDEX IF NOT EXISTS hf_history_events_occurred_at_idx
     ON hf_history_events (occurred_at DESC);
+CREATE TABLE IF NOT EXISTS hf_feature_payloads (
+    run_id text PRIMARY KEY,
+    generated_at timestamptz NOT NULL,
+    payload jsonb NOT NULL
+);
+CREATE INDEX IF NOT EXISTS hf_feature_payloads_generated_at_idx
+    ON hf_feature_payloads (generated_at ASC);
 """
 
 
@@ -81,6 +88,14 @@ class Repository(ABC):
     def project_history(self, limit: int) -> list[ProjectHistoryEvent]:
         raise NotImplementedError
 
+    @abstractmethod
+    def store_feature_payload(self, run_id: str, generated_at: Any, payload: dict[str, Any]) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def feature_payloads(self, since: Any, limit: int) -> list[dict[str, Any]]:
+        raise NotImplementedError
+
 
 class DemoRepository(Repository):
     def publish_once(
@@ -109,6 +124,14 @@ class DemoRepository(Repository):
 
     def project_history(self, limit: int) -> list[ProjectHistoryEvent]:
         del limit
+        return []
+
+    def store_feature_payload(self, run_id: str, generated_at: Any, payload: dict[str, Any]) -> None:
+        del run_id, generated_at, payload
+        raise RuntimeError("Demo mode never persists feature payloads")
+
+    def feature_payloads(self, since: Any, limit: int) -> list[dict[str, Any]]:
+        del since, limit
         return []
 
 
@@ -215,6 +238,31 @@ class ProductionRepository(Repository):
             ).fetchall()
         return [_history_event_from_row(row) for row in rows]
 
+    def store_feature_payload(self, run_id: str, generated_at: Any, payload: dict[str, Any]) -> None:
+        """Persist the raw feature contract of a published run so matured
+        forecasts can be labeled with realized UCDP outcomes and retrained on."""
+        self._ensure_schema()
+        body = json.dumps(payload, separators=(",", ":"))
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO hf_feature_payloads (run_id, generated_at, payload) "
+                "VALUES (%s, %s, %s::jsonb) ON CONFLICT (run_id) DO NOTHING",
+                (run_id, generated_at, body),
+            )
+
+    def feature_payloads(self, since: Any, limit: int) -> list[dict[str, Any]]:
+        self._ensure_schema()
+        with self._connect() as connection:
+            rows = connection.execute(
+                "SELECT run_id, generated_at, payload FROM hf_feature_payloads "
+                "WHERE generated_at > %s ORDER BY generated_at ASC LIMIT %s",
+                (since, limit),
+            ).fetchall()
+        return [
+            {"runId": row[0], "generatedAt": row[1].isoformat() if hasattr(row[1], "isoformat") else row[1], "featurePayload": _json_value(row[2])}
+            for row in rows
+        ]
+
 
 class ReplayConflict(RuntimeError):
     pass
@@ -232,3 +280,7 @@ def _history_event_from_row(row: Any) -> ProjectHistoryEvent:
     if isinstance(value, str):
         value = json.loads(value)
     return ProjectHistoryEvent.model_validate(value)
+
+
+def _json_value(value: Any) -> Any:
+    return json.loads(value) if isinstance(value, str) else value

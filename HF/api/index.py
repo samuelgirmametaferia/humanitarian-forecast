@@ -21,6 +21,8 @@ from .hf_api.schemas import (
     ModelMetadata,
     ProjectHistoryEvent,
     ProjectHistoryResponse,
+    TrainingPair,
+    TrainingPairsResponse,
 )
 from .hf_api.security import body_sha256, require_json, verify_ingest_signature
 
@@ -40,7 +42,9 @@ provider: ForecastProvider = (
     if production_repository is None
     else ProductionForecastProvider(repository=production_repository)
 )
-inference = InferenceService(settings.model_dir) if production_repository is not None else None
+inference = InferenceService(
+    settings.model_dir, registry_url=settings.model_registry_url
+) if production_repository is not None else None
 app = FastAPI(title="Humanitarian Forecaster API", version="1.0.0", docs_url=None, redoc_url=None)
 if settings.allowed_origins:
     app.add_middleware(
@@ -177,6 +181,11 @@ async def ingest(
             snapshot,
         )
         production_repository.add_history_events(envelope.historyEvents)
+        production_repository.store_feature_payload(
+            envelope.runId,
+            envelope.generatedAt,
+            envelope.featurePayload.model_dump(mode="json"),
+        )
     except ReplayConflict as exc:
         raise HTTPException(status.HTTP_409_CONFLICT, "Run ID has already been published") from exc
     return {"status": "published", "forecastId": snapshot.id}
@@ -203,3 +212,29 @@ def reconcile(
     if authorization is None or not secrets.compare_digest(authorization, expected):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid cron authorization")
     return reconciliation_status(datetime.now(UTC))
+
+
+@app.get("/api/v1/learn/training-pairs", response_model=TrainingPairsResponse)
+def training_pairs(
+    request: Request,
+    response: Response,
+    authorization: str | None = Header(default=None),
+    since: datetime | None = Query(default=None),
+    limit: int = Query(200, ge=1, le=1000),
+) -> TrainingPairsResponse:
+    """Stored feature payloads for the retrain pipeline: each published
+    forecast's exact model inputs, labeled later against realized UCDP
+    outcomes once the horizon window has matured."""
+    add_rate_headers(response, enforce_rate(request, "learn"))
+    if not settings.cron_secret:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "Reconciliation is disabled")
+    expected = f"Bearer {settings.cron_secret}"
+    if authorization is None or not secrets.compare_digest(authorization, expected):
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid cron authorization")
+    if production_repository is None:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "Production learning is disabled")
+    since_value = since or datetime(1970, 1, 1, tzinfo=UTC)
+    pairs = production_repository.feature_payloads(since_value, limit)
+    return TrainingPairsResponse(
+        pairs=[TrainingPair.model_validate(pair) for pair in pairs]
+    )

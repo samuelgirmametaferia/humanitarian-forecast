@@ -16,6 +16,7 @@ class Settings:
     redis_url: str | None
     redis_token: str | None
     model_dir: str
+    model_registry_url: str | None
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -42,6 +43,10 @@ class Settings:
                 "HF_MODEL_DIR",
                 str(Path(__file__).resolve().parents[1] / "models" / "ethiopia_serving"),
             ),
+            # Model registry (GitHub Releases manifest URL). When set, the
+            # serving layer promotes the latest registry model automatically
+            # and falls back to the bundled package on any registry failure.
+            model_registry_url=os.getenv("HF_MODEL_REGISTRY_URL"),
         )
 
     def validate_production(self) -> None:

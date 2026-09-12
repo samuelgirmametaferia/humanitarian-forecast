@@ -1,24 +1,136 @@
-name: Three-day reconciliation
+name: Reconcile forecasts with outcomes
 
 on:
   schedule:
-    - cron: '17 6 * * *'
+    - cron: '23 2 * * *'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+env:
+  GED_ZIP_URL: https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+  GED_ZIP_PATH: data/raw/ged261-csv.zip
+  CANDIDATE_GED_PATH: data/raw/candidate_ged.csv
+  LIVE_PAIRS_PATH: artifacts/live_pairs.npz
 
 jobs:
-  reconcile:
+  label:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - name: Call protected reconciliation gate
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime dependencies
+        run: pip install numpy
+      # Scheduled workflows run on the default branch only; dispatch always
+      # runs. The deterministic third-day window mirrors should_reconcile()
+      # in the API so both sides agree on which day counts.
+      - name: Third-day window gate
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "due=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - <<'EOF'
+          import datetime, os
+          due = datetime.datetime.now(datetime.UTC).toordinal() % 3 == 0
+          with open(os.environ["GITHUB_OUTPUT"], "a") as out:
+              out.write(f"due={'true' if due else 'false'}\n")
+          EOF
+      - name: Fetch stored feature payloads
+        if: steps.gate.outputs.due == 'true'
         env:
-          HF_RECONCILE_URL: ${{ secrets.HF_RECONCILE_URL }}
+          HF_TRAINING_PAIRS_URL: ${{ secrets.HF_TRAINING_PAIRS_URL }}
           HF_CRON_SECRET: ${{ secrets.HF_CRON_SECRET }}
         run: |
-          test -n "$HF_RECONCILE_URL"
-          test -n "$HF_CRON_SECRET"
-          curl --fail-with-body --retry 3 --retry-all-errors \
-            --header "Authorization: Bearer $HF_CRON_SECRET" \
-            "$HF_RECONCILE_URL"
+          mkdir -p artifacts
+          curl -sSf --retry 3 \
+            -H "Authorization: Bearer ${HF_CRON_SECRET}" \
+            "${HF_TRAINING_PAIRS_URL}?limit=1000" -o payloads.json
+          python - <<'EOF'
+          import json
+          pairs = json.load(open("payloads.json"))["pairs"]
+          with open("artifacts/payloads.jsonl", "w") as out:
+              for pair in pairs:
+                  out.write(json.dumps(pair) + "\n")
+          print(f"{len(pairs)} stored payloads")
+          EOF
+      - uses: actions/cache@v4
+        if: steps.gate.outputs.due == 'true'
+        with:
+          path: ${{ env.GED_ZIP_PATH }}
+          key: ucdp-ged261-csv
+      - name: Download UCDP GED 26.1
+        if: steps.gate.outputs.due == 'true'
+        run: |
+          mkdir -p data/raw
+          if [ ! -f "$GED_ZIP_PATH" ]; then
+            curl -sSfL --retry 3 -o "$GED_ZIP_PATH" "$GED_ZIP_URL"
+          fi
+      - name: Download UCDP candidate GED extension
+        if: steps.gate.outputs.due == 'true'
+        run: |
+          CANDIDATE_URL="$(curl -sSfL https://ucdp.uu.se/downloads/ \
+            | grep -o 'candidateged/GEDEvent_v26_01_[0-9_]*\.csv' | sort -V | tail -1 || true)"
+          if [ -z "$CANDIDATE_URL" ]; then
+            CANDIDATE_URL="candidateged/GEDEvent_v26_01_26_06.csv"
+          fi
+          curl -sSfL --retry 3 -o "$CANDIDATE_GED_PATH" "https://ucdp.uu.se/downloads/$CANDIDATE_URL"
+      - name: Fetch existing live pairs
+        if: steps.gate.outputs.due == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts
+          gh release download live-training-data --pattern live_pairs.npz \
+            --output "$LIVE_PAIRS_PATH" || echo "no existing live pairs"
+      - name: Label matured payloads with realized outcomes
+        if: steps.gate.outputs.due == 'true'
+        run: |
+          if [ ! -s artifacts/payloads.jsonl ]; then
+            echo "No stored payloads yet; nothing to label."
+            exit 0
+          fi
+          LIVE_ARGS=()
+          if [ -f "$LIVE_PAIRS_PATH" ]; then
+            LIVE_ARGS=(--live "$LIVE_PAIRS_PATH")
+          fi
+          PYTHONPATH=src python -m humanitarian_forecast.data.label_live_pairs \
+            --payloads artifacts/payloads.jsonl \
+            --ged-zip "$GED_ZIP_PATH" \
+            --candidate-ged "$CANDIDATE_GED_PATH" \
+            --output "$LIVE_PAIRS_PATH" \
+            "${LIVE_ARGS[@]}"
+      - name: Publish live pairs dataset
+        if: steps.gate.outputs.due == 'true' && hashFiles('artifacts/live_pairs.npz') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view live-training-data >/dev/null 2>&1 \
+            || gh release create live-training-data --title "Live training pairs" \
+                 --notes "Matured forecasts labeled with realized UCDP outcomes. Updated every third day."
+          gh release upload live-training-data "$LIVE_PAIRS_PATH" --clobber
+      - name: Summary
+        if: steps.gate.outputs.due == 'true' && always()
+        run: |
+          SUMMARY="$(PYTHONPATH=src python - <<'EOF'
+          import json
+          try:
+              import numpy as np
+              with np.load("artifacts/live_pairs.npz", allow_pickle=False) as d:
+                  print(json.dumps({"total_rows": int(len(d["meta"])),
+                                    "no_event_payloads": int(len(d["no_event"]))}))
+          except FileNotFoundError:
+              print("no live pairs dataset yet")
+          EOF
+          )"
+          {
+            echo "## Reconcile"
+            echo '```json'
+            echo "$SUMMARY"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,148 @@
+name: Weekly model retrain
+
+on:
+  schedule:
+    - cron: '31 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BASE_DATA_PATH: data/location/conflict_candidates_64_spillover_v6.npz
+  LIVE_PAIRS_PATH: artifacts/live_pairs.npz
+  OUTPUT_DIR: artifacts/retrained
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime dependencies
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy onnx onnxruntime
+      # The 421 MB v6 training set is deterministic from public sources; it is
+      # cached across runs and seeded once from the base-dataset release.
+      - name: Fetch base training set
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/location
+          gh release download base-dataset --pattern conflict_candidates_64_spillover_v6.npz \
+            --output "$BASE_DATA_PATH"
+      - name: Fetch live validated pairs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts
+          gh release download live-training-data --pattern live_pairs.npz \
+            --output "$LIVE_PAIRS_PATH" || echo "no live pairs yet"
+      # Continue from the promoted weights, never from scratch.
+      - name: Fetch current production package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/current
+          if gh release download model-registry-current \
+               --pattern model.pt --pattern info.blt \
+               --dir artifacts/current; then
+            echo "continuing from registry package"
+          else
+            cp models/location/theswarm/fine_v2/model.pt artifacts/current/model.pt
+            cp models/location/theswarm/fine_v2/info.blt artifacts/current/info.blt
+            echo "continuing from bundled baseline package"
+          fi
+      - name: Retrain
+        run: |
+          LIVE_ARGS=()
+          if [ -f "$LIVE_PAIRS_PATH" ]; then
+            LIVE_ARGS=(--live "$LIVE_PAIRS_PATH")
+          fi
+          PYTHONPATH=src python -m humanitarian_forecast.location.training.retrain_weekly \
+            --data "$BASE_DATA_PATH" \
+            --package artifacts/current/model.pt \
+            --output-dir "$OUTPUT_DIR" \
+            --epochs 4 \
+            "${LIVE_ARGS[@]}"
+      - name: Export serving package
+        run: |
+          VERSION="retrain-$(date -u +%Y%m%d-%H%M)"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          PYTHONPATH=src python -m humanitarian_forecast.serving.export_onnx \
+            --checkpoint "$OUTPUT_DIR/model.pt" \
+            --output "$OUTPUT_DIR/serving" \
+            --version "$VERSION"
+      # Structural gate: parity.py flips the manifest to parity-validated only
+      # when ONNX and PyTorch predictions agree; the API refuses any package
+      # that is not parity-validated.
+      - name: Parity validation
+        run: |
+          PYTHONPATH=src python -m humanitarian_forecast.serving.parity \
+            --checkpoint "$OUTPUT_DIR/model.pt" \
+            --model-dir "$OUTPUT_DIR/serving" \
+            --data "$BASE_DATA_PATH"
+      # Mechanical sanity gate: a degenerate training run (NaN loss, collapsed
+      # outputs) must never reach production. Anything within a sane band of
+      # the parent's validation metric publishes automatically.
+      - name: Sanity check against parent
+        run: |
+          PYTHONPATH=src python - "$OUTPUT_DIR/serving/champion-info.json" \
+            artifacts/current/info.blt <<'EOF'
+          import json, sys
+          new = json.load(open(sys.argv[1]))["ethiopia_metrics"]["validation"]["within_20km_at_top1"]
+          try:
+              parent = json.load(open(sys.argv[2]))["ethiopia_metrics"]["validation"]["within_20km_at_top1"]
+          except FileNotFoundError:
+              sys.exit(0)
+          assert new == new and 0.0 <= new <= 1.0, f"non-finite validation metric: {new}"
+          if new < parent - 0.05:
+              raise SystemExit(f"retrained validation top-1 {new} collapsed vs parent {parent}; refusing to publish")
+          print(f"validation top-1: parent={parent} new={new}")
+          EOF
+      - name: Publish versioned model release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "model-$VERSION" \
+            "$OUTPUT_DIR/model.pt" \
+            "$OUTPUT_DIR/info.blt" \
+            "$OUTPUT_DIR/serving/manifest.json" \
+            "$OUTPUT_DIR/serving/member-0.onnx" \
+            "$OUTPUT_DIR/serving/member-1.onnx" \
+            "$OUTPUT_DIR/serving/champion-info.json" \
+            "$OUTPUT_DIR/serving/parity-report.json" \
+            --title "Model $VERSION" \
+            --notes "Weekly retrain. Metrics: $(python -c "import json;print(json.dumps(json.load(open('$OUTPUT_DIR/info.blt'))['ethiopia_metrics']))")"
+      # Promotion: repoint the stable registry tag the API polls. The site
+      # picks the new model up on its next cold start or 10-minute refresh.
+      - name: Promote to model-registry-current
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete model-registry-current --yes || true
+          git push origin :refs/tags/model-registry-current || true
+          gh release create model-registry-current \
+            "$OUTPUT_DIR/model.pt" \
+            "$OUTPUT_DIR/info.blt" \
+            "$OUTPUT_DIR/serving/manifest.json" \
+            "$OUTPUT_DIR/serving/member-0.onnx" \
+            "$OUTPUT_DIR/serving/member-1.onnx" \
+            "$OUTPUT_DIR/serving/champion-info.json" \
+            "$OUTPUT_DIR/serving/parity-report.json" \
+            --title "Current production model" \
+            --notes "Auto-promoted weekly retrain ($VERSION). The API serves this package; it falls back to the bundled model if this release is unavailable."
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Weekly retrain"
+            echo "- Version: ${VERSION:-none}"
+            echo '```json'
+            cat "$OUTPUT_DIR/info.blt" 2>/dev/null | head -40 || echo "no info card"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"

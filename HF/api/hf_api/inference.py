@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
+import time
+import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
 from threading import Lock
@@ -24,6 +27,10 @@ _WARNING = (
     "by separately validated data products."
 )
 
+_REGISTRY_REFRESH_SECONDS = 600.0
+_REGISTRY_TIMEOUT_SECONDS = 15.0
+_REGISTRY_CACHE_ROOT = Path("/tmp/hf-model-registry")
+
 
 def _package_sha256(manifest: dict[str, Any]) -> str:
     digest = hashlib.sha256()
@@ -40,36 +47,102 @@ def _driver_labels(candidate: CandidatePrediction) -> list[str]:
     return labels
 
 
+def _fetch(url: str, destination: Path) -> None:
+    request = urllib.request.Request(url, headers={"User-Agent": "HumanitarianForecast/1.0"})
+    with urllib.request.urlopen(request, timeout=_REGISTRY_TIMEOUT_SECONDS) as response:
+        destination.write_bytes(response.read())
+
+
 class InferenceService:
-    def __init__(self, model_dir: str | Path, runtime: Any | None = None) -> None:
+    def __init__(
+        self,
+        model_dir: str | Path,
+        registry_url: str | None = None,
+        runtime: Any | None = None,
+    ) -> None:
         self.model_dir = Path(model_dir)
+        # Stable URL of the registry manifest (GitHub Releases asset). The
+        # serving layer polls it, promotes new versions automatically, and
+        # falls back to the bundled package whenever the registry is
+        # unreachable or serves anything that fails validation.
+        self.registry_url = registry_url
         self._runtime = runtime
         self._ensemble: OnnxEnsemble | None = None
         self._metadata: ModelMetadata | None = None
+        self._active_dir: Path = self.model_dir
+        self._registry_digest: str | None = None
+        self._registry_checked_at: float = 0.0
         self._lock = Lock()
 
+    def _registry_manifest(self) -> dict[str, Any] | None:
+        if not self.registry_url:
+            return None
+        request = urllib.request.Request(
+            self.registry_url, headers={"User-Agent": "HumanitarianForecast/1.0"}
+        )
+        with urllib.request.urlopen(request, timeout=_REGISTRY_TIMEOUT_SECONDS) as response:
+            raw = response.read()
+        manifest = json.loads(raw)
+        digest = hashlib.sha256(raw).hexdigest()
+        base = self.registry_url.rsplit("/", 1)[0]
+        cache_dir = _REGISTRY_CACHE_ROOT / digest[:16]
+        if not (cache_dir / "manifest.json").exists():
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            (cache_dir / "manifest.json").write_bytes(raw)
+            for member in manifest["members"]:
+                _fetch(f"{base}/{member['path']}", cache_dir / member["path"])
+            _fetch(f"{base}/champion-info.json", cache_dir / "champion-info.json")
+        return {"digest": digest, "dir": cache_dir, "manifest": manifest}
+
+    def _registry_dir(self) -> Path | None:
+        """Latest registry model directory, or None when it is unchanged or
+        unusable (the caller then keeps the current or bundled model)."""
+        if not self.registry_url:
+            return None
+        try:
+            if time.monotonic() - self._registry_checked_at < _REGISTRY_REFRESH_SECONDS:
+                return None
+            self._registry_checked_at = time.monotonic()
+            latest = self._registry_manifest()
+            if latest is None or latest["digest"] == self._registry_digest:
+                return None
+            # Validation happens inside OnnxEnsemble: schema, parity status,
+            # and per-member sha256 checks. A bad registry never loads.
+            ensemble = OnnxEnsemble(latest["dir"], runtime=self._runtime)
+        except Exception as exc:  # noqa: BLE001 - any registry failure falls back
+            print(f"model registry unavailable, keeping current model: {exc}", file=sys.stderr)
+            return None
+        self._registry_digest = latest["digest"]
+        self._ensemble = ensemble
+        self._metadata = self._metadata_for(ensemble)
+        return latest["dir"]
+
+    @staticmethod
+    def _metadata_for(ensemble: OnnxEnsemble) -> ModelMetadata:
+        manifest = ensemble.manifest
+        champion = json.loads((Path(ensemble.model_dir) / "champion-info.json").read_text())
+        validation = champion["ethiopia_metrics"]["validation"]
+        development = champion["ethiopia_metrics"]["development"]
+        return ModelMetadata(
+            name=manifest["model"],
+            version=str(manifest.get("version", "fine-v2")),
+            artifactSha256=_package_sha256(manifest),
+            featureContract=manifest["featureContract"],
+            candidateCount=manifest["input"]["candidates"][0],
+            validationTop1Within20Km=validation["within_20km_at_top1"],
+            validationDiverseTop5Within20Km=validation["diverse_within_20km_at_top5"],
+            developmentTop1Within20Km=development["within_20km_at_top1"],
+            candidateOracleWithin20Km=validation["oracle_within_20km"],
+        )
+
     def _load(self) -> tuple[OnnxEnsemble, ModelMetadata]:
-        if self._ensemble is not None and self._metadata is not None:
-            return self._ensemble, self._metadata
         with self._lock:
+            self._registry_dir()
             if self._ensemble is None:
                 ensemble = OnnxEnsemble(self.model_dir, runtime=self._runtime)
-                champion = json.loads((self.model_dir / "champion-info.json").read_text())
-                validation = champion["ethiopia_metrics"]["validation"]
-                development = champion["ethiopia_metrics"]["development"]
-                manifest = ensemble.manifest
                 self._ensemble = ensemble
-                self._metadata = ModelMetadata(
-                    name=manifest["model"],
-                    version="fine-v2",
-                    artifactSha256=_package_sha256(manifest),
-                    featureContract=manifest["featureContract"],
-                    candidateCount=manifest["input"]["candidates"][0],
-                    validationTop1Within20Km=validation["within_20km_at_top1"],
-                    validationDiverseTop5Within20Km=validation["diverse_within_20km_at_top5"],
-                    developmentTop1Within20Km=development["within_20km_at_top1"],
-                    candidateOracleWithin20Km=validation["oracle_within_20km"],
-                )
+                self._active_dir = Path(ensemble.model_dir)
+                self._metadata = self._metadata_for(ensemble)
             if self._metadata is None:
                 raise RuntimeError("model metadata failed to initialize")
             return self._ensemble, self._metadata

@@ -148,6 +148,18 @@ class IngestEnvelope(BaseModel):
     historyEvents: list[ProjectHistoryEvent] = Field(default_factory=list, max_length=50)
 
 
+class TrainingPair(BaseModel):
+    model_config = Strict
+    runId: str = Field(min_length=8, max_length=100)
+    generatedAt: datetime
+    featurePayload: FeaturePayload
+
+
+class TrainingPairsResponse(BaseModel):
+    model_config = Strict
+    pairs: list[TrainingPair] = Field(max_length=1000)
+
+
 class HealthResponse(BaseModel):
     model_config = Strict
     status: Literal["ok", "degraded"]

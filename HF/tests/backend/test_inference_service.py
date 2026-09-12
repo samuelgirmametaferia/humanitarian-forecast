@@ -96,3 +96,36 @@ def test_packaged_metadata_comes_from_validated_artifacts() -> None:
     assert metadata.validationDiverseTop5Within20Km == 0.33
     assert metadata.developmentTop1Within20Km == 0.042
     assert metadata.candidateOracleWithin20Km == 0.673
+
+
+def test_registry_promotes_new_version_and_falls_back_on_failure(tmp_path: Any) -> None:
+    runtime = SimpleNamespace(InferenceSession=FakeSession)
+
+    # A registry "release": the serving package with a new version stamp.
+    registry = tmp_path / "registry"
+    registry.mkdir()
+    for name in ("member-0.onnx", "member-1.onnx", "champion-info.json"):
+        (registry / name).write_bytes((MODEL_DIR / name).read_bytes())
+    manifest = json.loads((MODEL_DIR / "manifest.json").read_text())
+    manifest["version"] = "retrain-test-1"
+    (registry / "manifest.json").write_text(json.dumps(manifest))
+
+    service = InferenceService(
+        MODEL_DIR,
+        registry_url=registry.as_uri() + "/manifest.json",
+        runtime=runtime,
+    )
+    promoted = service.metadata()
+    assert promoted.version == "retrain-test-1"
+    assert promoted.artifactSha256 != "demo"
+
+    # An unusable registry (missing members) keeps the current model.
+    broken = tmp_path / "broken"
+    broken.mkdir()
+    (broken / "manifest.json").write_text(json.dumps({"schema": "ethiopia-serving-package.v1"}))
+    fallback = InferenceService(
+        MODEL_DIR,
+        registry_url=broken.as_uri() + "/manifest.json",
+        runtime=runtime,
+    )
+    assert fallback.metadata().version == "fine-v2"

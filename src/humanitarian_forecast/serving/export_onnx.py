@@ -58,7 +58,7 @@ def _model(sub: dict[str, Any]) -> ConflictCandidateRanker:
     return model.eval()
 
 
-def export_package(checkpoint: Path, output: Path, opset: int = 20) -> dict[str, Any]:
+def export_package(checkpoint: Path, output: Path, opset: int = 20, version: str = "fine-v2") -> dict[str, Any]:
     state = torch.load(checkpoint, map_location="cpu", weights_only=False)
     output.mkdir(parents=True, exist_ok=True)
     source_info = checkpoint.with_name("info.blt")
@@ -90,6 +90,7 @@ def export_package(checkpoint: Path, output: Path, opset: int = 20) -> dict[str,
         "schema": "ethiopia-serving-package.v1",
         "status": "parity-pending",
         "model": "theswarm_fine_v2",
+        "version": version,
         "featureContract": "feature-contract.v1",
         "sourceCheckpointSha256": _sha256(checkpoint),
         "members": member_files,
@@ -112,8 +113,9 @@ def main() -> None:
     )
     parser.add_argument("--output", type=Path, default=Path("models/location/ethiopia_serving"))
     parser.add_argument("--opset", type=int, default=20)
+    parser.add_argument("--version", default="fine-v2", help="registry version stamped into the manifest")
     args = parser.parse_args()
-    manifest = export_package(args.checkpoint, args.output, args.opset)
+    manifest = export_package(args.checkpoint, args.output, args.opset, args.version)
     print(json.dumps({"members": len(manifest["members"]), "status": manifest["status"]}))
 
 

@@ -15,9 +15,9 @@ def test_reconcile_is_deterministic_third_day_window() -> None:
     assert actual.count(True) == 1
 
 
-def test_reconciliation_runs_on_the_due_window_without_mutating_weights() -> None:
+def test_reconciliation_runs_on_the_due_window_and_reports_the_live_loop() -> None:
     status = reconciliation_status(datetime(2026, 9, 13, tzinfo=UTC))
 
     assert status["due"] is True
     assert status["ran"] is True
-    assert "no weight update" in str(status["reason"])
+    assert "labeled" in str(status["reason"])
