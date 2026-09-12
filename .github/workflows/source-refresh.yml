@@ -8,6 +8,15 @@ on:
 permissions:
   contents: read
 
+env:
+  GED_ZIP_URL: https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+  GED_ZIP_PATH: data/raw/ged261-csv.zip
+  CANDIDATE_GED_PATH: data/raw/candidate_ged.csv
+  RELIEFWEB_PATH: data/reliefweb_live.jsonl.gz
+  RELIEFWEB_QUERY: 'Ethiopia AND (conflict OR "armed violence" OR attack OR clashes OR displacement OR airstrike OR shelling OR fighting OR war)'
+  ELEVATION_PATH: data/geo/elevation_ethiopia_z8.npz
+  GAZETTEER_PATH: src/humanitarian_forecast/data/assets/ethiopia_gazetteer.json
+
 jobs:
   extract:
     runs-on: ubuntu-latest
@@ -16,6 +25,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install runtime dependencies
+        run: pip install numpy
+      # The Groq text-model router caches its probe result across runs.
       - uses: actions/cache@v4
         with:
           path: .cache/hf/groq-text-model.json
@@ -26,11 +38,109 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           HF_PUBLIC_PREVIEW_CHANNELS: ${{ vars.HF_PUBLIC_PREVIEW_CHANNELS }}
         run: |
-          PYTHONPATH=src python -m humanitarian_forecast.data.groq_source_processor \
-            --output artifacts/public-preview-signals.jsonl
+          mkdir -p artifacts
+          if [ -z "${HF_PUBLIC_PREVIEW_CHANNELS}" ]; then
+            echo "HF_PUBLIC_PREVIEW_CHANNELS not configured; publishing without telegram signals." \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+            touch artifacts/public-preview-signals.jsonl
+          else
+            if ! PYTHONPATH=src python -m humanitarian_forecast.data.groq_source_processor \
+                 --output artifacts/public-preview-signals.jsonl; then
+              echo "## Signal extraction failed" \
+                | tee -a "$GITHUB_STEP_SUMMARY"
+              echo "Extraction failed (channels: ${HF_PUBLIC_PREVIEW_CHANNELS}); publishing without telegram signals this run." \
+                | tee -a "$GITHUB_STEP_SUMMARY"
+              rm -f artifacts/public-preview-signals.jsonl
+              touch artifacts/public-preview-signals.jsonl
+            fi
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: public-preview-signals-${{ github.run_id }}
           path: artifacts/public-preview-signals.jsonl
-          if-no-files-found: error
           retention-days: 30
+
+  publish:
+    needs: extract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runtime dependencies
+        run: pip install numpy
+      - uses: actions/download-artifact@v4
+        with:
+          name: public-preview-signals-${{ github.run_id }}
+          path: artifacts
+      # UCDP GED 26.1 is versioned; cache the 39MB zip across runs.
+      - uses: actions/cache@v4
+        id: ged-cache
+        with:
+          path: ${{ env.GED_ZIP_PATH }}
+          key: ucdp-ged261-csv
+      - name: Download UCDP GED 26.1
+        if: steps.ged-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p data/raw
+          curl -sSfL --retry 3 -o "$GED_ZIP_PATH" "$GED_ZIP_URL"
+      # The candidate GED extension is refreshed monthly; discover the latest
+      # 26.1-series file from the UCDP downloads index, fall back to the known one.
+      - name: Download UCDP candidate GED extension
+        run: |
+          mkdir -p data/raw
+          CANDIDATE_URL="$(curl -sSfL https://ucdp.uu.se/downloads/ \
+            | grep -o 'candidateged/GEDEvent_v26_01_[0-9_]*\.csv' | sort -V | tail -1 || true)"
+          if [ -z "$CANDIDATE_URL" ]; then
+            CANDIDATE_URL="candidateged/GEDEvent_v26_01_26_06.csv"
+          fi
+          echo "Using $CANDIDATE_URL"
+          curl -sSfL --retry 3 -o "$CANDIDATE_GED_PATH" "https://ucdp.uu.se/downloads/$CANDIDATE_URL"
+      # ReliefWeb export grows incrementally; the downloader resumes via its
+      # state file, so the cache must hold both.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.RELIEFWEB_PATH }}
+            ${{ env.RELIEFWEB_PATH }}.state.json
+          key: reliefweb-live-${{ github.run_id }}
+          restore-keys: reliefweb-live-
+      - name: Refresh ReliefWeb Ethiopia export
+        run: |
+          PYTHONPATH=src python -m humanitarian_forecast.data.download_reliefweb \
+            --output "$RELIEFWEB_PATH" --start-year 2025 --end-year 2026 --query "$RELIEFWEB_QUERY"
+      # Elevation grid (38MB) is deterministic from AWS terrarium tiles; rebuild
+      # only on cache miss (~20 tile downloads).
+      - uses: actions/cache@v4
+        id: elevation-cache
+        with:
+          path: ${{ env.ELEVATION_PATH }}
+          key: elevation-ethiopia-z8
+      - name: Build elevation grid
+        if: steps.elevation-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p data/geo
+          PYTHONPATH=src python -m humanitarian_forecast.data.build_elevation_grid \
+            --region ethiopia --zoom 8 --output "$ELEVATION_PATH"
+      - name: Publish live forecast
+        env:
+          HF_INGEST_URL: ${{ secrets.HF_INGEST_URL }}
+          HF_INGEST_HMAC_SECRET: ${{ secrets.HF_INGEST_HMAC_SECRET }}
+        run: |
+          PYTHONPATH=src python -m humanitarian_forecast.data.publish_live_forecast \
+            --ged-zip "$GED_ZIP_PATH" \
+            --candidate-ged "$CANDIDATE_GED_PATH" \
+            --reliefweb "$RELIEFWEB_PATH" \
+            --gazetteer "$GAZETTEER_PATH" \
+            --elevation "$ELEVATION_PATH" \
+            --signals artifacts/public-preview-signals.jsonl
+      - name: Upload pipeline data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-data-${{ github.run_id }}
+          path: |
+            artifacts/public-preview-signals.jsonl
+          retention-days: 14
+          if-no-files-found: ignore

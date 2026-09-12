@@ -9,9 +9,17 @@ export default defineConfig({
   },
   build: {
     target: 'es2022',
-    sourcemap: true,
+    // Do not publish source maps: Vercel's immutable static route can reject
+    // them with 403s and the client does not need them to run.
+    sourcemap: false,
     rollupOptions: {
       output: {
+        // Bump the asset namespace whenever a release changes bundling policy.
+        // This prevents immutable browser caches from reusing the old bundles
+        // that still referenced rejected .js.map files.
+        entryFileNames: 'assets/[name]-hf2-[hash].js',
+        chunkFileNames: 'assets/[name]-hf2-[hash].js',
+        assetFileNames: 'assets/[name]-hf2-[hash][extname]',
         manualChunks(id) {
           if (id.includes('maplibre-gl')) return 'map'
           if (id.includes('/motion/')) return 'motion'

@@ -22,6 +22,8 @@ Set these in the hosting provider's encrypted environment-variable store, never 
 
 Set `HF_PROVIDER_MODE=production` only after all required server values are present. The API fails closed when production configuration is incomplete.
 
+The complete idempotent PostgreSQL schema is also available at [`docs/production-schema.sql`](docs/production-schema.sql). The API runs the same schema automatically when it first connects, so manually running the SQL is optional but useful for checking permissions before the first deploy.
+
 ## GitHub
 
 Before making the repository public:

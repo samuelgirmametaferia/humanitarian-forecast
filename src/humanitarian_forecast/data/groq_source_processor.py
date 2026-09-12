@@ -30,6 +30,8 @@ PREFERRED_TEXT_MODELS = (
     "llama-3.3-70b-versatile",
     "llama-3.1-8b-instant",
     "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b",
+    "qwen/qwen3.6-27b",
 )
 
 
@@ -193,19 +195,23 @@ class GroqTextRouter:
             return None
 
     def _probe(self, model: str) -> bool:
+        # The probe mirrors the extraction call's requirements — JSON response
+        # mode with room for reasoning models to think — so a cached model is
+        # one that can actually do the job, not merely reply to a greeting.
         try:
             result = self._request(
                 "/chat/completions",
                 {
                     "model": model,
-                    "messages": [{"role": "user", "content": "Reply with exactly HF_OK"}],
+                    "messages": [{"role": "user", "content": 'Reply with the json {"ok": "HF_OK"}'}],
+                    "response_format": {"type": "json_object"},
                     "temperature": 0,
-                    "max_completion_tokens": 16,
+                    "max_completion_tokens": 512,
                 },
             )
             content = str(result["choices"][0]["message"]["content"])
-            return "HF_OK" in content
-        except (KeyError, IndexError, RuntimeError, TypeError):
+            return "HF_OK" in str(json.loads(content).get("ok", ""))
+        except (KeyError, IndexError, RuntimeError, TypeError, ValueError):
             return False
 
     def select(self, *, exclude: set[str] | None = None) -> str:

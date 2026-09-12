@@ -1,0 +1,20 @@
+# The Vercel project root is HF. Keep private training archives out of uploads.
+/legacy_data/
+/legacy_models/
+/models/
+/data/
+/reports/
+/src/
+/tests/
+/config/
+/.git/
+/.venv/
+/.onnx-venv/
+/.mypy_cache/
+/.pytest_cache/
+/.ruff_cache/
+/.claude/
+/HF/node_modules/
+/HF/.venv/
+/HF/.git/
+/HF/dist/

@@ -198,6 +198,7 @@ dependencies = [
     { name = "httpx" },
     { name = "numpy" },
     { name = "onnxruntime" },
+    { name = "psycopg", extra = ["binary"] },
     { name = "pydantic" },
     { name = "uvicorn" },
 ]
@@ -208,9 +209,6 @@ dev = [
     { name = "pytest" },
     { name = "ruff" },
 ]
-production = [
-    { name = "psycopg", extra = ["binary"] },
-]
 
 [package.metadata]
 requires-dist = [
@@ -219,13 +217,13 @@ requires-dist = [
     { name = "mypy", marker = "extra == 'dev'", specifier = "==2.3.1" },
     { name = "numpy", specifier = "==2.5.2" },
     { name = "onnxruntime", specifier = "==1.30.0" },
-    { name = "psycopg", extras = ["binary"], marker = "extra == 'production'", specifier = "==3.3.5" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.3.5" },
     { name = "pydantic", specifier = "==2.13.5" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.1.1" },
     { name = "ruff", marker = "extra == 'dev'", specifier = "==0.16.7" },
     { name = "uvicorn", specifier = "==0.52.4" },
 ]
-provides-extras = ["production", "dev"]
+provides-extras = ["dev"]
 
 [[package]]
 name = "idna"

@@ -11,3 +11,6 @@ dist/
 /legacy_data/
 /.onnx-venv/
 /.claude/
+.vercel
+.env*
+creds.env

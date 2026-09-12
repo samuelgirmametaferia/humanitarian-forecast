@@ -21,6 +21,12 @@ const baseStyle: maplibregl.StyleSpecification = {
       url: 'https://tiles.mapterhorn.com/tilejson.json',
       encoding: 'terrarium',
       tileSize: 512,
+      maxzoom: 8,
+      // Mapterhorn serves land DEM tiles only; unbounded, the opening world
+      // view asks for ocean tiles (e.g. 6/40/32) that 404. Limit the DEM to
+      // Ethiopia's bbox — terrain elsewhere renders flat, which is correct
+      // over ocean anyway.
+      bounds: [32.5, 3.0, 48.5, 15.2],
       attribution: 'Elevation © Mapterhorn',
     },
   },
