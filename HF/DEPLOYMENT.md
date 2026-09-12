@@ -52,7 +52,7 @@ Every Sunday the `retrain` workflow fine-tunes the promoted model on the Ethiopi
 
 1. A versioned archive release (`model-retrain-*`) keeps every generation for rollback.
 2. The `model-registry-current` release is repointed at the new package.
-3. The API polls the registry manifest (at most every 10 minutes per instance), verifies member checksums, and serves the new version. A registry that is unreachable or fails validation leaves the current model in place.
+3. The API polls the registry manifest (at most every 10 minutes per instance), verifies member checksums, and serves the new version. The ingest and `/api/v1/models` paths force a registry check regardless of the poll window, so every published forecast reflects the current champion. A registry that is unreachable or fails validation leaves the current model in place.
 
 Mechanical guards, not human gates, protect production: a package reaches the registry only if ONNX parity passes, the manifest is checksum-verified by the serving layer, and the retrained validation metric is finite and has not collapsed relative to its parent. The `base-dataset` release holds the deterministic v6 training set the retrain continues from.
 
