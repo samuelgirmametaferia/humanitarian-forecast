@@ -12,6 +12,8 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 const TERRAIN_SOURCE = 'elevation-dem'
 const HILLSHADE_SOURCE = 'elevation-hillshade'
 const ETHIOPIA_VIEW = { center: [39.1, 9.6] as [number, number], zoom: 5.05, pitch: 58, bearing: -12 }
+// Where the entry flight begins: the whole globe, Ethiopia facing the camera.
+const INTRO_VIEW = { center: [39.1, 9.6] as [number, number], zoom: 1.9, pitch: 0, bearing: 0 }
 
 // Keep this suffix in sync with scripts/copy-maplibre-worker.mjs. These files
 // cannot use stable names because Vercel serves /assets with immutable caching.
@@ -90,6 +92,10 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
   // style.load reads this ref so it always seeds the newest snapshot.
   const dataRef = useRef(data)
   dataRef.current = data
+  // Entry flight into the globe: 'pending' until the style loads, 'flying'
+  // during the sweep in, 'landed' afterwards. Camera fallbacks and the layer
+  // effect consult this so they never fight the animation.
+  const introFlight = useRef<'pending' | 'flying' | 'landed'>('pending')
   const [globeAvailable, setGlobeAvailable] = useState(supportsWebGl)
   const layers = useForecastStore((state) => state.layers)
   const mapMode = useForecastStore((state) => state.mapMode)
@@ -113,6 +119,10 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
 
   useEffect(() => {
     if (!container.current || mapMode !== 'globe' || !globeAvailable || mapRef.current) return
+    // Each map instance gets its own entry flight: StrictMode mounts, tears
+    // down, and remounts, and the first instance would otherwise leave the
+    // ref mid-flight so the surviving map skips its intro.
+    introFlight.current = 'pending'
     const map = new maplibregl.Map({
       container: container.current,
       style: import.meta.env.VITE_MAP_STYLE_URL || baseStyle,
@@ -299,15 +309,44 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
       })
       window.requestAnimationFrame(() => {
         map.resize()
-        map.jumpTo(ETHIOPIA_VIEW)
+        // Entering the 3D viewport: sweep in from space. Terrain stays off
+        // until the flight lands — a terrain-enabled camera flying from low
+        // zoom can strand on the horizon before its DEM tiles load.
+        if (introFlight.current === 'pending' && !useForecastStore.getState().reducedMotion) {
+          introFlight.current = 'flying'
+          map.jumpTo(INTRO_VIEW)
+          map.setTerrain(null)
+          map.flyTo({ ...ETHIOPIA_VIEW, duration: 2400, curve: 1.4, essential: true })
+          const land = () => {
+            if (introFlight.current !== 'flying') return
+            introFlight.current = 'landed'
+            const state = useForecastStore.getState()
+            if (state.layers.terrain && map.getSource(TERRAIN_SOURCE)) {
+              map.setTerrain({ source: TERRAIN_SOURCE, exaggeration: 1.35 })
+            }
+          }
+          map.once('moveend', land)
+        } else {
+          introFlight.current = 'landed'
+          map.jumpTo(ETHIOPIA_VIEW)
+        }
       })
     })
     map.once('idle', () => {
       map.resize()
-      map.jumpTo(ETHIOPIA_VIEW)
+      if (introFlight.current !== 'flying') map.jumpTo(ETHIOPIA_VIEW)
     })
     const cameraFallback = window.setTimeout(() => {
       map.resize()
+      if (introFlight.current === 'flying') {
+        // The flight never reported landing (interrupted or stalled): restore
+        // terrain and settle the camera directly.
+        introFlight.current = 'landed'
+        const state = useForecastStore.getState()
+        if (state.layers.terrain && map.getSource(TERRAIN_SOURCE)) {
+          map.setTerrain({ source: TERRAIN_SOURCE, exaggeration: 1.35 })
+        }
+      }
       map.jumpTo(ETHIOPIA_VIEW)
     }, 3800)
     map.on('webglcontextlost', () => { setGlobeAvailable(false); setMapMode('accessible') })
@@ -346,7 +385,9 @@ export function ForecastMap({ data }: { data: ForecastSnapshot }) {
     const map = mapRef.current
     if (!map?.isStyleLoaded()) return
     const terrainVisible = layers.terrain && Boolean(map.getSource(TERRAIN_SOURCE))
-    map.setTerrain(terrainVisible ? { source: TERRAIN_SOURCE, exaggeration: 1.35 } : null)
+    // Re-enabling terrain mid-flight is what strands the camera on the
+    // horizon, so the intro lands first.
+    if (introFlight.current !== 'flying') map.setTerrain(terrainVisible ? { source: TERRAIN_SOURCE, exaggeration: 1.35 } : null)
     if (map.getLayer('terrain-hillshade')) map.setLayoutProperty('terrain-hillshade', 'visibility', terrainVisible ? 'visible' : 'none')
     const visibility: [string, boolean][] = [
       ['probability-relief', layers.probability],
